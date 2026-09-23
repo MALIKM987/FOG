@@ -319,7 +319,7 @@ Przed v7 priorytetem operacyjnym jest audyt laboratoryjnego źródła, sprzęgac
 
 ## v7 — temperatura, Shupe i thermal BOM
 
-Status: **implementacja gotowa, oczekuje na lokalną walidację**
+Status: **zweryfikowany; thermal BOM provisional**
 
 Dodano:
 - uniform-temperature scale-factor model,
@@ -344,7 +344,31 @@ Jawne kryteria robocze:
 - thermal enclosure target tau_outer >=60 s,
 - sensor readout noise target <=0.01 C RMS po filtracji.
 
-Ważne: v7 obejmuje pure Shupe i uproszczony radialny transient. Pełny Mohr/T-dot thermo-mechanical stress effect, potting i klej pozostają do v7.1 po kalibracji pierwszej konstrukcji.
+Walidacja:
+- Invar36 jako jedyny przechodzi obecny combined screening,
+- uniform scale coefficient ~1.859 ppm/K,
+- Invar QAD2% @1 C/min, tau60 = ~0.0564 deg/h,
+- dla 5 C/min i 2% asymetrii potrzebna jest aktywna kompensacja,
+- bez kompensacji 5 C/min wymagane <=0.85% asymetrii przy tau60 lub <=1.64% przy tau120,
+- dwuczujnikowa kompensacja przechodzi dla filtered sensor noise <=0.01 C RMS; preferred <=0.005 C,
+- około 1 Hz sampling jest wystarczający,
+- thermal enclosure tau >=60 s z aktywną kompensacją.
+
+Ważne: Invar36 pozostaje provisional, ponieważ v7 nie obejmuje pełnego thermo-mechanical stress effect.
+
+## v7.1 — thermo-mechanical stress / winding / potting
+
+Status: **następny zalecany etap**
+
+Dodać:
+- Mohr/T-dot thermo-mechanical stress contribution,
+- porównanie Invar36 vs aluminium po uwzględnieniu stress transfer,
+- winding tension sweep,
+- coating / adhesive / potting stiffness and CTE,
+- sposób mocowania włókna,
+- finalny wybór formera,
+- wymagania kleju/pottingu lub decyzję o konstrukcji bez pełnego zalania,
+- BOM i acceptance tests dla procesu nawijania.
 
 ## v8 — closed-loop
 
