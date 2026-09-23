@@ -101,14 +101,20 @@ Test obejmuje 20, 50, około 102.095 i 150 kHz. Szczegóły w `docs/VALIDATION_V
 
 ## v4 — szumy fotodetektora i elektroniki
 
-Dodać:
+Status: **implementacja gotowa, oczekuje na walidację lokalną**
+
+Dodano:
 
 - shot noise,
 - thermal noise,
 - dark current,
 - szum TIA,
 - ograniczone pasmo odbiornika,
-- SNR.
+- SNR,
+- ograniczone pasmo TIA,
+- kompensację fazy TIA w lock-in,
+- Monte Carlo małych prędkości,
+- estymację progu 1-sigma i 3-sigma dla zadanego okna pomiarowego.
 
 ## v5 — tor cyfrowy
 
