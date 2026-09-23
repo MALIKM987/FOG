@@ -1,0 +1,10 @@
+Test,Method,Pass_or_output_criterion
+Former CTE / material certificate,supplier datasheet/certificate + dimension measurement,CTE class consistent with selected material; geometry documented
+Empty former thermal lag,"ambient step/ramp, inner/outer reference sensors",effective outer tau >=60 s target
+Wound coil inner-outer lag,same test after winding 1 km SMF,model updated with measured tau_inner/tau_outer
+1 C/min Shupe test,controlled ramp with gyro at zero rate,thermal error <=0.120 deg/h after compensation target
+5 C/min stress test,"controlled fast ramp, compensation enabled/disabled","no saturation; residual characterized, not necessarily PASS before calibration"
+RTD absolute check,ice point or calibrated reference thermometer,Class A minimum; AA preferred
+RTD noise check,constant-temperature logging after filtering,<=0.01 C RMS after chosen digital filter
+Compensation replay,offline apply v7 compensation to recorded temperatures,P95 residual <=0.120 deg/h target
+Scale factor vs temperature,known rotation or equivalent calibrated phase over temperature,temperature coefficient measured and used in calibration
