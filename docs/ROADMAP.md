@@ -358,7 +358,7 @@ Ważne: Invar36 pozostaje provisional, ponieważ v7 nie obejmuje pełnego thermo
 
 ## v7.1 — thermo-mechanical stress / winding / potting gate
 
-Status: **implementacja gotowa, oczekuje na lokalną walidację**
+Status: **zweryfikowany; baseband closed-loop i actuator feasibility zamknięte**
 
 Dodano:
 - jawny Mohr/T-dot stress term oddzielony od pure Shupe,
@@ -420,6 +420,19 @@ Ważne:
 - closed-loop readout ma opierać się na phase/frequency word,
 - konkretny modulator zostanie zamknięty dopiero po pomiarze Vpi, phase range, reset glitch i driver current,
 - v7.1 oraz v8 są ostatnimi dużymi modelami, które można sensownie rozwijać bez danych z pierwszego prototypu; dalsze etapy powinny przede wszystkim kalibrować model rzeczywistymi pomiarami.
+
+## v8.1 — integrated optical closed-loop
+
+Status: **następny etap**
+
+Cel:
+- wpiąć PI/NCO feedback do pełnego zweryfikowanego toru optycznego,
+- zachować SLD/front-end/Sagnac/polarization/photoreceiver/ADC/digital lock-in,
+- dodać equivalent differential feedback phase do Sagnac,
+- sprawdzić 1 i 20 deg/s w pełnej ścieżce,
+- sprawdzić 0.0001 deg/s i zero-rate pod pełnym szumem,
+- logować feedback Omega, residual Omega, phase slope i reset frequency,
+- użyć low-Vpi long-range fiber-PZT jako nominalnego closed-loop candidate.
 
 ## Zasada pracy z repozytorium
 
