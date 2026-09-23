@@ -2,7 +2,7 @@
 
 ## Status
 
-Implementacja przygotowana do walidacji lokalnej w MATLAB/Simulink R2023b.
+**Zweryfikowany w MATLAB/Simulink R2023b Update 7.**
 
 v2 usuwa największe uproszczenie v1: zamiast podawać gotową różnicową modulację fazy, modeluje fazę PZT oraz różnicę wynikającą z czasu propagacji fal CW i CCW.
 
@@ -24,7 +24,7 @@ Po przekształceniu:
 
 `Delta_phi_m(t) = 2 phi0 sin(pi f_mod tau) cos(2 pi f_mod t - pi f_mod tau)`
 
-Amplituda różnicowej modulacji wynosi więc:
+Amplituda różnicowej modulacji wynosi:
 
 `beta = 2 phi0 |sin(pi f_mod tau)|`.
 
@@ -34,20 +34,30 @@ Amplituda różnicowej modulacji wynosi więc:
 - `L = 1000 m`
 - `D = 160 mm`
 - `n_g = 1.4682`
-- `tau ~= 4.897 us`
-- `f_opt = 1/(2 tau) ~= 102.10 kHz`
+- `tau = 4.897388 us`
+- `f_opt = 102.095 kHz`
 - punkt projektowy: `f_design = 20 kHz`
 - cel: `beta_target = 1.84 rad`
 
-Amplituda pojedynczego przejścia PZT zostaje dobrana przy 20 kHz:
+Dla 20 kHz:
 
-`phi0_fixed = beta_target / [2 |sin(pi f_design tau)|]`
+`phi0_fixed = 3.037518 rad`.
 
-co daje około `3.04 rad`.
+## Wynik walidacji punktu bazowego
+
+Dla `Omega = 1 deg/s`:
+
+- `beta_theory = 1.840000000 rad`
+- `beta_sim = 1.839891517 rad`
+- względny błąd beta około `-0.00590%`
+- `Omega_measured = 1.000159695 deg/s`
+- błąd Omega `+0.000159695 deg/s`
+
+Rdzeń modelu PZT + delay jest więc zgodny z zależnością analityczną.
 
 ## Referencja lock-in
 
-W v2 referencja lock-in nie jest osobnym idealnym generatorem. Powstaje z rzeczywistej różnicowej modulacji:
+Referencja lock-in powstaje z rzeczywistej różnicowej modulacji:
 
 `reference(t) = Delta_phi_m(t) / beta`.
 
@@ -55,47 +65,39 @@ Dzięki temu zachowuje prawidłową fazę po wprowadzeniu opóźnienia `tau`.
 
 ## Sweep częstotliwości
 
-Skrypt bada:
+Zweryfikowane punkty:
 
 - 5 kHz
 - 10 kHz
 - 20 kHz
 - 50 kHz
-- `f_opt` około 102.10 kHz
+- 102.095 kHz
 - 150 kHz
 
-Dla każdego punktu zapisuje:
+Najważniejsze wyniki:
 
-- `beta` z teorii,
-- `beta` zmierzone w modelu,
-- błąd amplitudy,
-- `|sin(pi f tau)|`,
-- `J1(beta)`,
-- wymaganą wartość `phi0` dla utrzymania `beta = 1.84 rad`,
-- estymowaną prędkość kątową dla 1 deg/s,
-- błąd estymacji,
-- średnią wartość wyjścia filtru lock-in.
+- przy `f_opt ~= 102.095 kHz` czynnik `|sin(pi f_mod tau)| = 1`,
+- dla stałego `phi0 = 3.037518 rad` otrzymujemy tam `beta_theory ~= 6.075 rad`,
+- aby utrzymać `beta = 1.84 rad`, wystarczy przy `f_opt` `phi0 = 0.92 rad`,
+- `J1(beta)` zmienia wartość i znak, więc maksimum opóźnieniowej skuteczności modulacji nie jest tym samym co maksimum czułości pierwszej harmonicznej.
 
-## Ważne rozróżnienie
+## Uwaga o demodulacji przy 5 kHz
 
-`f_opt = 1/(2 tau)` maksymalizuje czynnik:
+Przy 5 kHz model opóźnienia nadal odtwarza beta z błędem mniejszym niż 0.001%, lecz estymacja Omega ma większy błąd.
 
-`|sin(pi f_mod tau)|`
+To wskazuje na ograniczenie obecnego demodulatora lock-in i krótkiego okna czasowego, a nie na niezgodność równania opóźnienia. Szczegóły są w `docs/VALIDATION_V2.md`.
 
-czyli maksymalną różnicę faz uzyskaną z zadanej amplitudy `phi0`.
+## Pliki
 
-Nie oznacza to automatycznie maksimum czułości demodulacji pierwszej harmonicznej. Czułość tej ścieżki zależy także od:
+Kod:
 
-`J1(beta)`.
+- `matlab/v2/FOG_start_v2.m`
 
-Dla dużego `beta` funkcja Bessela może maleć, zmienić znak lub przejść przez zero. Dlatego w praktycznym układzie częstotliwość i amplituda PZT muszą być dobierane razem.
+Zweryfikowane wyniki:
 
-## Pliki wynikowe
+- `results/v2/FOG_v2_baseline.csv`
+- `results/v2/FOG_v2_frequency_sweep.csv`
 
-Po poprawnym uruchomieniu skrypt generuje:
+Raport:
 
-- `FOG_v2.slx`
-- `FOG_v2_baseline.csv`
-- `FOG_v2_frequency_sweep.csv`
-
-Wyniki nie są jeszcze wpisane jako zweryfikowane w repozytorium. Powinny zostać dodane dopiero po uruchomieniu modelu na środowisku docelowym i sprawdzeniu zgodności `beta_sim` z `beta_theory`.
+- `docs/VALIDATION_V2.md`
