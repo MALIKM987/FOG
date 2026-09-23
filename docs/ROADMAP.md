@@ -220,14 +220,18 @@ Wniosek: standardowe SMF pozostaje możliwe, ale wymagana skuteczniejsza kontrol
 
 ## v6.1 — próg wymaganej kontroli polaryzacji
 
-Status: **następny zalecany etap**
+Status: **implementacja gotowa, oczekuje na walidację lokalną**
 
-Dodać:
-- detection sweep residual 0.10 -> 0,
-- paired Monte Carlo z tymi samymi stanami SMF,
-- sweep pol_nr_scale,
-- graniczny residual dla 3-sigma i 4-sigma,
-- wymagania eksperymentalne dla depolaryzatora/polaryzatora przed BOM-em.
+Dodano:
+- detection sweep residual: 0.10, 0.075, 0.05, 0.025, 0,
+- paired Monte Carlo z tymi samymi stanami SMF i seedami,
+- osobne robust class separation i paired delta,
+- wyznaczenie największego testowanego residual dla 3-sigma i 4-sigma,
+- pomocniczą interpolację progu 3-sigma i 4-sigma,
+- sweep pol_nr_scale od 0 do 8e-4,
+- generowanie roboczego wymagania do FOG_v6_1_requirement.csv.
+
+Wynik v6.1 ma zamienić fenomenologiczny residual na wymaganie modelowe przed kalibracją rzeczywistego depolaryzatora.
 
 ## v7 — temperatura i dryft
 
