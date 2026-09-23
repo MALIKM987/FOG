@@ -501,163 +501,203 @@ disp("==============================================")
 disp(" v5.1B - ADC CLOCK PHASE SWEEP")
 disp("==============================================")
 
-noise_enable = 0;
-adc_bits = 16;
-f_aa_Hz = 150e3;
+clockSweepFile = 'FOG_v5_1_clock_phase_sweep.csv';
+clockSummaryFile = 'FOG_v5_1_clock_phase_summary.csv';
 
-fsPhase = [500e3 1e6 2e6];
-% Przy Ts_solver = 0.05 us wszystkie sample-time offsets musza byc
-% calkowita wielokrotnoscia 50 ns. Dla fs = 500k/1M/2M S/s
-% siatka 0:0.1:0.9 daje odpowiednio kroki offsetu
-% 200 ns / 100 ns / 50 ns, czyli zawsze zgodne z fixed-step.
-phaseFrac = (0:0.1:0.9)';
+% Resume:
+% jesli oba pliki z poprawnie zakonczonego v5.1B juz istnieja,
+% nie powtarzamy kosztownego sweepu po hotfixie v5.1C.
+if isfile(clockSweepFile) && isfile(clockSummaryFile)
 
-NfsP = numel(fsPhase);
-Np = numel(phaseFrac);
-Nrows = NfsP*Np;
+    disp("Znaleziono istniejace wyniki v5.1B.")
+    disp("Pomijam clock-phase sweep i wczytuje CSV.")
 
-phase_fs_kSps = zeros(Nrows,1);
-phase_fraction = zeros(Nrows,1);
-phase_offset_ns = zeros(Nrows,1);
+    clockPhaseResults = readtable(clockSweepFile);
+    clockPhaseSummary = readtable(clockSummaryFile);
 
-phase_est_1 = zeros(Nrows,1);
-phase_err_1 = zeros(Nrows,1);
+    phase_fs_kSps = clockPhaseResults.fs_kSps;
+    phase_fraction = clockPhaseResults.Clock_phase_fraction_of_Ts;
+    phase_offset_ns = clockPhaseResults.Clock_offset_ns;
 
-phase_est_small = zeros(Nrows,1);
-phase_err_small = zeros(Nrows,1);
+    phase_est_1 = clockPhaseResults.Omega_est_at_1deg_s;
+    phase_err_1 = clockPhaseResults.Error_at_1deg_s;
 
-% STANDARD do analizy biasu.
-Ts_solver = 0.05e-6;
-updateNoiseSampling();
+    phase_est_small = clockPhaseResults.Omega_est_at_1e_4deg_s;
+    phase_err_small = clockPhaseResults.Error_at_1e_4deg_s;
 
-Tstop_phase = 0.030;
-Tmean_phase = 0.020;
+    phaseSummary_fs = clockPhaseSummary.fs_kSps;
+    phaseP2P_1 = clockPhaseSummary.P2P_error_at_1deg_s;
+    phaseMaxAbs_1 = clockPhaseSummary.Max_abs_error_at_1deg_s;
+    phaseP2P_small = clockPhaseSummary.P2P_error_at_1e_4deg_s;
+    phaseMaxAbs_small = clockPhaseSummary.Max_abs_error_at_1e_4deg_s;
 
-set_param( ...
-    mdl, ...
-    'FixedStep',sprintf('%.17g',Ts_solver), ...
-    'StopTime',sprintf('%.17g',Tstop_phase));
+    fsPhase = unique(phase_fs_kSps)'*1e3;
+    NfsP = numel(fsPhase);
 
-row = 0;
+    disp("CLOCK PHASE SUMMARY")
+    disp(clockPhaseSummary)
 
-for kf = 1:NfsP
+else
 
-    fs_adc = fsPhase(kf);
+    noise_enable = 0;
+    adc_bits = 16;
+    f_aa_Hz = 150e3;
 
-    for kp = 1:Np
+    fsPhase = [500e3 1e6 2e6];
 
-        row = row+1;
+    % Przy Ts_solver = 0.05 us wszystkie sample-time offsets musza byc
+    % calkowita wielokrotnoscia 50 ns. Dla fs = 500k/1M/2M S/s
+    % siatka 0:0.1:0.9 daje odpowiednio kroki offsetu
+    % 200 ns / 100 ns / 50 ns, czyli zawsze zgodne z fixed-step.
+    phaseFrac = (0:0.1:0.9)';
 
-        adc_sample_offset_s = ...
-            phaseFrac(kp)/fs_adc;
+    NfsP = numel(fsPhase);
+    Np = numel(phaseFrac);
+    Nrows = NfsP*Np;
 
-        offsetInSolverSteps = ...
-            adc_sample_offset_s/Ts_solver;
+    phase_fs_kSps = zeros(Nrows,1);
+    phase_fraction = zeros(Nrows,1);
+    phase_offset_ns = zeros(Nrows,1);
 
-        if abs(offsetInSolverSteps-round(offsetInSolverSteps)) > 1e-9
-            error([ ...
-                "FOG v5.1 internal timing error: ADC sample offset " ...
-                "is not aligned to fixed solver step." ...
-                ])
+    phase_est_1 = zeros(Nrows,1);
+    phase_err_1 = zeros(Nrows,1);
+
+    phase_est_small = zeros(Nrows,1);
+    phase_err_small = zeros(Nrows,1);
+
+    % STANDARD do analizy biasu.
+    Ts_solver = 0.05e-6;
+    updateNoiseSampling();
+
+    Tstop_phase = 0.030;
+    Tmean_phase = 0.020;
+
+    set_param( ...
+        mdl, ...
+        'FixedStep',sprintf('%.17g',Ts_solver), ...
+        'StopTime',sprintf('%.17g',Tstop_phase));
+
+    row = 0;
+
+    for kf = 1:NfsP
+
+        fs_adc = fsPhase(kf);
+
+        for kp = 1:Np
+
+            row = row+1;
+
+            adc_sample_offset_s = ...
+                phaseFrac(kp)/fs_adc;
+
+            offsetInSolverSteps = ...
+                adc_sample_offset_s/Ts_solver;
+
+            if abs(offsetInSolverSteps-round(offsetInSolverSteps)) > 1e-9
+                error([ ...
+                    "FOG v5.1 internal timing error: ADC sample offset " ...
+                    "is not aligned to fixed solver step." ...
+                    ])
+            end
+
+            updateConfiguration();
+
+            Omega_deg_s = 1;
+            out = sim(mdl);
+            omega_ts = out.get('omega_est_ts');
+            idx = omega_ts.Time >= Tmean_phase;
+
+            est1 = mean(omega_ts.Data(idx));
+
+            Omega_deg_s = 1e-4;
+            out = sim(mdl);
+            omega_ts = out.get('omega_est_ts');
+            idx = omega_ts.Time >= Tmean_phase;
+
+            estSmall = mean(omega_ts.Data(idx));
+
+            phase_fs_kSps(row) = fs_adc/1e3;
+            phase_fraction(row) = phaseFrac(kp);
+            phase_offset_ns(row) = adc_sample_offset_s*1e9;
+
+            phase_est_1(row) = est1;
+            phase_err_1(row) = est1-1;
+
+            phase_est_small(row) = estSmall;
+            phase_err_small(row) = estSmall-1e-4;
         end
-
-        updateConfiguration();
-
-        Omega_deg_s = 1;
-        out = sim(mdl);
-        omega_ts = out.get('omega_est_ts');
-        idx = omega_ts.Time >= Tmean_phase;
-
-        est1 = mean(omega_ts.Data(idx));
-
-        Omega_deg_s = 1e-4;
-        out = sim(mdl);
-        omega_ts = out.get('omega_est_ts');
-        idx = omega_ts.Time >= Tmean_phase;
-
-        estSmall = mean(omega_ts.Data(idx));
-
-        phase_fs_kSps(row) = fs_adc/1e3;
-        phase_fraction(row) = phaseFrac(kp);
-        phase_offset_ns(row) = adc_sample_offset_s*1e9;
-
-        phase_est_1(row) = est1;
-        phase_err_1(row) = est1-1;
-
-        phase_est_small(row) = estSmall;
-        phase_err_small(row) = estSmall-1e-4;
     end
+
+    clockPhaseResults = table( ...
+        phase_fs_kSps, ...
+        phase_fraction, ...
+        phase_offset_ns, ...
+        phase_est_1, ...
+        phase_err_1, ...
+        phase_est_small, ...
+        phase_err_small, ...
+        'VariableNames', ...
+        { ...
+        'fs_kSps', ...
+        'Clock_phase_fraction_of_Ts', ...
+        'Clock_offset_ns', ...
+        'Omega_est_at_1deg_s', ...
+        'Error_at_1deg_s', ...
+        'Omega_est_at_1e_4deg_s', ...
+        'Error_at_1e_4deg_s' ...
+        });
+
+    writetable( ...
+        clockPhaseResults, ...
+        clockSweepFile);
+
+    % Podsumowanie peak-to-peak biasu vs faza.
+    phaseSummary_fs = fsPhase(:)/1e3;
+    phaseP2P_1 = zeros(NfsP,1);
+    phaseP2P_small = zeros(NfsP,1);
+    phaseMaxAbs_1 = zeros(NfsP,1);
+    phaseMaxAbs_small = zeros(NfsP,1);
+
+    for kf = 1:NfsP
+
+        idx = phase_fs_kSps == fsPhase(kf)/1e3;
+
+        phaseP2P_1(kf) = ...
+            max(phase_err_1(idx))-min(phase_err_1(idx));
+
+        phaseP2P_small(kf) = ...
+            max(phase_err_small(idx))-min(phase_err_small(idx));
+
+        phaseMaxAbs_1(kf) = ...
+            max(abs(phase_err_1(idx)));
+
+        phaseMaxAbs_small(kf) = ...
+            max(abs(phase_err_small(idx)));
+    end
+
+    clockPhaseSummary = table( ...
+        phaseSummary_fs, ...
+        phaseP2P_1, ...
+        phaseMaxAbs_1, ...
+        phaseP2P_small, ...
+        phaseMaxAbs_small, ...
+        'VariableNames', ...
+        { ...
+        'fs_kSps', ...
+        'P2P_error_at_1deg_s', ...
+        'Max_abs_error_at_1deg_s', ...
+        'P2P_error_at_1e_4deg_s', ...
+        'Max_abs_error_at_1e_4deg_s' ...
+        });
+
+    disp("")
+    disp("CLOCK PHASE SUMMARY")
+    disp(clockPhaseSummary)
+
+    writetable( ...
+        clockPhaseSummary, ...
+        clockSummaryFile);
 end
-
-clockPhaseResults = table( ...
-    phase_fs_kSps, ...
-    phase_fraction, ...
-    phase_offset_ns, ...
-    phase_est_1, ...
-    phase_err_1, ...
-    phase_est_small, ...
-    phase_err_small, ...
-    'VariableNames', ...
-    { ...
-    'fs_kSps', ...
-    'Clock_phase_fraction_of_Ts', ...
-    'Clock_offset_ns', ...
-    'Omega_est_at_1deg_s', ...
-    'Error_at_1deg_s', ...
-    'Omega_est_at_1e_4deg_s', ...
-    'Error_at_1e_4deg_s' ...
-    });
-
-writetable( ...
-    clockPhaseResults, ...
-    'FOG_v5_1_clock_phase_sweep.csv');
-
-% Podsumowanie peak-to-peak biasu vs faza.
-phaseSummary_fs = fsPhase(:)/1e3;
-phaseP2P_1 = zeros(NfsP,1);
-phaseP2P_small = zeros(NfsP,1);
-phaseMaxAbs_1 = zeros(NfsP,1);
-phaseMaxAbs_small = zeros(NfsP,1);
-
-for kf = 1:NfsP
-
-    idx = phase_fs_kSps == fsPhase(kf)/1e3;
-
-    phaseP2P_1(kf) = ...
-        max(phase_err_1(idx))-min(phase_err_1(idx));
-
-    phaseP2P_small(kf) = ...
-        max(phase_err_small(idx))-min(phase_err_small(idx));
-
-    phaseMaxAbs_1(kf) = ...
-        max(abs(phase_err_1(idx)));
-
-    phaseMaxAbs_small(kf) = ...
-        max(abs(phase_err_small(idx)));
-end
-
-clockPhaseSummary = table( ...
-    phaseSummary_fs, ...
-    phaseP2P_1, ...
-    phaseMaxAbs_1, ...
-    phaseP2P_small, ...
-    phaseMaxAbs_small, ...
-    'VariableNames', ...
-    { ...
-    'fs_kSps', ...
-    'P2P_error_at_1deg_s', ...
-    'Max_abs_error_at_1deg_s', ...
-    'P2P_error_at_1e_4deg_s', ...
-    'Max_abs_error_at_1e_4deg_s' ...
-    });
-
-disp("")
-disp("CLOCK PHASE SUMMARY")
-disp(clockPhaseSummary)
-
-writetable( ...
-    clockPhaseSummary, ...
-    'FOG_v5_1_clock_phase_summary.csv');
 
 %% ============================================================
 % v5.1C - fs ADC POD SZUMEM
@@ -676,7 +716,10 @@ adc_bits = 16;
 f_aa_Hz = 150e3;
 adc_sample_offset_s = 0;
 
-Ts_solver = 0.20e-6;
+% 0.20 us nie dzieli okresu 0.5 us dla 2 MS/s.
+% Uzywamy 0.10 us: 500k -> 20 krokow/probke,
+% 1M -> 10 krokow/probke, 2M -> 5 krokow/probke.
+Ts_solver = 0.10e-6;
 updateNoiseSampling();
 
 set_param( ...
@@ -697,6 +740,15 @@ for kf = 1:NfsN
 
     fs_adc = fsNoise(kf);
     updateConfiguration();
+
+    samplePeriodSteps = Ts_adc/Ts_solver;
+
+    if abs(samplePeriodSteps-round(samplePeriodSteps)) > 1e-9
+        error([ ...
+            "FOG v5.1 timing error: Ts_adc is not an integer " ...
+            "multiple of the fixed solver step." ...
+            ])
+    end
 
     vals = zeros(Nmc_fs,1);
 
