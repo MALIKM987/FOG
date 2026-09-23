@@ -1,0 +1,9 @@
+Component_or_process,Minimum_requirement,Preferred_spec,Reason_from_simulation,Status
+Broadband source,"1550 nm; effective spectrum above computed threshold","Broad smooth SLD/ASE, measured spectrum >=30 nm; verify narrow sub-peaks","Source coherence sets required depolarizer length","MEASURE LAB SOURCE BEFORE PURCHASE"
+PM fiber for Lyot,"Beat length <=5 mm @1550 nm","PM1550-HP / PM1550-XP class, PANDA","Worst beat length is used in design","PURCHASE / ORGANIZE"
+Lyot short section,"1.70 m nominal","1.7 m","Conservative for ~8 nm effective spectral component","CUT FROM PM FIBER"
+Lyot long section,"3.40 m nominal","3.4 m","Lyot 1:2 length ratio","CUT FROM PM FIBER"
+45-deg PM splice,"45 deg; model safe error <= +/- 0.70 deg","PM axis alignment capability; target +/-0.5 deg","Angle error dominates residual after spectral decoherence","REQUIRES PM SPLICE PROCESS"
+PM fiber purchase length,"6.0 m bare PM fiber","6 m gives handling/splice margin","5.1 m active + fabrication reserve","PROCUREMENT TARGET"
+Polarizer,"ER >=25 dB model assumption","Low IL, FC/APC or fusion-spliced implementation","Defines launched polarization and supports reciprocity","PURCHASE / ORGANIZE IF NOT IN LAB"
+SMF gyro coil,"1000 m standard SMF, ~0.2 dB/km class","G.652.D / SMF-28 class for first prototype","Low-cost non-PM coil hypothesis under test","PURCHASE / ORGANIZE"
