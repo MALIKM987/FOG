@@ -241,19 +241,28 @@ Walidacja v6.1:
 
 Fenomenologiczny residual nadal nie jest parametrem katalogowym.
 
-## v6.2 — fizyczny model depolaryzatora Lyota
+## v6.2 — fizyczny model depolaryzatora Lyota pod BOM
 
-Status: **następny zalecany etap przed v7 i przed zamknięciem BOM-u optycznego**
+Status: **implementacja gotowa, oczekuje na walidację lokalną**
 
-Dodać:
-- szerokość widma SLD,
-- coherence length,
-- birefringence / beat length PM fiber,
-- dwie sekcje PM o dobranych długościach,
-- względny kąt osi 45 stopni,
-- zależność stopnia depolaryzacji od długości i widma,
-- mapowanie wyniku na modelowy residual,
-- wymagania długości sekcji PM do prototypu.
+Dodano:
+- model widma Gaussa SLD,
+- Jones propagation przez dwie sekcje PM,
+- spectral-averaged Stokes i worst-case DOP,
+- beat length jako parametr materiałowy,
+- długości sekcji L1/L2 i ratio 1:2,
+- błąd spawu osi wokół 45 stopni,
+- sweep minimalnej L1 vs bandwidth,
+- konserwatywny guard dla efektywnego komponentu 8 nm,
+- benchmark aktualnych klas SLD 1550 nm,
+- benchmark PM1550 class z beat length <=5 mm,
+- mapowanie worst-case DOP -> depol_residual proxy,
+- automatyczne wymagania zakupowe do BOM-u,
+- opcjonalną ponowną walidację wybranego projektu w FOG_v6.
+
+Pierwszy konserwatywny projekt do sprawdzenia lokalnego: L1=1.7 m, L2=3.4 m, zakup 6 m PM fiber, proces spawu 45 deg z celem +/-0.5 deg.
+
+Od v6.2 każdy etap ma generować również wymagania materiałowe i tolerancje montażowe, nie tylko wynik matematyczny.
 
 ## v7 — temperatura i dryft
 
