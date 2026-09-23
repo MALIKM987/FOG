@@ -63,7 +63,7 @@ Pozostały mały błąd średniej przy 50-150 kHz wymaga osobnego testu zbieżno
 
 ## v3 — bilans mocy i straty optyczne
 
-Status: **następny etap**
+Status: **implementacja gotowa, oczekuje na walidację lokalną**
 
 Dodać:
 
@@ -80,7 +80,9 @@ Dodać:
 - bilans mocy na fotodiodzie,
 - margines względem nasycenia i minimalnej mocy odbiornika.
 
-Wynik: model ma liczyć moc w każdym punkcie toru i porównać ją z poziomem na fotodiodzie.
+Wynik: model liczy moc w każdym punkcie toru, porównuje analityczny i symulowany poziom na fotodiodzie oraz generuje sweep mocy źródła.
+
+Dodatkowo v3 wprowadza hierarchiczny widok fizyczny urządzenia: Optical Source, Optical Front End, Sagnac Interferometer, Photoreceiver i Lock-In DSP. Szczegółowe równania są ukryte wewnątrz podsystemów.
 
 ## v4 — szumy fotodetektora i elektroniki
 
