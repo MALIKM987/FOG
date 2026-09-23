@@ -291,4 +291,16 @@ Po v6 należy zdecydować, czy:
 
 ## Status
 
-Implementacja gotowa do lokalnej walidacji.
+**Model wrażliwościowy zweryfikowany w MATLAB/Simulink R2023b Update 7.**
+
+Najważniejszy wynik:
+- `depol_residual = 0.1` daje dla `0.0001 deg/s` separację tylko około `2.42 sigma`,
+- modelowy residual `0.05` obniża zero-rate sigma do około `0.0865 deg/h`,
+- wpływ polaryzacji staje się dominującym ograniczeniem względem wcześniej zweryfikowanego toru ADC/Photoreceivera.
+
+Wymagane v6.1 przed przejściem do temperatury:
+- detection sweep residual,
+- paired Monte Carlo,
+- sweep `pol_nr_scale`.
+
+Szczegóły: `docs/VALIDATION_V6.md`.
