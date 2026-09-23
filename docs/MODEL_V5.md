@@ -202,4 +202,15 @@ ADC jest wystarczający, jeżeli:
 
 ## Status
 
-Implementacja gotowa do lokalnej walidacji w MATLAB/Simulink R2023b.
+**Rdzeń zweryfikowany w MATLAB/Simulink R2023b Update 7. Dobór ADC pozostaje prowizoryczny do v5.1.**
+
+Wyniki wskazują:
+
+- brak clippingu dla 0..2 V,
+- 14 bit jako pierwszy sensowny kandydat,
+- 16 bit jako nominalny wariant o małym wkładzie kwantyzacji,
+- 1 MS/s jako rozsądny nominalny punkt dla AAF 150 kHz,
+- nieakceptowalne 100 kS/s,
+- otwarty problem koherentnego biasu kwantyzacji / fs, szczególnie przy 2 MS/s.
+
+Szczegóły: `docs/VALIDATION_V5.md`.
