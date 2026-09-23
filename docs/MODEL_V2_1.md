@@ -1,52 +1,62 @@
 # Model FOG v2.1
 
-## Cel
+## Status
 
-v2.1 nie zmienia fizyki modelu v2. Jego zadaniem jest poprawienie toru demodulacji lock-in, ponieważ walidacja v2 ujawniła artefakt przy 5 kHz:
+**Zweryfikowany w MATLAB/Simulink R2023b Update 7.**
 
-- `beta_theory` i `beta_sim` były praktycznie identyczne,
-- mimo to estymacja `Omega` miała błąd około `+0.0757 deg/s`.
-
-To wskazywało na ograniczenie filtru i krótkiego okna uśredniania, a nie na błąd modelu PZT + delay.
+v2.1 nie zmienia fizyki modelu v2. Poprawia tor demodulacji lock-in, który w v2 powodował artefakt przy 5 kHz.
 
 ## Zmiany względem v2
 
-1. Filtr lock-in:
-   - było: filtr 1. rzędu,
-   - jest: analogowy Butterworth 4. rzędu.
+- filtr lock-in: 1. rząd -> Butterworth 4. rzędu,
+- `fc = 300 Hz`,
+- czas symulacji: `20 ms -> 50 ms`,
+- estymacja z ostatnich `10 ms`,
+- dodane `STD_Omega_deg_s` i `LockIn_LPF_std`.
 
-2. Częstotliwość graniczna pozostaje:
-   - `fc = 300 Hz`.
+## Wynik testu akceptacyjnego
 
-3. Czas symulacji:
-   - było: `20 ms`,
-   - jest: `50 ms`.
+Dla `5 kHz` i zadanego `Omega = 1 deg/s`:
 
-4. Okno estymacji:
-   - ostatnie `10 ms` symulacji.
+v2:
 
-5. Dodano:
-   - `STD_Omega_deg_s`,
-   - `LockIn_LPF_std`,
-   - osobny wykres błędu Omega,
-   - osobny wykres resztkowego tętnienia.
+`Omega_measured ~= 1.075665 deg/s`
 
-## Test akceptacyjny
+v2.1:
 
-Najważniejszy test v2.1 to punkt `5 kHz`.
+`Omega_measured = 0.999998184 deg/s`
 
-W v2:
+Błąd spadł z około `+0.075665 deg/s` do `-1.816e-6 deg/s`.
 
-`Omega_measured ~= 1.0757 deg/s`
+Oznacza to redukcję bezwzględnego błędu o około `99.9976%`.
 
-dla zadanego:
+## Punkt 20 kHz
 
-`Omega = 1 deg/s`.
+- `Omega_mean = 0.999985491 deg/s`
+- `Omega_error = -1.4509e-5 deg/s`
+- `STD_Omega = 1.6321e-6 deg/s`
+- `beta_theory = 1.84 rad`
+- `beta_sim = 1.839891517 rad`
 
-Po poprawie lock-in oczekujemy znaczącego spadku tego błędu przy zachowaniu zgodności:
+## Uwaga o wysokich częstotliwościach
 
-`beta_sim ~= beta_theory`.
+Przy 50-150 kHz pozostaje mały błąd średniej mimo bardzo małego STD. Towarzyszy mu rosnąca różnica między `beta_sim` i `beta_theory`.
 
-## Status
+Najbardziej prawdopodobnym źródłem jest ograniczona rozdzielczość numeryczna bloku `Transport Delay` przy `Ts = 0.2 us`.
 
-Implementacja gotowa. Oczekuje na lokalne uruchomienie i zapis rzeczywistych wyników do `results/v2_1/`.
+Nie jest to już błąd lock-in. Warto później wykonać test zbieżności dla `Ts = 0.2, 0.1, 0.05, 0.02 us`.
+
+## Pliki
+
+Kod:
+
+- `matlab/v2_1/FOG_start_v2_1.m`
+
+Wyniki:
+
+- `results/v2_1/FOG_v2_1_baseline.csv`
+- `results/v2_1/FOG_v2_1_frequency_sweep.csv`
+
+Raport:
+
+- `docs/VALIDATION_V2_1.md`
