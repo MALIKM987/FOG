@@ -1,0 +1,3 @@
+Reference,Operating_wavelength_nm,Beat_length_max_mm,Attenuation_max_dB_km,MFD_um,Use_in_v6_2
+Thorlabs PM1550-HP,"1440-1625",5.0,0.5,"10.5 +/- 0.8 @1550","worst-case 5 mm beat length benchmark"
+Coherent PM1550-XP,"1440-1625",5.0,,"~10.1 @1550","5 mm beat-length reference for Lyot design"
