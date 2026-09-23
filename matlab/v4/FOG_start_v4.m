@@ -408,6 +408,20 @@ add_line( ...
     'Lock-In DSP/1', ...
     'autorouting','on');
 
+% Samokontrola topologii. Ten test chroni przed cichym
+% odpieciem subsystemu po deleteContents().
+lh_photo = get_param(photoSub,'LineHandles');
+
+if lh_photo.Inport(1) == -1
+    error("FOG v4 topology error: Photoreceiver input is disconnected.")
+end
+
+if lh_photo.Outport(1) == -1
+    error("FOG v4 topology error: Photoreceiver V_TIA output is disconnected.")
+end
+
+disp("Photoreceiver topology check: OK")
+
 set_param( ...
     photoSub, ...
     'BackgroundColor','green', ...
