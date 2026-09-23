@@ -220,7 +220,7 @@ Wniosek: standardowe SMF pozostaje możliwe, ale wymagana skuteczniejsza kontrol
 
 ## v6.1 — próg wymaganej kontroli polaryzacji
 
-Status: **implementacja gotowa, oczekuje na walidację lokalną**
+Status: **zweryfikowany**
 
 Dodano:
 - detection sweep residual: 0.10, 0.075, 0.05, 0.025, 0,
@@ -231,7 +231,29 @@ Dodano:
 - sweep pol_nr_scale od 0 do 8e-4,
 - generowanie roboczego wymagania do FOG_v6_1_requirement.csv.
 
-Wynik v6.1 ma zamienić fenomenologiczny residual na wymaganie modelowe przed kalibracją rzeczywistego depolaryzatora.
+Walidacja v6.1:
+- residual 0.05 daje punktowo 3.24 sigma,
+- residual 0.025 daje 3.72 sigma,
+- interpolowany próg 3 sigma = 0.0614,
+- interpolowany próg 4 sigma = 0.0162,
+- bootstrap wskazuje 0.025 jako bezpieczniejszy punkt dla wymagania 3-sigma,
+- pol_nr_scale >= 4e-4 wyraźnie pogarsza wynik przy residual 0.05.
+
+Fenomenologiczny residual nadal nie jest parametrem katalogowym.
+
+## v6.2 — fizyczny model depolaryzatora Lyota
+
+Status: **następny zalecany etap przed v7 i przed zamknięciem BOM-u optycznego**
+
+Dodać:
+- szerokość widma SLD,
+- coherence length,
+- birefringence / beat length PM fiber,
+- dwie sekcje PM o dobranych długościach,
+- względny kąt osi 45 stopni,
+- zależność stopnia depolaryzacji od długości i widma,
+- mapowanie wyniku na modelowy residual,
+- wymagania długości sekcji PM do prototypu.
 
 ## v7 — temperatura i dryft
 
