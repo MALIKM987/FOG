@@ -423,16 +423,20 @@ Ważne:
 
 ## v8.1 — integrated optical closed-loop
 
-Status: **następny etap**
+Status: **implementacja gotowa, oczekuje na lokalną walidację**
 
-Cel:
-- wpiąć PI/NCO feedback do pełnego zweryfikowanego toru optycznego,
-- zachować SLD/front-end/Sagnac/polarization/photoreceiver/ADC/digital lock-in,
-- dodać equivalent differential feedback phase do Sagnac,
-- sprawdzić 1 i 20 deg/s w pełnej ścieżce,
-- sprawdzić 0.0001 deg/s i zero-rate pod pełnym szumem,
-- logować feedback Omega, residual Omega, phase slope i reset frequency,
-- użyć low-Vpi long-range fiber-PZT jako nominalnego closed-loop candidate.
+Dodano:
+- pełny fizyczny tor source/front-end/Sagnac/RX/ADC/digital lock-in,
+- trzeci port Sagnac dla differential feedback phase,
+- 10 kHz PI controller sterowany rzeczywistym residual z lock-in,
+- 32-bit NCO rate-word quantization,
+- selected low-Vpi long-range all-fiber PZT candidate,
+- feedback actuator dynamics + phase slope + selected reset frequency,
+- integrated sweep PI 30/50/100 Hz,
+- pełne testy 1 i 20 deg/s,
+- Monte Carlo zero vs 0.0001 deg/s z photoreceiver noise i random SMF polarization.
+
+v8.1 jest docelowym modelem prezentacyjnym closed-loop: na top-level widać cały fizyczny FOG i pętlę sprzężenia zwrotnego.
 
 ## Zasada pracy z repozytorium
 
