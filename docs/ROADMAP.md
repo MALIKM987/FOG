@@ -358,7 +358,7 @@ Ważne: Invar36 pozostaje provisional, ponieważ v7 nie obejmuje pełnego thermo
 
 ## v7.1 — thermo-mechanical stress / winding / potting gate
 
-Status: **zweryfikowany; baseband closed-loop i actuator feasibility zamknięte**
+Status: **implementacja gotowa; oczekuje na lokalną walidację**
 
 Dodano:
 - jawny Mohr/T-dot stress term oddzielony od pure Shupe,
@@ -395,7 +395,7 @@ Dopiero dane z pierwszego prototypu mają wrócić do modelu i zamknąć finalny
 
 ## v8 — closed-loop feasibility / actuator / DAC BOM
 
-Status: **zweryfikowany; pełny optical closed-loop działa w modelu**
+Status: **zweryfikowany; baseband closed-loop i actuator feasibility zamknięte**
 
 Dodano:
 - fizyczne mapowanie Omega -> phase-ramp slope,
@@ -423,7 +423,7 @@ Ważne:
 
 ## v8.1 — integrated optical closed-loop
 
-Status: **implementacja gotowa, oczekuje na lokalną walidację**
+Status: **zweryfikowany; pełny optical closed-loop działa w modelu**
 
 Dodano:
 - pełny fizyczny tor source/front-end/Sagnac/RX/ADC/digital lock-in,
