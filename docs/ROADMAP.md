@@ -122,7 +122,7 @@ Przed traktowaniem progu detekcji jako specyfikacji należy wykonać rozszerzone
 
 ## v4.1 — rozszerzona analiza statystyczna
 
-Status: **implementacja gotowa, oczekuje na walidację lokalną**
+Status: **zweryfikowany**
 
 Cel:
 
@@ -132,6 +132,8 @@ Cel:
 - ustabilizować próg 1-sigma i 3-sigma,
 - powtórzyć detekcję `0.0001 deg/s` dla 50 realizacji,
 - porównać deterministyczny bias przy `Ts=0.20 us` i `0.05 us`.
+
+Wynik: sigma przy 20 ms = 1.525e-5 deg/s (0.0549 deg/h), próg 3-sigma = 0.1647 deg/h. Punkt 0.0001 deg/s przy 10 ms ma separację około 4.83 sigma. Nachylenie sigma(Tavg) = -0.393, więc w zakresie 1-20 ms nie obserwujemy jeszcze idealnego prawa białego szumu -0.5.
 
 ## v5 — tor cyfrowy
 
