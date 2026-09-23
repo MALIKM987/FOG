@@ -279,7 +279,7 @@ Od v6.2 każdy etap generuje również wymagania materiałowe, tolerancje i pomi
 
 ## v6.3 — optical BOM lock
 
-Status: **implementacja gotowa, oczekuje na lokalną walidację**
+Status: **zweryfikowany; roboczy optical BOM i acceptance plan zamknięte**
 
 Cel:
 
@@ -303,7 +303,19 @@ Robocze założenia po v6.2:
 - driver: preferowane >=50 Vpp i >=30 kHz,
 - coil: 1000 m G.652.D/SMF-28 class, geometria ok. 160 mm średnicy efektywnej.
 
-Od tego etapu element dostępny w laboratorium nie jest automatycznie zaakceptowany. Musi przejść test odbiorczy z FOG_v6_3_lab_acceptance_tests.csv.
+Walidacja v6.3:
+- PZT wymaga 1.9337 pi p-p; dla Vpi=20 V około 38.7 Vpp,
+- target źródła 0.8-1.0 mW, maksimum około 1.10 mW dla 10% headroom,
+- coupler 45/55 daje tylko około 0.044 dB penalty,
+- polarizer minimum 25 dB ER, preferowane >=30 dB,
+- 1 km cewki na 155 mm core / 30 mm window daje 18 warstw, ~1997 zwojów i mean diameter ~159.395 mm,
+- wygenerowano optical BOM lock, procurement plan i lab acceptance tests.
+
+Element dostępny w laboratorium nie jest automatycznie zaakceptowany. Musi przejść test odbiorczy z FOG_v6_3_lab_acceptance_tests.csv.
+
+Procurement hotfix: lista obejmuje teraz także CONDITIONAL BUY, BUILD / VERIFY, BUY AS NEEDED i PROCESS / CONSUMABLES, a nie tylko pozycje BUY / ORGANIZE.
+
+Przed v7 priorytetem operacyjnym jest audyt laboratoryjnego źródła, sprzęgaczy i fotodiody. Materiał coil former zostaje celowo otwarty do modelu termicznego.
 
 ## v7 — temperatura i dryft
 
