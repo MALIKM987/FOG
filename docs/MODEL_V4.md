@@ -208,11 +208,18 @@ Po poprawnym uruchomieniu:
 
 ## Status
 
-**Hotfix gotowy, wymagana ponowna walidacja lokalna.**
+**Zweryfikowany w MATLAB/Simulink R2023b Update 7 po hotfixie topologii Photoreceiver.**
 
-Pierwsza próba ujawniła techniczny błąd topologii: po przebudowie portów subsystemu Photoreceiver jego połączenia z Optical Front End i Lock-In DSP były wiszącymi liniami.
+Walidacja po poprawce wykazała:
 
-Skrypt został poprawiony i ma teraz jawne ponowne łączenie subsystemu oraz test topologii przed symulacją.
+- zgodność RMS szumu teoria/Simulink: błąd `-0.004961%`,
+- zgodność średniego fotoprądu: około `+0.00321%`,
+- photo-shot noise odpowiada za około `95.19%` wariancji,
+- zero-rate sigma z pierwszego Monte Carlo: `2.5344e-5 deg/s`,
+- roboczy próg 3-sigma: `7.6033e-5 deg/s`.
 
-Pierwsze wyniki nie są traktowane jako wyniki fizyczne v4. Szczegóły:
-`docs/VALIDATION_V4_ATTEMPT1.md`.
+Monte Carlo ma na razie 12 realizacji na punkt, więc parametry detekcji są wynikami wstępnymi, a nie ostateczną specyfikacją.
+
+Szczegóły:
+- `docs/VALIDATION_V4.md`
+- `docs/VALIDATION_V4_ATTEMPT1.md`.
