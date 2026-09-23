@@ -102,4 +102,16 @@ Dlatego wynik `3 sigma` nie jest jeszcze końcową specyfikacją żyroskopu.
 
 ## Status
 
-Implementacja gotowa do lokalnej walidacji.
+**Zweryfikowany w MATLAB/Simulink R2023b Update 7.**
+
+Najważniejsze wyniki:
+
+- 100 realizacji zero-rate,
+- sigma przy 10 ms: `1.9999e-5 deg/s`,
+- sigma przy 20 ms: `1.5247e-5 deg/s`,
+- próg 3-sigma przy 20 ms: `0.1647 deg/h`,
+- dopasowany slope `sigma(Tavg)`: `-0.3931`,
+- detekcja `0.0001 deg/s` przy 10 ms: separacja `4.83 sigma`,
+- bias 1 deg/s maleje z `-9.54e-5` do `-4.31e-6 deg/s` po przejściu FAST -> STANDARD.
+
+Szczegóły: `docs/VALIDATION_V4_1.md`.
