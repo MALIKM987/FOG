@@ -137,4 +137,13 @@ Po uruchomieniu:
 
 ## Status
 
-Implementacja gotowa do walidacji lokalnej w MATLAB/Simulink R2023b.
+**Zweryfikowany w MATLAB/Simulink R2023b Update 7.**
+
+Najważniejsze wyniki walidacji:
+
+- `Omega = 1 deg/s -> 0.999985491 deg/s`,
+- średnia moc detektora: teoria `59.748616 uW`, Simulink `59.750047 uW`,
+- błąd teoria/symulacja mocy: `0.002395%`,
+- teoretyczny peak przy źródle 1 mW: `90.769514 uW`.
+
+Szczegóły: `docs/VALIDATION_V3.md`.
