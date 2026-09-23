@@ -208,4 +208,11 @@ Po poprawnym uruchomieniu:
 
 ## Status
 
-Implementacja gotowa do lokalnej walidacji w MATLAB/Simulink R2023b.
+**Hotfix gotowy, wymagana ponowna walidacja lokalna.**
+
+Pierwsza próba ujawniła techniczny błąd topologii: po przebudowie portów subsystemu Photoreceiver jego połączenia z Optical Front End i Lock-In DSP były wiszącymi liniami.
+
+Skrypt został poprawiony i ma teraz jawne ponowne łączenie subsystemu oraz test topologii przed symulacją.
+
+Pierwsze wyniki nie są traktowane jako wyniki fizyczne v4. Szczegóły:
+`docs/VALIDATION_V4_ATTEMPT1.md`.
