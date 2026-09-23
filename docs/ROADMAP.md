@@ -120,6 +120,19 @@ Walidacja: RMS szumu teoria/Simulink zgadza się do około 0.005%; photo-shot no
 
 Przed traktowaniem progu detekcji jako specyfikacji należy wykonać rozszerzone Monte Carlo i sweep czasu uśredniania.
 
+## v4.1 — rozszerzona analiza statystyczna
+
+Status: **implementacja gotowa, oczekuje na walidację lokalną**
+
+Cel:
+
+- zwiększyć zero-rate Monte Carlo do 100 realizacji,
+- zbadać `sigma_Omega(Tavg)` dla 1, 2, 5, 10 i 20 ms,
+- sprawdzić skalowanie `1/sqrt(T)`,
+- ustabilizować próg 1-sigma i 3-sigma,
+- powtórzyć detekcję `0.0001 deg/s` dla 50 realizacji,
+- porównać deterministyczny bias przy `Ts=0.20 us` i `0.05 us`.
+
 ## v5 — tor cyfrowy
 
 Dodać:
