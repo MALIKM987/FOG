@@ -194,4 +194,16 @@ Jeśli closed-loop wymaga innego modulatora, open-loop PZT nadal pozostaje warto
 
 ## Status
 
-Implementacja gotowa do lokalnej walidacji.
+**Zweryfikowany w MATLAB/Simulink R2023b Update 7.**
+
+Wynik:
+- 20 deg/s -> 24.449 kHz raw 2pi phase rate,
+- high-Vpi 20 kHz / 50 Vpp fiber PZT fails full-scale reset criterion,
+- low-Vpi 4.5 V / 50 Vpp long-range fiber PZT passes ideal reset model with ~23.37 deg/s range,
+- estimated reset peak current ~0.396 A for 0.18 uF benchmark,
+- 1 MS/s + 32-bit NCO gives rate-word resolution ~1.9e-7 deg/s,
+- nominal baseband PI = 50 Hz, settling ~15.4 ms.
+
+Szczegóły: `docs/VALIDATION_V8.md`.
+
+Następny krok: v8.1 integrated optical closed-loop.
