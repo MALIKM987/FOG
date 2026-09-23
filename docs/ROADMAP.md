@@ -137,7 +137,9 @@ Wynik: sigma przy 20 ms = 1.525e-5 deg/s (0.0549 deg/h), próg 3-sigma = 0.1647 
 
 ## v5 — tor cyfrowy
 
-Dodać:
+Status: **implementacja gotowa, oczekuje na walidację lokalną**
+
+Dodano:
 
 - ADC,
 - sampling,
@@ -145,7 +147,17 @@ Dodać:
 - kwantyzację,
 - skończoną rozdzielczość,
 - cyfrową demodulację synchroniczną,
-- filtrację i decymację.
+- filtrację cyfrową,
+- anti-alias AFE,
+- sample-and-hold,
+- kwantyzację N-bit,
+- cyfrową referencję lock-in,
+- sweep 8-16 bit,
+- sweep 100 kS/s - 2 MS/s,
+- Monte Carlo 12/14/16 bit,
+- porównanie szumu ADC z analogowym limitem v4.1.
+
+Decymacja wyjściowa pozostaje do ewentualnego v5.1 po walidacji podstawowego toru ADC.
 
 ## v6 — SMF, polaryzacja i depolaryzator
 
