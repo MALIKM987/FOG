@@ -243,7 +243,7 @@ Fenomenologiczny residual nadal nie jest parametrem katalogowym.
 
 ## v6.2 — fizyczny model depolaryzatora Lyota pod BOM
 
-Status: **implementacja gotowa, oczekuje na walidację lokalną**
+Status: **zweryfikowany; wygenerowano pierwsze wymagania BOM z symulacji**
 
 Dodano:
 - model widma Gaussa SLD,
@@ -260,9 +260,22 @@ Dodano:
 - automatyczne wymagania zakupowe do BOM-u,
 - opcjonalną ponowną walidację wybranego projektu w FOG_v6.
 
-Pierwszy konserwatywny projekt do sprawdzenia lokalnego: L1=1.7 m, L2=3.4 m, zakup 6 m PM fiber, proces spawu 45 deg z celem +/-0.5 deg.
+Walidacja:
+- dla guard 8 nm minimum bezpiecznego L1 wynosi około 1.05 m,
+- 1.2 m + 2.4 m przechodzi proxy 2.5%,
+- wariant konserwatywny 1.7 m + 3.4 m daje residual proxy ~0.01745,
+- wybrany wariant pozostaje bezpieczny do efektywnego bandwidth około 5 nm,
+- modelowy limit spawu dla proxy 2.5% to około +/-0.7 deg; cel procesu +/-0.5 deg,
+- pełny FOG z tym proxy daje 3.48 sigma dla 0.0001 deg/s.
 
-Od v6.2 każdy etap ma generować również wymagania materiałowe i tolerancje montażowe, nie tylko wynik matematyczny.
+Roboczy BOM depolaryzatora:
+- około 6 m PM1550 PANDA, beat length <=5 mm @1550 nm,
+- sekcje 1.7 m i 3.4 m,
+- spaw osi 45 deg +/-0.5 deg,
+- polarizer ER >=25 dB,
+- przed zakupem źródła należy zmierzyć realne widmo i moc dostępnego SLD.
+
+Od v6.2 każdy etap generuje również wymagania materiałowe, tolerancje i pomiary przedzakupowe, nie tylko wynik matematyczny.
 
 ## v7 — temperatura i dryft
 
