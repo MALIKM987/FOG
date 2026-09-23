@@ -168,4 +168,13 @@ Po tym można przejść do v7, pamiętając, że rzeczywiste przełożenie resid
 
 ## Status
 
-Implementacja gotowa do lokalnej walidacji.
+**Zweryfikowany w MATLAB/Simulink R2023b Update 7.**
+
+Wynik:
+- largest tested residual dla punktowego >=3 sigma: 0.05,
+- interpolowany próg 3 sigma: 0.06143,
+- interpolowany próg 4 sigma: 0.01618,
+- konserwatywny punkt z bootstrap 95% lower bound >3 sigma: 0.025,
+- przy residual=0.05 pol_nr_scale od około 4e-4 zaczyna wyraźnie pogarszać zero-rate noise.
+
+Szczegóły: docs/VALIDATION_V6_1.md.
