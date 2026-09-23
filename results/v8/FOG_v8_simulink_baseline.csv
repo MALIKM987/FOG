@@ -1,0 +1,2 @@
+Omega_input_deg_s,Controller_BW_Hz,Feedback_mean_deg_s,Feedback_STD_deg_s,Residual_mean_deg_s,Residual_STD_deg_s,Phase_slope_mean_rad_s,Ideal_2pi_reset_frequency_Hz
+20,50,20,0,0,0,-153618.544696523,24449.1507390346
