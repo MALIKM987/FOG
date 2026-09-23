@@ -101,7 +101,7 @@ Test obejmuje 20, 50, około 102.095 i 150 kHz. Szczegóły w `docs/VALIDATION_V
 
 ## v4 — szumy fotodetektora i elektroniki
 
-Status: **implementacja gotowa, oczekuje na walidację lokalną**
+Status: **zweryfikowany model szumowy; statystyka Monte Carlo wstępna**
 
 Dodano:
 
@@ -115,6 +115,10 @@ Dodano:
 - kompensację fazy TIA w lock-in,
 - Monte Carlo małych prędkości,
 - estymację progu 1-sigma i 3-sigma dla zadanego okna pomiarowego.
+
+Walidacja: RMS szumu teoria/Simulink zgadza się do około 0.005%; photo-shot noise stanowi około 95.2% wariancji. Wstępny zero-rate sigma = 2.53e-5 deg/s, a próg 3-sigma = 7.60e-5 deg/s dla obecnego 10 ms okna i 12 realizacji Monte Carlo.
+
+Przed traktowaniem progu detekcji jako specyfikacji należy wykonać rozszerzone Monte Carlo i sweep czasu uśredniania.
 
 ## v5 — tor cyfrowy
 
