@@ -395,7 +395,7 @@ Dopiero dane z pierwszego prototypu mają wrócić do modelu i zamknąć finalny
 
 ## v8 — closed-loop feasibility / actuator / DAC BOM
 
-Status: **implementacja gotowa, oczekuje na lokalną walidację**
+Status: **zweryfikowany; pełny optical closed-loop działa w modelu**
 
 Dodano:
 - fizyczne mapowanie Omega -> phase-ramp slope,
@@ -437,6 +437,29 @@ Dodano:
 - Monte Carlo zero vs 0.0001 deg/s z photoreceiver noise i random SMF polarization.
 
 v8.1 jest docelowym modelem prezentacyjnym closed-loop: na top-level widać cały fizyczny FOG i pętlę sprzężenia zwrotnego.
+
+## Gate po v8.1 — przejście do prototypu
+
+Po v8.1 główna architektura symulatora jest kompletna:
+- pełny tor optyczny open-loop,
+- szumy i ADC/DSP,
+- polaryzacja i Lyot,
+- thermal/Shupe,
+- closed-loop feasibility,
+- integrated optical closed-loop.
+
+Dalsze duże modele bez danych z hardware mają malejącą wartość.
+
+Priorytet:
+1. audyt SLD/K1/K2/photodiode z laboratorium,
+2. zakup/organizacja polarizera, PM fiber, SMF i phase shiftera,
+3. pomiar realnego Vpi/phase range/capacitance PZT,
+4. driver ramp/reset test,
+5. pierwszy open-loop POC,
+6. closed-loop test z rzeczywistym reset glitch,
+7. thermal ramp i kalibracja v7/v7.1.
+
+Dalszy rozwój symulatora powinien od tego momentu wykorzystywać zmierzone parametry prototypu.
 
 ## Zasada pracy z repozytorium
 
