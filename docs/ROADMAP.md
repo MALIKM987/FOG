@@ -393,19 +393,33 @@ Po lokalnej walidacji v7.1 priorytet przechodzi z symulacji na prototyp:
 
 Dopiero dane z pierwszego prototypu mają wrócić do modelu i zamknąć finalny former/potting.
 
-## v8 — closed-loop
+## v8 — closed-loop feasibility / actuator / DAC BOM
 
-Status: **wartościowy, ale nie blokuje pierwszego POC**
+Status: **implementacja gotowa, oczekuje na lokalną walidację**
 
-Dodać:
-- sprzężenie zwrotne,
-- fazę kompensującą Sagnaca,
-- regulator,
-- estymację prędkości z sygnału kompensacji,
-- porównanie open-loop vs closed-loop.
+Dodano:
+- fizyczne mapowanie Omega -> phase-ramp slope,
+- 2pi serrodyne/reset requirement,
+- phase-range vs reset-frequency trade-off,
+- reset-bandwidth criterion,
+- porównanie high-Vpi fiber PZT / low-Vpi long-range fiber PZT / fast LiNbO3 class,
+- PZT Vpi-driver sweep,
+- capacitance/reset-current requirement,
+- NCO accumulator resolution,
+- DAC update/quantization requirements,
+- baseband PI sweep 10/30/50/100 Hz,
+- uproszczony FOG_v8.slx closed-loop baseband,
+- closed-loop BOM,
+- acceptance tests.
 
-Decyzja projektowa:
-v8 ma sens po uruchomieniu toru optycznego open-loop i pomiarze realnego PZT/ADC, ponieważ wtedy parametry regulatora i zakres kompensacji będą oparte na rzeczywistym sprzęcie. Nie należy opóźniać zakupów i pierwszego prototypu tylko po to, aby rozbudowywać symulator.
+Kluczowe pytanie v8:
+czy ten sam all-fiber PZT może obsłużyć zarówno 20 kHz dither, jak i pełny closed-loop +/-20 deg/s, czy closed-loop wymaga osobnego szybkiego phase modulatora.
+
+Ważne:
+- v8 nie blokuje pierwszego open-loop POC,
+- closed-loop readout ma opierać się na phase/frequency word,
+- konkretny modulator zostanie zamknięty dopiero po pomiarze Vpi, phase range, reset glitch i driver current,
+- v7.1 oraz v8 są ostatnimi dużymi modelami, które można sensownie rozwijać bez danych z pierwszego prototypu; dalsze etapy powinny przede wszystkim kalibrować model rzeczywistymi pomiarami.
 
 ## Zasada pracy z repozytorium
 
