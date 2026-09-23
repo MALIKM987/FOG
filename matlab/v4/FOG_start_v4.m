@@ -376,7 +376,37 @@ seed_opamp_en = 11005;
 
 photoSub = [mdl '/Photoreceiver'];
 
+% WAŻNE:
+% buildPhotoreceiverV4 usuwa i odtwarza porty subsystemu.
+% Gdyby pozostawic istniejace polaczenia top-level, Simulink
+% zachowalby wiszace segmenty linii po skasowaniu portow.
+% Dlatego najpierw jawnie odpinamy tor sygnalowy, przebudowujemy
+% subsystem i dopiero potem laczymy go ponownie.
+try
+    delete_line(mdl,'Optical Front End/2','Photoreceiver/1');
+catch
+end
+
+try
+    delete_line(mdl,'Photoreceiver/1','Lock-In DSP/1');
+catch
+end
+
 buildPhotoreceiverV4(photoSub);
+
+% Odtworzenie fizycznego toru:
+% Optical Front End -> Photoreceiver -> Lock-In DSP
+add_line( ...
+    mdl, ...
+    'Optical Front End/2', ...
+    'Photoreceiver/1', ...
+    'autorouting','on');
+
+add_line( ...
+    mdl, ...
+    'Photoreceiver/1', ...
+    'Lock-In DSP/1', ...
+    'autorouting','on');
 
 set_param( ...
     photoSub, ...
