@@ -1,0 +1,9 @@
+Item,Status,Minimum_requirement,Preferred_requirement,Why
+Coil former material,PROVISIONAL MATERIAL LOCK,Invar36 class or material with CTE mismatch <=5 ppm/K and validated thermal response,Invar36 benchmark if local machining/cost acceptable,"combined CTE mismatch, scale-factor and Shupe screening"
+Coil thermal enclosure,FABRICATE / VERIFY,effective outer thermal time constant >=60 s in acceptance step/ramp test,removable insulation/enclosure with measured tau >=60 s; target >=120 s if no active compensation,v7 Shupe model requires slowing external transient
+Temperature sensor INNER,BUY / ORGANIZE,"Pt100/Pt1000 Class A or better, 4-wire preferred","Pt100 Class AA, 4-wire, bonded near inner former",mean temperature / inner boundary for scale and gradient estimate
+Temperature sensor OUTER,BUY / ORGANIZE,"Pt100/Pt1000 Class A or better, 4-wire preferred","Pt100 Class AA, 4-wire, bonded near outer coil/enclosure",outer boundary for radial gradient / Shupe estimate
+Temperature readout,BUILD / BUY,2 channels; sample >=1 Hz; filtered noise target <=0.01 C RMS after ~10 s filtering,precision RTD ADC; resolution/noise <=0.01 C after digital LPF,two-sensor compensation is limited by derivative noise
+Winding method,PROCESS REQUIREMENT,symmetric / quadrupolar class; model asymmetry proxy <=2%,true quadrupolar winding process with layer/order record,pure Shupe cancels for symmetric fiber pairs
+Fiber fixing / potting,OPEN - v7.1 STRESS MODEL,low-stress and symmetric; final material/adhesive after stress calibration,minimal-stress fixation; avoid rigid unknown-CTE potting before test,unmodelled thermo-mechanical stress can exceed pure Shupe
+Thermal characterization test,LAB TEST REQUIRED,ambient ramps 1 and 5 C/min with simultaneous inner/outer/gyro logging,thermal chamber or controlled heater + reference thermometer,calibrates simplified thermal model before final BOM
