@@ -88,16 +88,16 @@ Dodatkowo v3 wprowadza hierarchiczny widok fizyczny urządzenia: Optical Source,
 
 ## v3.1 — test zbieżności numerycznej
 
-Status: **implementacja gotowa, oczekuje na walidację lokalną**
+Status: **zweryfikowany**
 
-Cel:
+Cel został osiągnięty:
 
-- potwierdzić źródło małego błędu przy 50-150 kHz,
+- potwierdzono numeryczne źródło małego błędu przy 50-150 kHz,
 - porównać kroki 0.20, 0.10, 0.05 i 0.02 us,
 - zbadać wpływ dyskretyzacji na Transport Delay,
-- wybrać docelowy kompromis dokładność/czas obliczeń.
+- wybrano politykę: FAST 0.20 us dla 20 kHz i Monte Carlo, STANDARD 0.05 us dla sweepów do 150 kHz, REFERENCE 0.02 us dla walidacji.
 
-Test obejmuje 20, 50, około 102.095 i 150 kHz.
+Test obejmuje 20, 50, około 102.095 i 150 kHz. Szczegóły w `docs/VALIDATION_V3_1.md` i `docs/NUMERICAL_POLICY.md`.
 
 ## v4 — szumy fotodetektora i elektroniki
 
