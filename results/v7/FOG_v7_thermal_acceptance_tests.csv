@@ -3,8 +3,8 @@ Former CTE / material certificate,supplier datasheet/certificate + dimension mea
 Empty former thermal lag,"ambient step/ramp, inner/outer reference sensors",effective outer tau >=60 s target
 Wound coil inner-outer lag,same test after winding 1 km SMF,model updated with measured tau_inner/tau_outer
 1 C/min Shupe test,controlled ramp with gyro at zero rate,thermal error <=0.120 deg/h after compensation target
-5 C/min stress test,"controlled fast ramp, compensation enabled/disabled","no saturation; residual characterized, not necessarily PASS before calibration"
-RTD absolute check,ice point or calibrated reference thermometer,Class A minimum; AA preferred
-RTD noise check,constant-temperature logging after filtering,<=0.01 C RMS after chosen digital filter
+5 C/min stress test,"controlled fast ramp, compensation enabled/disabled",with 2% asymmetry active compensation required; target P95 residual <=0.120 deg/h; also record uncompensated response
+RTD absolute check,ice point or calibrated reference thermometer,Class A design minimum; AA preferred; Class B passes uniform-scale model but has less margin
+RTD noise check,constant-temperature logging after filtering,<=0.01 C RMS minimum after chosen digital filter; <=0.005 C preferred
 Compensation replay,offline apply v7 compensation to recorded temperatures,P95 residual <=0.120 deg/h target
 Scale factor vs temperature,known rotation or equivalent calibrated phase over temperature,temperature coefficient measured and used in calibration
