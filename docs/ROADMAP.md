@@ -277,6 +277,34 @@ Roboczy BOM depolaryzatora:
 
 Od v6.2 każdy etap generuje również wymagania materiałowe, tolerancje i pomiary przedzakupowe, nie tylko wynik matematyczny.
 
+## v6.3 — optical BOM lock
+
+Status: **implementacja gotowa, oczekuje na lokalną walidację**
+
+Cel:
+
+- zamknąć wymagania materiałowe części optycznej,
+- rozdzielić elementy LAB VERIFY / BUY / FABRICATE / CONDITIONAL,
+- policzyć wymagany zakres fazy PZT i wymagania drivera,
+- ustalić dopuszczalną moc źródła i ewentualne tłumienie,
+- zablokować klasę sprzęgaczy K1/K2,
+- zablokować ER/IL polaryzatora,
+- zaprojektować geometrię 1 km cewki SMF,
+- wygenerować laboratoryjny plan testów odbiorczych,
+- wygenerować finalny roboczy procurement CSV.
+
+Robocze założenia po v6.2:
+- Lyot: 1.7 m + 3.4 m PM1550, około 6 m do zakupu,
+- PM beat length <=5 mm @1550 nm,
+- spaw 45 deg +/-0.5 deg,
+- polarizer minimum 25 dB ER, preferowane >=30 dB,
+- source target 0.8-1.0 mW at K1,
+- PZT: beta=1.84 @20 kHz, phi0≈3.04 rad, preferowane Vpi<=20 V,
+- driver: preferowane >=50 Vpp i >=30 kHz,
+- coil: 1000 m G.652.D/SMF-28 class, geometria ok. 160 mm średnicy efektywnej.
+
+Od tego etapu element dostępny w laboratorium nie jest automatycznie zaakceptowany. Musi przejść test odbiorczy z FOG_v6_3_lab_acceptance_tests.csv.
+
 ## v7 — temperatura i dryft
 
 Dodać:
