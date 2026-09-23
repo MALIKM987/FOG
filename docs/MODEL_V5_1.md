@@ -132,4 +132,14 @@ Powód: najpierw ustalamy poprawną konfigurację ADC + AAF + cyfrowego lock-in.
 
 ## Status
 
-Implementacja gotowa do lokalnej walidacji.
+**Hotfix gotowy, walidacja częściowa.**
+
+v5.1A zakończyło się poprawnie. v5.1B zostało przerwane przez niezgodność sample-time offset z fixed-step solverem.
+
+Poprawka:
+- sweep fazy zegara zmieniono z kroku 0.125 Ts na 0.1 Ts,
+- wszystkie offsety dla 500 kS/s, 1 MS/s i 2 MS/s są teraz wielokrotnościami 50 ns,
+- dodano test zgodności offsetu z krokiem solvera,
+- dodano resume: istniejące wyniki v5.1A są wczytywane z CSV i nie są liczone ponownie.
+
+Szczegóły: `docs/VALIDATION_V5_1_ATTEMPT1.md`.
