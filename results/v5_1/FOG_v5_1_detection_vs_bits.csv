@@ -1,0 +1,4 @@
+ADC_bits,fs_MSps,Zero_mean_deg_s,Zero_sigma_deg_s,Zero_sigma_deg_h,Zero_3sigma_deg_h,Signal_mean_deg_s,Signal_sigma_deg_s,Signal_bias_deg_s,Signal_RMSE_deg_s,Rate_SNR,Zero_signal_separation_sigma
+12,1,1.0836e-06,2.3244e-05,0.083679,0.25104,7.3913e-05,2.2994e-05,-2.6087e-05,3.452e-05,4.3489,3.1501
+14,1,2.033e-06,1.9394e-05,0.069818,0.20946,9.0145e-05,2.3624e-05,-9.8549e-06,2.5231e-05,4.233,4.0769
+16,1,1.6411e-06,2.7277e-05,0.098198,0.29459,0.00010492,1.594e-05,4.9172e-06,1.6425e-05,6.2737,4.623
