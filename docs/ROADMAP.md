@@ -23,48 +23,45 @@ Zakres:
 - korekcja `asin`,
 - automatyczne testy od -20 do +20 deg/s.
 
-Najważniejszy wynik: estymacja liniowa traci dokładność dla większych prędkości, natomiast korekcja `asin` odtwarza wejście z małym błędem numerycznym.
-
 ## v2 — fizyczny PZT i opóźnienie CW/CCW
 
-Status: **implementacja gotowa, oczekuje na walidację lokalną**
+Status: **zweryfikowany rdzeń fizyczny**
 
-Cel: usunąć największe uproszczenie v1.
+Modeluje:
 
-Zamiast zadawać bezpośrednio gotową różnicową modulację
+- `phi_m(t)`,
+- opóźnienie `tau`,
+- `phi_m(t-tau)`,
+- `Delta_phi_m(t)`,
+- zależność `beta = 2 phi0 |sin(pi f_m tau)|`,
+- sweep 5-150 kHz,
+- wymaganą amplitudę PZT dla zadanego beta,
+- wpływ `J1(beta)` na demodulację.
 
-`Delta_phi_m(t) = beta sin(2 pi f_m t)`
+Walidacja punktu bazowego 20 kHz wykazała względny błąd beta około `-0.0059%`.
 
-modelujemy rzeczywistą modulację jednego przejścia
-
-`phi_m(t) = phi_0 sin(2 pi f_m t)`
-
-oraz różnicę widzianą przez fale przeciwbieżne
-
-`Delta_phi_m(t) = phi_m(t) - phi_m(t - tau)`.
-
-Zakres badań:
-
-- zależność skuteczności modulacji od `f_m`,
-- walidacja `beta = 2 phi_0 |sin(pi f_m tau)|`,
-- testy dla 5, 10, 20, 50, `f_opt` około 102 kHz i 150 kHz,
-- porównanie z częstotliwością `f_opt = 1/(2 tau)`,
-- wyznaczenie wymaganej `phi_0` dla utrzymania `beta = 1.84 rad`,
-- rozdzielenie maksymalnej skuteczności opóźnienia od czułości pierwszej harmonicznej `J1(beta)`.
+Uwaga: punkt 5 kHz ujawnił ograniczenie aktualnego filtru lock-in i krótkiego okna uśredniania. Nie podważa to modelu opóźnienia, ale należy je poprawić przed badaniem niskich częstotliwości modulacji.
 
 ## v3 — bilans mocy i straty optyczne
 
+Status: **następny etap**
+
 Dodać:
 
-- dwa sprzęgacze 2x2,
-- nierówny podział mocy,
+- źródło o jawnie zadanej mocy,
+- sprzęgacz wejściowy K1,
+- sprzęgacz pętli K2,
+- rzeczywiste współczynniki podziału,
 - insertion loss,
-- attenuation cewki,
-- straty spawów i złączy,
-- visibility interferencji,
-- parametry źródła.
+- tłumienie cewki w dB/km,
+- straty spawów,
+- straty złączy,
+- polaryzator/depolaryzator jako pozycje stratne,
+- modulator jako element stratny,
+- bilans mocy na fotodiodzie,
+- margines względem nasycenia i minimalnej mocy odbiornika.
 
-Wynik: rzeczywisty poziom mocy na fotodiodzie i margines dynamiczny.
+Wynik: model ma liczyć moc w każdym punkcie toru i porównać ją z poziomem na fotodiodzie.
 
 ## v4 — szumy fotodetektora i elektroniki
 
@@ -76,8 +73,6 @@ Dodać:
 - szum TIA,
 - ograniczone pasmo odbiornika,
 - SNR.
-
-Wynik: rozdzielczość i szum wskazania.
 
 ## v5 — tor cyfrowy
 
@@ -93,15 +88,13 @@ Dodać:
 
 ## v6 — SMF, polaryzacja i depolaryzator
 
-Dodać model:
+Dodać:
 
-- zwykłego włókna jednomodowego,
-- zmian stanu polaryzacji,
-- polaryzatora,
-- depolaryzatora Lyota,
-- kontrastu interferencji zależnego od polaryzacji.
-
-To jest kluczowe dla oceny wariantu prototypu opartego na tanim włóknie SMF.
+- zwykłe włókno jednomodowe,
+- zmianę stanu polaryzacji,
+- polaryzator,
+- depolaryzator Lyota,
+- kontrast interferencji zależny od polaryzacji.
 
 ## v7 — temperatura i dryft
 
@@ -135,4 +128,4 @@ Dla każdej wersji zachowujemy:
 5. wykresy i raport walidacyjny,
 6. informację, jakie zjawisko dodano względem poprzedniej wersji.
 
-Pliki `.slx` mogą być generowane ze skryptu, aby kod źródłowy pozostawał podstawowym źródłem prawdy.
+Pliki `.slx` są generowane ze skryptu. Kod źródłowy pozostaje podstawowym źródłem prawdy.
