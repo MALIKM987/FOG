@@ -356,29 +356,56 @@ Walidacja:
 
 Ważne: Invar36 pozostaje provisional, ponieważ v7 nie obejmuje pełnego thermo-mechanical stress effect.
 
-## v7.1 — thermo-mechanical stress / winding / potting
+## v7.1 — thermo-mechanical stress / winding / potting gate
 
-Status: **następny zalecany etap**
+Status: **implementacja gotowa, oczekuje na lokalną walidację**
 
-Dodać:
-- Mohr/T-dot thermo-mechanical stress contribution,
-- porównanie Invar36 vs aluminium po uwzględnieniu stress transfer,
-- winding tension sweep,
-- coating / adhesive / potting stiffness and CTE,
-- sposób mocowania włókna,
-- finalny wybór formera,
-- wymagania kleju/pottingu lub decyzję o konstrukcji bez pełnego zalania,
-- BOM i acceptance tests dla procesu nawijania.
+Dodano:
+- jawny Mohr/T-dot stress term oddzielony od pure Shupe,
+- effective strain-transfer sweep zamiast arbitralnego wyboru kleju,
+- paired stress mismatch sweep,
+- wymagany max strain transfer dla każdego formera,
+- Invar fixation scenarios,
+- bonded-environment CTE sweep,
+- winding tension 5-20 g z przeliczeniem na stress/microstrain,
+- procesowy target 5-10 g i dynamic variation <=+/-0.5 g,
+- bezpośredni acceptance coefficient K_Tdot,
+- thermo-mechanical BOM,
+- potting decision gate.
+
+Budżet projektowy:
+- total thermal = 0.12 deg/h,
+- stress sub-budget = 0.06 deg/h,
+- acceptance at 5 C/min: |K_Tdot| <=0.012 deg/h/(C/min).
+
+Ważne:
+- strain_transfer jest parametrem efektywnym i musi zostać skalibrowany,
+- v7.1 celowo nie zamyka konkretnego kleju przed pomiarem,
+- po v7.1 dalsze modele termo-mechaniczne bez danych z prototypu mają malejącą wartość.
+
+### Gate po v7.1
+
+Po lokalnej walidacji v7.1 priorytet przechodzi z symulacji na prototyp:
+- audyt lab source/K1/K2/photodiode,
+- zakup PZT, polarizer, PM fiber, SMF,
+- wykonanie Lyota i cewki,
+- thermal-ramp calibration.
+
+Dopiero dane z pierwszego prototypu mają wrócić do modelu i zamknąć finalny former/potting.
 
 ## v8 — closed-loop
 
-Dodać:
+Status: **wartościowy, ale nie blokuje pierwszego POC**
 
+Dodać:
 - sprzężenie zwrotne,
 - fazę kompensującą Sagnaca,
 - regulator,
 - estymację prędkości z sygnału kompensacji,
 - porównanie open-loop vs closed-loop.
+
+Decyzja projektowa:
+v8 ma sens po uruchomieniu toru optycznego open-loop i pomiarze realnego PZT/ADC, ponieważ wtedy parametry regulatora i zakres kompensacji będą oparte na rzeczywistym sprzęcie. Nie należy opóźniać zakupów i pierwszego prototypu tylko po to, aby rozbudowywać symulator.
 
 ## Zasada pracy z repozytorium
 
