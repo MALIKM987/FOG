@@ -40,7 +40,26 @@ Modeluje:
 
 Walidacja punktu bazowego 20 kHz wykazała względny błąd beta około `-0.0059%`.
 
-Uwaga: punkt 5 kHz ujawnił ograniczenie aktualnego filtru lock-in i krótkiego okna uśredniania. Nie podważa to modelu opóźnienia, ale należy je poprawić przed badaniem niskich częstotliwości modulacji.
+Uwaga: punkt 5 kHz ujawnił ograniczenie filtru lock-in i krótkiego okna uśredniania. Zostało to poprawione i zweryfikowane w v2.1.
+
+## v2.1 — poprawiony lock-in
+
+Status: **zweryfikowany**
+
+Zmiany:
+
+- Butterworth 4. rzędu zamiast LPF 1. rzędu,
+- wydłużenie symulacji do 50 ms,
+- estymacja z ostatnich 10 ms,
+- pomiar STD Omega i STD wyjścia lock-in.
+
+Wynik testu 5 kHz:
+
+- v2: błąd około +0.075665 deg/s,
+- v2.1: błąd około -1.816e-6 deg/s,
+- redukcja bezwzględnego błędu około 99.9976%.
+
+Pozostały mały błąd średniej przy 50-150 kHz wymaga osobnego testu zbieżności numerycznej solvera i Transport Delay, ale nie blokuje przejścia do modelu strat optycznych.
 
 ## v3 — bilans mocy i straty optyczne
 
