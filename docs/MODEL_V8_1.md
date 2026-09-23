@@ -158,4 +158,13 @@ v8.1 można zamknąć, jeśli:
 
 ## Status
 
-Implementacja gotowa do lokalnej walidacji.
+**Zweryfikowany w MATLAB/Simulink R2023b Update 7.**
+
+Najważniejsze wyniki:
+- 50 Hz integrated PI: 14.1 ms settling przy 1 i 20 deg/s,
+- feedback error około -8.1e-5 deg/s przy 1/20 deg/s,
+- residual mean około 1-2e-6 deg/s,
+- small-signal 0.0001 deg/s: 6.42 sigma separation przy 20 ms averaging,
+- selected low-Vpi PZT bridge zachowuje reset gate: 4.89 kHz reset @20 deg/s, 17.11 kHz required BW.
+
+Szczegóły: `docs/VALIDATION_V8_1.md`.
