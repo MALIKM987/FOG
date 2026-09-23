@@ -137,7 +137,7 @@ Wynik: sigma przy 20 ms = 1.525e-5 deg/s (0.0549 deg/h), próg 3-sigma = 0.1647 
 
 ## v5 — tor cyfrowy
 
-Status: **implementacja gotowa, oczekuje na walidację lokalną**
+Status: **rdzeń zweryfikowany; optymalizacja ADC wymaga v5.1**
 
 Dodano:
 
@@ -157,7 +157,15 @@ Dodano:
 - Monte Carlo 12/14/16 bit,
 - porównanie szumu ADC z analogowym limitem v4.1.
 
-Decymacja wyjściowa pozostaje do ewentualnego v5.1 po walidacji podstawowego toru ADC.
+Walidacja v5:
+- 14 bit: sigma około 1.16x analogowego v4.1,
+- 16 bit: sigma około 1.07x analogowego v4.1 w bieżącym Monte Carlo,
+- 12 bit: około 1.73x,
+- 1 MS/s daje 50 próbek/okres i około -50 dB tłumienia TIA+AAF przy Nyquiście,
+- 100 kS/s jest nieakceptowalne,
+- 2 MS/s ujawniło niemonotoniczny bias do dalszego badania.
+
+v5.1 powinno zbadać dither/koherentną kwantyzację, fazę zegara, fs pod szumem i dobór AAF. Decymacja wyjściowa pozostaje częścią tej optymalizacji.
 
 ## v6 — SMF, polaryzacja i depolaryzator
 
