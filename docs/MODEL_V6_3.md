@@ -207,4 +207,21 @@ Elementy laboratoryjne nie mogą zostać oznaczone PASS bez pomiaru rzeczywistej
 
 ## Status
 
-Implementacja gotowa do lokalnej walidacji.
+**Zweryfikowany w MATLAB/Simulink R2023b Update 7.**
+
+Najważniejsze wyniki:
+- PZT: phi0 = 3.0375 rad, phase p-p = 1.9337 pi,
+- dla Vpi=20 V wymagane około 38.7 Vpp,
+- driver 50 Vpp daje około 1.29x marginesu napięciowego,
+- target source = 0.8-1.0 mW na K1; powyżej około 1.10 mW potrzebne ograniczenie mocy,
+- 45/55 coupler daje tylko około 0.044 dB kary,
+- polarizer minimum 25 dB ER, preferowane >=30 dB,
+- geometria 1 km SMF: 18 warstw, około 1997 zwojów, efektywna średnica około 159.395 mm,
+- procurement i acceptance-test plan zostały wygenerowane.
+
+Ważne:
+- konkretnego PZT drivera nie wybieramy przed poznaniem capacitance / load phase shiftera,
+- materiał coil former pozostaje do v7,
+- źródło, K1/K2 i photodiode z laboratorium muszą przejść test odbiorczy.
+
+Szczegóły: `docs/VALIDATION_V6_3.md`.
