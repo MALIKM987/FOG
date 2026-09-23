@@ -6,7 +6,7 @@ Model rozwijamy warstwowo. Każda wersja dodaje jedno istotne zjawisko fizyczne 
 
 ## v1 — model deterministyczny
 
-Status: **działa**
+Status: **zweryfikowany**
 
 Zakres:
 
@@ -27,6 +27,8 @@ Najważniejszy wynik: estymacja liniowa traci dokładność dla większych pręd
 
 ## v2 — fizyczny PZT i opóźnienie CW/CCW
 
+Status: **implementacja gotowa, oczekuje na walidację lokalną**
+
 Cel: usunąć największe uproszczenie v1.
 
 Zamiast zadawać bezpośrednio gotową różnicową modulację
@@ -45,9 +47,10 @@ Zakres badań:
 
 - zależność skuteczności modulacji od `f_m`,
 - walidacja `beta = 2 phi_0 |sin(pi f_m tau)|`,
-- testy dla 5, 10, 20, 50, 102 i 150 kHz,
+- testy dla 5, 10, 20, 50, `f_opt` około 102 kHz i 150 kHz,
 - porównanie z częstotliwością `f_opt = 1/(2 tau)`,
-- wpływ parametrów cewki na `tau` i `f_opt`.
+- wyznaczenie wymaganej `phi_0` dla utrzymania `beta = 1.84 rad`,
+- rozdzielenie maksymalnej skuteczności opóźnienia od czułości pierwszej harmonicznej `J1(beta)`.
 
 ## v3 — bilans mocy i straty optyczne
 
