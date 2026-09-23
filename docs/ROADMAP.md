@@ -190,13 +190,25 @@ Decymacja i paired Monte Carlo pozostają zadaniami optymalizacyjnymi, ale nie b
 
 ## v6 — SMF, polaryzacja i depolaryzator
 
-Dodać:
+Status: **implementacja gotowa, oczekuje na walidację lokalną**
 
-- zwykłe włókno jednomodowe,
-- zmianę stanu polaryzacji,
-- polaryzator,
-- depolaryzator Lyota,
-- kontrast interferencji zależny od polaryzacji.
+Dodano:
+
+- 1 km zwykłego włókna jednomodowego jako cewkę nie-PM,
+- Jones-equivalent model względnego stanu CW/CCW,
+- dynamiczne parametry theta i delta,
+- skończony extinction ratio polaryzatora,
+- efektywną widzialność zależną od polaryzacji,
+- polarization phase bias,
+- fenomenologiczny parametr skuteczności depolaryzatora,
+- sweep depol_residual 1.0 -> 0,
+- Monte Carlo losowych stanów SMF,
+- ponowny test detekcji 0.0001 deg/s,
+- logowanie V_pol(t) i phi_pol(t).
+
+Roboczy tor cyfrowy v6 używa 16 bit / 1 MS/s / AAF 100 kHz.
+
+Ważne: v6 jest modelem wrażliwościowym. `depol_residual` i `pol_nr_scale` nie są jeszcze parametrami konkretnego elementu BOM i wymagają późniejszej kalibracji eksperymentalnej.
 
 ## v7 — temperatura i dryft
 
