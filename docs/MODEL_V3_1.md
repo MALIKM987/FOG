@@ -64,4 +64,19 @@ Nie zakładamy z góry, że najmniejszy krok będzie krokiem docelowym. Po walid
 
 ## Status
 
-Implementacja gotowa do uruchomienia lokalnego.
+**Zweryfikowany w MATLAB/Simulink R2023b Update 7.**
+
+Test potwierdził numeryczne źródło błędu wysokich częstotliwości.
+
+Zmniejszenie kroku solvera z 0.20 us do 0.02 us zredukowało błąd Omega:
+
+- 20 kHz: 6.70x,
+- 50 kHz: 43.14x,
+- 102.095 kHz: 50.83x,
+- 150 kHz: 46.88x.
+
+Dla standardowych sweepów przyjęto `Ts = 0.05 us`. Dla szybkich testów 20 kHz można używać `0.20 us`, a `0.02 us` pozostaje trybem referencyjnym.
+
+Szczegóły:
+- `docs/VALIDATION_V3_1.md`
+- `docs/NUMERICAL_POLICY.md`.
