@@ -190,7 +190,7 @@ Decymacja i paired Monte Carlo pozostają zadaniami optymalizacyjnymi, ale nie b
 
 ## v6 — SMF, polaryzacja i depolaryzator
 
-Status: **implementacja gotowa, oczekuje na walidację lokalną**
+Status: **zweryfikowany model wrażliwościowy; nominalne r=0.1 nie spełnia celu 3-sigma**
 
 Dodano:
 
@@ -209,6 +209,25 @@ Dodano:
 Roboczy tor cyfrowy v6 używa 16 bit / 1 MS/s / AAF 100 kHz.
 
 Ważne: v6 jest modelem wrażliwościowym. `depol_residual` i `pol_nr_scale` nie są jeszcze parametrami konkretnego elementu BOM i wymagają późniejszej kalibracji eksperymentalnej.
+
+Walidacja:
+- bez tłumienia wpływu polaryzacji zero-rate sigma ≈ 0.862 deg/h,
+- residual 0.1 -> ≈ 0.146 deg/h w Monte Carlo losowych stanów,
+- residual 0.05 -> ≈ 0.0865 deg/h,
+- detection dla 0.0001 deg/s przy residual 0.1 daje tylko ≈ 2.42 sigma.
+
+Wniosek: standardowe SMF pozostaje możliwe, ale wymagana skuteczniejsza kontrola/depolaryzacja niż nominalne r=0.1 w obecnym modelu.
+
+## v6.1 — próg wymaganej kontroli polaryzacji
+
+Status: **następny zalecany etap**
+
+Dodać:
+- detection sweep residual 0.10 -> 0,
+- paired Monte Carlo z tymi samymi stanami SMF,
+- sweep pol_nr_scale,
+- graniczny residual dla 3-sigma i 4-sigma,
+- wymagania eksperymentalne dla depolaryzatora/polaryzatora przed BOM-em.
 
 ## v7 — temperatura i dryft
 
