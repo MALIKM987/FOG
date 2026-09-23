@@ -317,16 +317,34 @@ Procurement hotfix: lista obejmuje teraz także CONDITIONAL BUY, BUILD / VERIFY,
 
 Przed v7 priorytetem operacyjnym jest audyt laboratoryjnego źródła, sprzęgaczy i fotodiody. Materiał coil former zostaje celowo otwarty do modelu termicznego.
 
-## v7 — temperatura i dryft
+## v7 — temperatura, Shupe i thermal BOM
 
-Dodać:
+Status: **implementacja gotowa, oczekuje na lokalną walidację**
 
-- zmianę współczynnika załamania,
-- rozszerzalność cewki,
-- asymetrię termiczną,
-- dryft wskazania,
-- zapis temperatury,
-- model kompensacji.
+Dodano:
+- uniform-temperature scale-factor model,
+- zmiany D(T), L(T), ng(T), tau(T) i beta(T),
+- pure Shupe model po rzeczywistych 18 warstwach cewki v6.3,
+- porównanie sequential winding i symmetric/QAD proxy,
+- sweep ramp 1 / 5 C/min,
+- sweep thermal enclosure tau = 15 / 30 / 60 / 120 s,
+- screening formera: Al6061, Invar36, G10-FR4, POM-C i fused-silica benchmark,
+- CTE-mismatch stress-risk proxy,
+- Pt100 AA/A/B requirement check,
+- dwuczujnikową kompensację inner/outer,
+- sensor noise/sample-rate Monte Carlo,
+- thermal BOM,
+- thermal acceptance-test plan.
+
+Jawne kryteria robocze:
+- thermal error budget = 0.12 deg/h,
+- winding asymmetry proxy = 2%,
+- CTE mismatch proxy <=5 ppm/K,
+- minimum Pt100 Class A, preferred AA,
+- thermal enclosure target tau_outer >=60 s,
+- sensor readout noise target <=0.01 C RMS po filtracji.
+
+Ważne: v7 obejmuje pure Shupe i uproszczony radialny transient. Pełny Mohr/T-dot thermo-mechanical stress effect, potting i klej pozostają do v7.1 po kalibracji pierwszej konstrukcji.
 
 ## v8 — closed-loop
 
