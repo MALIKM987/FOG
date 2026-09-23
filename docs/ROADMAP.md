@@ -63,7 +63,7 @@ Pozostały mały błąd średniej przy 50-150 kHz wymaga osobnego testu zbieżno
 
 ## v3 — bilans mocy i straty optyczne
 
-Status: **implementacja gotowa, oczekuje na walidację lokalną**
+Status: **zweryfikowany**
 
 Dodać:
 
@@ -81,6 +81,8 @@ Dodać:
 - margines względem nasycenia i minimalnej mocy odbiornika.
 
 Wynik: model liczy moc w każdym punkcie toru, porównuje analityczny i symulowany poziom na fotodiodzie oraz generuje sweep mocy źródła.
+
+Walidacja dla źródła 1 mW: średnia moc teoria 59.748616 uW, Simulink 59.750047 uW, błąd 0.002395%; peak 90.7695 uW.
 
 Dodatkowo v3 wprowadza hierarchiczny widok fizyczny urządzenia: Optical Source, Optical Front End, Sagnac Interferometer, Photoreceiver i Lock-In DSP. Szczegółowe równania są ukryte wewnątrz podsystemów.
 
