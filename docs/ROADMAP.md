@@ -169,7 +169,7 @@ v5.1 powinno zbadać dither/koherentną kwantyzację, fazę zegara, fs pod szume
 
 ## v5.1 — optymalizacja ADC / zegara / AAF
 
-Status: **implementacja gotowa, oczekuje na walidację lokalną**
+Status: **zweryfikowany**
 
 Cel:
 
@@ -179,7 +179,14 @@ Cel:
 - sweep AAF 80/100/150 kHz,
 - określenie minimalnych praktycznych parametrów ADC przed doborem BOM-u.
 
-Decymacja pozostaje następnym krokiem po ustaleniu konfiguracji ADC.
+Wynik roboczy:
+- minimum 14 bit, preferowane 16 bit,
+- nominalnie 1 MS/s,
+- AAF 100 kHz jako roboczy kandydat,
+- 500 kS/s pozostaje możliwym wariantem optymalizacyjnym,
+- 2 MS/s ma otwarty deterministyczny bias i nie daje obecnie wystarczającej korzyści.
+
+Decymacja i paired Monte Carlo pozostają zadaniami optymalizacyjnymi, ale nie blokują przejścia do v6.
 
 ## v6 — SMF, polaryzacja i depolaryzator
 
