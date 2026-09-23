@@ -195,4 +195,15 @@ Ta zasada zostaje przyjęta dla v7 i dalszych wersji.
 
 ## Status
 
-Implementacja gotowa do lokalnej walidacji.
+**Zweryfikowany w MATLAB/Simulink R2023b Update 7.**
+
+Najważniejsze wyniki:
+- 8 nm guard: minimum około L1=1.05 m, L2=2.10 m dla proxy 2.5%,
+- wariant 1.2 m + 2.4 m już przechodzi bezpieczny próg przy 8 nm,
+- wybrany wariant 1.7 m + 3.4 m daje residual proxy około 0.01745,
+- minimalna efektywna szerokość widma dla wybranego wariantu wynosi około 5 nm,
+- modelowy limit błędu spawu dla progu 2.5% wynosi około +/-0.7 deg,
+- pełny FOG z fizycznym proxy daje około 3.48 sigma dla 0.0001 deg/s.
+
+Wymagania BOM i interpretacja:
+`docs/VALIDATION_V6_2.md`.
