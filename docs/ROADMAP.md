@@ -167,6 +167,20 @@ Walidacja v5:
 
 v5.1 powinno zbadać dither/koherentną kwantyzację, fazę zegara, fs pod szumem i dobór AAF. Decymacja wyjściowa pozostaje częścią tej optymalizacji.
 
+## v5.1 — optymalizacja ADC / zegara / AAF
+
+Status: **implementacja gotowa, oczekuje na walidację lokalną**
+
+Cel:
+
+- Monte Carlo detekcji `0.0001 deg/s` dla 12/14/16 bit,
+- sweep fazy zegara ADC względem modulacji,
+- Monte Carlo dla 500 kS/s, 1 MS/s i 2 MS/s,
+- sweep AAF 80/100/150 kHz,
+- określenie minimalnych praktycznych parametrów ADC przed doborem BOM-u.
+
+Decymacja pozostaje następnym krokiem po ustaleniu konfiguracji ADC.
+
 ## v6 — SMF, polaryzacja i depolaryzator
 
 Dodać:
