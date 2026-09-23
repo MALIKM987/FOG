@@ -191,4 +191,16 @@ To będzie v7.1 po pomiarze i kalibracji pierwszej konstrukcji.
 
 ## Status
 
-Implementacja gotowa do lokalnej walidacji.
+**Zweryfikowany w MATLAB/Simulink R2023b Update 7.**
+
+Wynik:
+- provisional former: Invar36,
+- scale temperature coefficient: około 1.859 ppm/K,
+- QAD2% Shupe @1 C/min, tau60: około 0.0564 deg/h,
+- przy 5 C/min i 2% asymetrii nawet tau120 nie przechodzi bez kompensacji,
+- two-sensor compensation przechodzi dla <=0.01 C RMS po filtracji,
+- <=0.005 C RMS jest preferowanym celem,
+- Pt100 Class B przechodzi sam uniform-scale model, ale Class A pozostaje minimum projektowym,
+- potting / thermo-mechanical stress pozostaje do v7.1.
+
+Szczegóły: `docs/VALIDATION_V7.md`.
