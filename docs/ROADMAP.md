@@ -86,6 +86,19 @@ Walidacja dla źródła 1 mW: średnia moc teoria 59.748616 uW, Simulink 59.7500
 
 Dodatkowo v3 wprowadza hierarchiczny widok fizyczny urządzenia: Optical Source, Optical Front End, Sagnac Interferometer, Photoreceiver i Lock-In DSP. Szczegółowe równania są ukryte wewnątrz podsystemów.
 
+## v3.1 — test zbieżności numerycznej
+
+Status: **implementacja gotowa, oczekuje na walidację lokalną**
+
+Cel:
+
+- potwierdzić źródło małego błędu przy 50-150 kHz,
+- porównać kroki 0.20, 0.10, 0.05 i 0.02 us,
+- zbadać wpływ dyskretyzacji na Transport Delay,
+- wybrać docelowy kompromis dokładność/czas obliczeń.
+
+Test obejmuje 20, 50, około 102.095 i 150 kHz.
+
 ## v4 — szumy fotodetektora i elektroniki
 
 Dodać:
