@@ -323,136 +323,174 @@ disp("==============================================")
 disp(" v5.1A - DETECTION VS ADC BITS")
 disp("==============================================")
 
-bitsDetect = [12 14 16]';
-Nb = numel(bitsDetect);
+detectionFile = 'FOG_v5_1_detection_vs_bits.csv';
 
-Nclass = 30;
-Omega_signal = 1e-4;
+% Resume:
+% Jesli poprawny wynik v5.1A juz istnieje, nie powtarzamy 180
+% kosztownych symulacji po hotfixie kolejnych etapow.
+if isfile(detectionFile)
 
-zeroMean = zeros(Nb,1);
-zeroSigma = zeros(Nb,1);
+    disp("Znaleziono istniejacy FOG_v5_1_detection_vs_bits.csv")
+    disp("Pomijam ponowne v5.1A i wczytuje zapisane wyniki.")
 
-signalMean = zeros(Nb,1);
-signalSigma = zeros(Nb,1);
+    detectResults = readtable(detectionFile);
 
-signalBias = zeros(Nb,1);
-signalRMSE = zeros(Nb,1);
+    bitsDetect = detectResults.ADC_bits;
+    Nb = numel(bitsDetect);
 
-rateSNR = zeros(Nb,1);
-classSeparation = zeros(Nb,1);
-threshold3_deg_h = zeros(Nb,1);
+    zeroMean = detectResults.Zero_mean_deg_s;
+    zeroSigma = detectResults.Zero_sigma_deg_s;
 
-for kb = 1:Nb
+    signalMean = detectResults.Signal_mean_deg_s;
+    signalSigma = detectResults.Signal_sigma_deg_s;
 
-    adc_bits = bitsDetect(kb);
-    fs_adc = 1e6;
-    f_aa_Hz = 150e3;
-    adc_sample_offset_s = 0;
+    signalBias = detectResults.Signal_bias_deg_s;
+    signalRMSE = detectResults.Signal_RMSE_deg_s;
 
-    updateConfiguration();
+    rateSNR = detectResults.Rate_SNR;
+    classSeparation = ...
+        detectResults.Zero_signal_separation_sigma;
 
-    vals0 = zeros(Nclass,1);
-    vals1 = zeros(Nclass,1);
+    threshold3_deg_h = ...
+        detectResults.Zero_3sigma_deg_h;
 
-    fprintf("\nADC %d bit, ZERO: ",adc_bits)
+    Omega_signal = 1e-4;
 
-    Omega_deg_s = 0;
-    noise_enable = 1;
+    disp(detectResults)
 
-    for irun = 1:Nclass
+else
 
-        setSeeds( ...
-            1000000 + 10000*kb + 10*irun);
+    bitsDetect = [12 14 16]';
+    Nb = numel(bitsDetect);
 
-        out = sim(mdl);
-        omega_ts = out.get('omega_est_ts');
+    Nclass = 30;
+    Omega_signal = 1e-4;
 
-        idx = omega_ts.Time >= Tmean_mc;
-        vals0(irun) = mean(omega_ts.Data(idx));
+    zeroMean = zeros(Nb,1);
+    zeroSigma = zeros(Nb,1);
 
-        fprintf(".")
+    signalMean = zeros(Nb,1);
+    signalSigma = zeros(Nb,1);
+
+    signalBias = zeros(Nb,1);
+    signalRMSE = zeros(Nb,1);
+
+    rateSNR = zeros(Nb,1);
+    classSeparation = zeros(Nb,1);
+    threshold3_deg_h = zeros(Nb,1);
+
+    for kb = 1:Nb
+
+        adc_bits = bitsDetect(kb);
+        fs_adc = 1e6;
+        f_aa_Hz = 150e3;
+        adc_sample_offset_s = 0;
+
+        updateConfiguration();
+
+        vals0 = zeros(Nclass,1);
+        vals1 = zeros(Nclass,1);
+
+        fprintf("\nADC %d bit, ZERO: ",adc_bits)
+
+        Omega_deg_s = 0;
+        noise_enable = 1;
+
+        for irun = 1:Nclass
+
+            setSeeds( ...
+                1000000 + 10000*kb + 10*irun);
+
+            out = sim(mdl);
+            omega_ts = out.get('omega_est_ts');
+
+            idx = omega_ts.Time >= Tmean_mc;
+            vals0(irun) = mean(omega_ts.Data(idx));
+
+            fprintf(".")
+        end
+
+        fprintf(" done\nADC %d bit, SIGNAL: ",adc_bits)
+
+        Omega_deg_s = Omega_signal;
+
+        for irun = 1:Nclass
+
+            setSeeds( ...
+                1100000 + 10000*kb + 10*irun);
+
+            out = sim(mdl);
+            omega_ts = out.get('omega_est_ts');
+
+            idx = omega_ts.Time >= Tmean_mc;
+            vals1(irun) = mean(omega_ts.Data(idx));
+
+            fprintf(".")
+        end
+
+        fprintf(" done")
+
+        zeroMean(kb) = mean(vals0);
+        zeroSigma(kb) = std(vals0);
+
+        signalMean(kb) = mean(vals1);
+        signalSigma(kb) = std(vals1);
+
+        signalBias(kb) = ...
+            signalMean(kb)-Omega_signal;
+
+        signalRMSE(kb) = ...
+            sqrt(mean((vals1-Omega_signal).^2));
+
+        rateSNR(kb) = ...
+            abs(Omega_signal)/signalSigma(kb);
+
+        pooled = ...
+            sqrt((zeroSigma(kb)^2+signalSigma(kb)^2)/2);
+
+        classSeparation(kb) = ...
+            abs(signalMean(kb)-zeroMean(kb))/pooled;
+
+        threshold3_deg_h(kb) = ...
+            3*zeroSigma(kb)*3600;
     end
 
-    fprintf(" done\nADC %d bit, SIGNAL: ",adc_bits)
+    detectResults = table( ...
+        bitsDetect, ...
+        repmat(fs_adc/1e6,Nb,1), ...
+        zeroMean, ...
+        zeroSigma, ...
+        zeroSigma*3600, ...
+        threshold3_deg_h, ...
+        signalMean, ...
+        signalSigma, ...
+        signalBias, ...
+        signalRMSE, ...
+        rateSNR, ...
+        classSeparation, ...
+        'VariableNames', ...
+        { ...
+        'ADC_bits', ...
+        'fs_MSps', ...
+        'Zero_mean_deg_s', ...
+        'Zero_sigma_deg_s', ...
+        'Zero_sigma_deg_h', ...
+        'Zero_3sigma_deg_h', ...
+        'Signal_mean_deg_s', ...
+        'Signal_sigma_deg_s', ...
+        'Signal_bias_deg_s', ...
+        'Signal_RMSE_deg_s', ...
+        'Rate_SNR', ...
+        'Zero_signal_separation_sigma' ...
+        });
 
-    Omega_deg_s = Omega_signal;
+    disp("")
+    disp(detectResults)
 
-    for irun = 1:Nclass
-
-        setSeeds( ...
-            1100000 + 10000*kb + 10*irun);
-
-        out = sim(mdl);
-        omega_ts = out.get('omega_est_ts');
-
-        idx = omega_ts.Time >= Tmean_mc;
-        vals1(irun) = mean(omega_ts.Data(idx));
-
-        fprintf(".")
-    end
-
-    fprintf(" done")
-
-    zeroMean(kb) = mean(vals0);
-    zeroSigma(kb) = std(vals0);
-
-    signalMean(kb) = mean(vals1);
-    signalSigma(kb) = std(vals1);
-
-    signalBias(kb) = ...
-        signalMean(kb)-Omega_signal;
-
-    signalRMSE(kb) = ...
-        sqrt(mean((vals1-Omega_signal).^2));
-
-    rateSNR(kb) = ...
-        abs(Omega_signal)/signalSigma(kb);
-
-    pooled = ...
-        sqrt((zeroSigma(kb)^2+signalSigma(kb)^2)/2);
-
-    classSeparation(kb) = ...
-        abs(signalMean(kb)-zeroMean(kb))/pooled;
-
-    threshold3_deg_h(kb) = ...
-        3*zeroSigma(kb)*3600;
+    writetable( ...
+        detectResults, ...
+        detectionFile);
 end
-
-detectResults = table( ...
-    bitsDetect, ...
-    repmat(fs_adc/1e6,Nb,1), ...
-    zeroMean, ...
-    zeroSigma, ...
-    zeroSigma*3600, ...
-    threshold3_deg_h, ...
-    signalMean, ...
-    signalSigma, ...
-    signalBias, ...
-    signalRMSE, ...
-    rateSNR, ...
-    classSeparation, ...
-    'VariableNames', ...
-    { ...
-    'ADC_bits', ...
-    'fs_MSps', ...
-    'Zero_mean_deg_s', ...
-    'Zero_sigma_deg_s', ...
-    'Zero_sigma_deg_h', ...
-    'Zero_3sigma_deg_h', ...
-    'Signal_mean_deg_s', ...
-    'Signal_sigma_deg_s', ...
-    'Signal_bias_deg_s', ...
-    'Signal_RMSE_deg_s', ...
-    'Rate_SNR', ...
-    'Zero_signal_separation_sigma' ...
-    });
-
-disp("")
-disp(detectResults)
-
-writetable( ...
-    detectResults, ...
-    'FOG_v5_1_detection_vs_bits.csv');
 
 %% ============================================================
 % v5.1B - SWEEP FAZY ZEGARA ADC
@@ -468,7 +506,11 @@ adc_bits = 16;
 f_aa_Hz = 150e3;
 
 fsPhase = [500e3 1e6 2e6];
-phaseFrac = (0:0.125:0.875)';
+% Przy Ts_solver = 0.05 us wszystkie sample-time offsets musza byc
+% calkowita wielokrotnoscia 50 ns. Dla fs = 500k/1M/2M S/s
+% siatka 0:0.1:0.9 daje odpowiednio kroki offsetu
+% 200 ns / 100 ns / 50 ns, czyli zawsze zgodne z fixed-step.
+phaseFrac = (0:0.1:0.9)';
 
 NfsP = numel(fsPhase);
 Np = numel(phaseFrac);
@@ -508,6 +550,16 @@ for kf = 1:NfsP
 
         adc_sample_offset_s = ...
             phaseFrac(kp)/fs_adc;
+
+        offsetInSolverSteps = ...
+            adc_sample_offset_s/Ts_solver;
+
+        if abs(offsetInSolverSteps-round(offsetInSolverSteps)) > 1e-9
+            error([ ...
+                "FOG v5.1 internal timing error: ADC sample offset " ...
+                "is not aligned to fixed solver step." ...
+                ])
+        end
 
         updateConfiguration();
 
