@@ -368,7 +368,7 @@ rampSweep_C_min = [1 5]';
 
 thermal_step_C = 10;
 
-dtThermal_s = 0.2;
+dtThermal_s = 0.1;
 Tend_s = 900;
 
 Nramp = numel(rampSweep_C_min);
