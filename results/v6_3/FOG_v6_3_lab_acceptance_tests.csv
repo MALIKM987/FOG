@@ -1,0 +1,17 @@
+Test,Method,Pass_criterion,When
+Source spectrum,OSA measurement at source and after front-end,effective BW after front-end >=5 nm; preferred smooth >=30 nm,BEFORE buying new source
+Source power,calibrated optical power meter,0.80 to 1.00 mW delivered to K1,BEFORE full assembly
+K1 coupling ratio,"inject source into each input, measure both outputs",45:55 to 55:45 at operating spectrum,BEFORE accepting lab K1
+K2 coupling ratio,"inject source into each input, measure both outputs",45:55 to 55:45 at operating spectrum,BEFORE accepting lab K2
+K1/K2 spectral flatness,OSA or swept source through assembled couplers,effective output spectrum still meets >=5 nm guard,BEFORE locking source/couplers
+Photodiode responsivity,known optical power + current measurement,>=0.8 A/W @1550 nm,BEFORE accepting lab photodiode
+Photodiode/TIA linearity,power sweep to expected >=100 uW detector level,no saturation at nominal 1 mW source configuration,BEFORE ADC integration
+PZT Vpi / phase gain,interferometric voltage sweep at low frequency,phi0 >= 3.0375 rad with available driver,AFTER phase shifter arrives
+PZT 20 kHz response,lock-in amplitude vs drive at 20 kHz,beta calibrated to 1.84 at 20 kHz without instability,AFTER phase shifter arrives
+Polarizer ER,polarizer + analyzer / power meter,">=25 dB, preferred >=30 dB",AFTER polarizer arrives
+Polarizer IL,power before/after polarizer,<=0.7 dB,AFTER polarizer arrives
+Lyot splice angle,PM-axis capable splicer / post-splice axis check,"45 deg +/-0.5 deg target, <=+/-0.7 deg accept",DURING Lyot fabrication
+Lyot output DOP proxy,"polarimeter if available, otherwise calibrated analyzer test",proxy target <=0.01745; physical DOP mapping requires calibration,AFTER Lyot fabrication
+SMF coil length,OTDR / meter / spool certificate,1000 m +/- construction allowance documented,BEFORE winding / after winding record
+SMF effective diameter,mechanical measurement + winding layer record,length-weighted mean diameter close to 160.00 mm and calibrated,AFTER winding
+Loop insertion loss,power measurement before/after completed loop,consistent with modeled splice/coupler/fiber loss budget,AFTER optical assembly

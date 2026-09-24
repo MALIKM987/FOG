@@ -1,0 +1,6 @@
+Material,CTE_ppm_K,CTE_mismatch_to_silica_ppm_K,Thermal_conductivity_W_mK,Density_kg_m3,Specific_heat_J_kgK,Thermal_diffusivity_m2_s,Uniform_scale_temp_coeff_ppm_K,Allowed_temp_sensor_error_at_20deg_s_C,Max_QAD2pct_Shupe_at_1Cmin_tau60_deg_h,Pass_scale_with_Pt100_ClassA,Pass_CTE_mismatch_5ppmK_proxy,Pass_Shupe_budget,Pass_all_screening,Note
+Al6061-T6,23.6,23.05,167.0,2700,896,6.903108124069478e-05,24.15932549395694,0.20695940499596522,0.002232239028679929,1,0,1,0,very high conductivity; high CTE mismatch to silica
+Invar36,1.3,0.75,10.5,8055,515,2.5311424301140074e-06,1.8593254939138764,2.6891478617000224,0.05642983709096487,1,1,1,1,low CTE; moderate conductivity; precision-instrument class
+G10-FR4,9.0,8.45,0.3,1820,1000,1.6483516483516482e-07,9.559325493942117,0.5230494554650414,0.4273912151971178,1,0,0,0,moderate CTE; low through-thickness conductivity
+POM-C,110.0,109.45,0.31,1410,1500,1.4657210401891252e-07,110.55932549424786,0.045225053788764025,0.45093833566769845,0,0,0,0,easy machining but very high CTE
+FusedSilica benchmark,0.55,0.0,1.38,2203,703,8.910648415514466e-07,1.1093254939094083,4.507244599375219,0.14098295145975042,1,1,0,0,reference only; not default mechanical spool

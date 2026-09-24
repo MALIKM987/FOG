@@ -1,0 +1,2 @@
+Omega_zadane_deg_s,Omega_zmierzone_deg_s,Blad_deg_s,STD_deg_s,V_cal,Vpol_mean,Max_abs_phi_pol_rad,ADC_bits,fs_MSps,AAF_kHz
+1,0.999976255193942,-2.37448060584899e-05,1.65245162524778e-06,0.99369538163348,0.993695381633501,0,16,1,100

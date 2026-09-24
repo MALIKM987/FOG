@@ -1,0 +1,35 @@
+# MATLAB / Simulink generated files
+*.asv
+*.autosave
+*.m~
+*.slxc
+*.mexw64
+*.mexw32
+*.mexglx
+*.mexa64
+*.mexmaci64
+
+# Simulink cache / generated code
+slprj/
+sccprj/
+codegen/
+*_grt_rtw/
+*_ert_rtw/
+*.slxc
+
+# MATLAB project/user state
+*.prj
+*.mlproj
+*.mlproj.*
+*.matlab.settings
+.settings/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary outputs
+tmp/
+temp/

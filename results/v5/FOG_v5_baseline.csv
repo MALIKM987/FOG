@@ -1,0 +1,2 @@
+ADC_bits,fs_ADC_MSps,LSB_uV,Omega_zadane_deg_s,Omega_zmierzone_deg_s,Blad_Omega_deg_s,STD_Omega_deg_s,AAF_min_V,AAF_max_V,ADC_headroom_low_V,ADC_headroom_high_V
+16,1,30.5180437933928,1,0.999869154815272,-0.000130845184728,1.641875685e-06,0.577303,1.620677,0.577303,0.379323
