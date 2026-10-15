@@ -1,7 +1,8 @@
 function out = run_E01(sourceType, outputDir)
 %RUN_E01 Explore the isolated FOG-E01-MIS in MATLAB R2023b.
 %
-% out = run_E01("BOTH");    compare ideal LASER and ASE without other changes
+% out = run_E01();          read source from E01_config.m
+% out = run_E01("BOTH");   compare source variants without changing FOG
 % out = run_E01("LASER");   laser only
 % out = run_E01("ASE");     broadband source only
 % out = run_E01("BOTH", "C:\FOG_results");   custom output folder
@@ -16,14 +17,20 @@ function out = run_E01(sourceType, outputDir)
 here = fileparts(mfilename('fullpath'));
 cfg = E01_config();
 if nargin<1 || isempty(sourceType)
-    sourceType = "BOTH";
+    sourceType = cfg.source_type;
 end
 sourceType = upper(string(sourceType));
 if ~ismember(sourceType, ["LASER","ASE","BOTH"])
     error('E01:Mode','Choose "LASER", "ASE", or "BOTH".');
 end
 if nargin<2 || isempty(outputDir)
-    outputDir = fullfile(here,'..','..','results','EXP_E01_ideal_demo');
+    if cfg.parasitic_enabled
+        caseName = 'single_stray_demo';
+    else
+        caseName = 'ideal';
+    end
+    outputDir = fullfile(here,'..','..','results', ...
+        ['EXP_E01_' lower(char(sourceType)) '_' caseName]);
 end
 if ~isfolder(outputDir)
     mkdir(outputDir);
@@ -49,14 +56,16 @@ out.cfg=cfg;
 out.sourceMode=char(sourceType);
 out.models=models;
 
-fprintf('\nFOG-E01-MIS | IDEAL DEMO (no polarization or noise)\n');
+fprintf('\nFOG-E01-MIS | SOURCE SWITCH DEMO (no polarization / noise)\n');
 fprintf('Coil L=%.0f m, D=%.0f mm, tau=%.6f us, fm=%.3f kHz\n', ...
     cfg.L_m,cfg.D_m*1000,cfg.tau_s*1e6,cfg.fm_Hz/1e3);
 fprintf('Source mode: %s | input power: %.3f mW | beta: %.3f rad\n', ...
     char(sourceType),cfg.input_power_W*1e3,models{1}.beta_rad);
 fprintf('K_sag(lambda0)=%.9f rad/(rad/s)\n', ...
     2*pi*cfg.L_m*cfg.D_m/(cfg.lambda0_nm*1e-9*cfg.c_m_s));
-fprintf('WARNING: DEMO GAUSSIAN spectra, NOT measured ASE/laser data.\n\n');
+fprintf('Parasitic delayed field model: %d (0 = ideal, 1 = toy model)\n', ...
+    cfg.parasitic_enabled);
+fprintf('WARNING: DEMO spectra and toy stray-field model, NOT laboratory measurements.\n\n');
 
 % Figure 1: spectra. Two panels show wide view and local peak zoom.
 fig=figure('Visible',visibility,'Name','E01: Spectrum','Color','w');
@@ -90,33 +99,41 @@ xlim([0,4/cfg.fm_Hz*1e6]);xlabel('Time [us]');ylabel('Phase [rad]');
 title('Both beams see one modulator at different times');legend('show');
 save_plot(fig,outputDir,'02_modulator.png',cfg.save_outputs,cfg.show_figures);
 
-% Figure 3: photodiode for omega=-1,0,+1 deg/s.
+% Figure 3: SELECTED SOURCE photodiode for omega=-1,0,+1 deg/s.
 fig=figure('Visible',visibility,'Name','E01: Photodiode current','Color','w');
 hold on;grid on;
 testCases=[-1 0 1];
 for j=1:numel(testCases)
     idx=find(abs(m.omega_deg_s-testCases(j))<1e-12,1);
     if isempty(idx), continue; end
-    plot(t_us,m.current_A(idx,:)*1e6,'LineWidth',1.4, ...
+    plot(t_us,m.current_observed_A(idx,:)*1e6,'LineWidth',1.4, ...
         'DisplayName',sprintf('%+.0f deg/s',testCases(j)));
 end
 xlim([0,4/cfg.fm_Hz*1e6]);
 xlabel('Time [us]');ylabel('Photodiode current [uA]');
-title(['Detector B | ' m.source.kind]);legend('show');
+title(['DETECTOR B | SOURCE = ' m.source.kind]);legend('show');
+if cfg.parasitic_enabled
+    idx=find(m.omega_deg_s==cfg.omega_plot_deg_s,1);
+    if ~isempty(idx)
+        plot(t_us,m.current_A(idx,:)*1e6,'k--', ...
+            'LineWidth',1.2,'DisplayName','ideal FOG reference');
+    end
+    legend('show');
+end
 save_plot(fig,outputDir,'03_photodiode.png',cfg.save_outputs,cfg.show_figures);
 
-% Figure 4: overlay identical model with different sources and lock-in curve.
+% Figure 4: PHOTOdiode comparison and ideal lock-in curve.
 fig=figure('Visible',visibility,'Name','E01: Source comparison','Color','w');
 subplot(2,1,1);hold on;grid on;
 for k=1:numel(models)
     q=models{k};
     idx=find(abs(q.omega_deg_s-1)<1e-12,1);
-    plot(q.t_s*1e6,q.current_A(idx,:)*1e6,'LineWidth',1.3, ...
+    plot(q.t_s*1e6,q.current_observed_A(idx,:)*1e6,'LineWidth',1.3, ...
         'DisplayName',q.source.kind);
 end
 xlim([0,4/cfg.fm_Hz*1e6]);
 xlabel('Time [us]');ylabel('Current at +1 deg/s [uA]');
-title('Same FOG; only source spectrum is changed');legend('show');
+title('Detected current at +1 deg/s (source change only)');legend('show');
 subplot(2,1,2);hold on;grid on;
 for k=1:numel(models)
     q=models{k};
@@ -124,7 +141,7 @@ for k=1:numel(models)
         'DisplayName',q.source.kind);
 end
 xlabel('Rotation [deg/s]');ylabel('First lock-in harmonic [uA]');
-title('Ideal open-loop demodulation');legend('show');
+title('IDEAL lock-in response (stray field excluded)');legend('show');
 save_plot(fig,outputDir,'04_laser_vs_ase.png',cfg.save_outputs,cfg.show_figures);
 
 % Figure 5: normalized coherence is a separate parasitic-path illustration.
@@ -159,10 +176,10 @@ save_plot(fig,outputDir,'06_linear_estimate.png', ...
 % Reproducible text/CSV/JSON outputs with named units.
 for k=1:numel(models)
     q=models{k};
-    fprintf('%s: fwhm=%.4f nm, I1(+1 deg/s)=%+.6f uA, analytic=%+.6f uA\n', ...
+    fprintf('%s: FWHM=%.4f nm | I1 ideal (+1)=%.6f uA, observed (+1)=%.6f uA\n', ...
         q.source.kind,q.source.fwhm_nm, ...
         q.lockin_A(q.omega_deg_s==1)*1e6, ...
-        q.lockin_formula_A(q.omega_deg_s==1)*1e6);
+        q.lockin_observed_A(q.omega_deg_s==1)*1e6);
 
     if cfg.save_outputs
         spectrum=table(q.source.lambda_nm,q.source.S_W_per_nm, ...
@@ -178,7 +195,10 @@ for k=1:numel(models)
             q.current_A(idxN,:).',q.current_A(idx0,:).', ...
             q.current_A(idxP,:).','VariableNames', ...
             {'time_s','phase_m_t_rad','phase_m_delayed_rad', ...
-             'phase_diff_rad','i_minus1_A','i_zero_A','i_plus1_A'});
+             'phase_diff_rad','i_minus1_ideal_A','i_zero_ideal_A','i_plus1_ideal_A'});
+        signals.i_minus1_observed_A=q.current_observed_A(idxN,:).';
+        signals.i_zero_observed_A=q.current_observed_A(idx0,:).';
+        signals.i_plus1_observed_A=q.current_observed_A(idxP,:).';
         writetable(signals,fullfile(outputDir, ...
             ['waveform_' lower(q.source.kind) '.csv']));
         sweep=table(q.sweep_deg_s(:),q.lockin_sweep_A(:), ...
@@ -204,10 +224,11 @@ if cfg.save_outputs
     clear cleaner
     fid=fopen(fullfile(outputDir,'README.txt'),'w');
     assert(fid>0,'Could not create report README');
-    fprintf(fid,['FOG-E01-MIS -- IDEAL, DETERMINISTIC DEMO.\n', ...
+    fprintf(fid,['FOG-E01-MIS -- DETERMINISTIC, IDEAL OR SINGLE-STRAY-FIELD DEMO.\n', ...
         'Source parameters are hypothetical, not measurements.\n', ...
-        'No source RIN, Rayleigh backscatter, polarization, noise, losses.\n', ...
-        'Laser/ASE differences in coherence are a SEPARATE extra-path proxy.\n', ...
+        'No source RIN, distributed Rayleigh backscatter, polarization or noise.\n', ...
+        'Observed diode includes OPTIONAL single delayed stray field (toy model).\n', ...
+        'Ideal/observed photodiode currents saved as separate columns.\n', ...
         'CSV units specified in every column name; check config.json.\n', ...
         'This file was generated by run_E01.m; MATLAB %s.\n'], version);
     fclose(fid);
