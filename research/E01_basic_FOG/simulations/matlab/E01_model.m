@@ -82,6 +82,11 @@ else
     est_deg_s = I1_sweep_A/gain_A_per_rad_s*180/pi;
 end
 
+% Coarse-grained source statistics at the PHOTOdiode electrical bandwidth.
+% Keep deterministic and random signals as separate arrays for comparison.
+sampling_Hz=cfg.samples_per_period*cfg.fm_Hz;
+noise=E01_noise(cfg,src,current_observed_A,sampling_Hz);
+
 % Degree-of-coherence magnitude versus DELAY OF AN EXTRA PATH.
 % Optical carrier removed to avoid ultrafast fringes; modulus unchanged.
 delay_s = cfg.coherence_delay_ps(:).'*1e-12;
@@ -103,6 +108,13 @@ out.powerB_W = powerB_W;
 out.current_A = current_A;
 out.powerB_observed_W = powerB_observed_W;
 out.current_observed_A = current_observed_A;
+out.current_measured_A = noise.current_noisy_A;
+out.noise_rin_A = noise.source_rin_A;
+out.noise_shot_A = noise.shot_A;
+out.noise_rin_dB_Hz = noise.source_rin_dB_Hz;
+out.optical_noise_bandwidth_Hz = noise.optical_effective_bandwidth_Hz;
+out.electrical_bandwidth_Hz = noise.electrical_bandwidth_Hz;
+out.noise_enabled = noise.noise_enabled;
 out.lockin_observed_A = lockin_observed_A;
 out.parasitic_enabled = hasParasitic;
 out.lockin_A = lockin_A;
