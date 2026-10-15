@@ -18,7 +18,7 @@ To pytanie ma trzy oddzielne części:
 
 ## 2. Niezmienny układ optyczny
 
-\`\`\`text
+```text
                   +---- [źródło LASER / ASE]  <-- podmieniamy TYLKO źródło
                   |
                   v
@@ -28,7 +28,7 @@ To pytanie ma trzy oddzielne części:
                   +------------- [cewka FOG] <-------------+
                   |
         [port B -> fotodioda]
-\`\`\`
+```
 
 Konwencja portów i fizyka CW/CCW: [E01 / 1.1](01_01_optical_path.md) oraz [E01 / 1.2](01_02_mathematical_derivation.md). Ten rysunek jest funkcjonalnym skrótem połączeń, nie instrukcją montażową.
 
