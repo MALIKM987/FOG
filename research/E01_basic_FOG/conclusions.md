@@ -1,10 +1,10 @@
 # E01 – Wnioski i otwarte zagadnienia
 
-**Status:** KONCEPCJA / WNIOSKI TEORETYCZNE; **Etapy 1.1 i 1.2 opracowane teoretycznie**.  
+**Status:** KONCEPCJA / WNIOSKI TEORETYCZNE; **Etapy 1.1–1.3 opracowane teoretycznie**.  
 **Wyniki symulacji przypisane do E01:** BRAK.  
 **Wyniki pomiarów przypisane do E01:** BRAK.
 
-[Etap 1.1 – analiza toru optycznego](01_01_optical_path.md) opisuje porty, drogę CW/CCW oraz sygnał detektora. [Etap 1.2 – wyprowadzenie analityczne](01_02_mathematical_derivation.md) daje ścisły model amplitud sprzęgacza i prądu fotodiody. Wnioski nie oznaczają potwierdzenia eksperymentalnego.
+[Etap 1.1 – analiza toru optycznego](01_01_optical_path.md) opisuje porty, drogę CW/CCW oraz sygnał detektora. [Etap 1.2 – wyprowadzenie analityczne](01_02_mathematical_derivation.md) daje ścisły model amplitud sprzęgacza i prądu fotodiody. [Etap 1.3 – LASER kontra ASE](01_03_laser_vs_ase.md) dokumentuje spójność, wynikające z niej kompromisy i hipotezy przyszłej symulacji. Wnioski nie oznaczają potwierdzenia eksperymentalnego.
 
 ## Wnioski teoretyczne
 
@@ -16,6 +16,9 @@
 
 6. Dla idealnego sprzęgacza 50:50 dowiedziono w modelu $P_A+P_B=P_{\rm in}$, a wybrany port B ma $P_B=P_{\rm in}[1-\cos\Delta\varphi]/2$.
 7. Pierwsza harmoniczna po idealnej demodulacji jest proporcjonalna do $J_1(\beta)\sin(K_S\Omega)$. Dzięki temu jej znak umożliwia wykrycie kierunku obrotu w zakresie małych kątów fazy.
+
+8. Rozróżniono wspólny czas przelotu $\tau$ od różnicowego opóźnienia CW/CCW; dla idealnego Sagnaca ta druga wielkość pozostaje bliska zeru, co pozwala interferować ASE.
+9. Skrócenie czasu spójności może ograniczyć zakłócenia opóźnione względem sygnału użytecznego, ale RIN i dryft widma pozostają istotnymi ograniczeniami.
 
 ## Do sprawdzenia
 
