@@ -1,6 +1,6 @@
 # E01 – Podstawowy interferometryczny żyroskop światłowodowy
 
-**Status:** KONCEPCJA (bez nowej symulacji i bez wyników pomiarowych).  
+**Status:** KONCEPCJA; **Etap 1.1 – opracowany teoretycznie** (bez nowej symulacji i bez wyników pomiarowych).  
 **Data rozpoczęcia zapisu:** 2026-10-15.  
 **Cel:** szczegółowo zrozumieć podstawowy tor optyczny FOG i zbadać zasadność zastosowania lasera lub źródła szerokopasmowego ASE. Źródło ASE jest dostępne w laboratorium, ale jego parametry nie są tu jeszcze potwierdzone.
 
@@ -35,7 +35,7 @@ Nie zapominamy o koniecznych połączeniach optycznych ani o sygnale elektryczny
                 CW ↻     CCW ↺
 ```
 
-*Schemat portowy poglądowy.* Fale CW i CCW biegną przez tę samą cewkę w przeciwnych kierunkach. Pojedynczy modulator lokujemy blisko jednego końca pętli, by przejścia CW i CCW zachodziły w różnych chwilach. Konwencja portów, kierunek znaku i straty wymagają doprecyzowania w konkretnym modelu.
+*Schemat portowy poglądowy.* Fale CW i CCW biegną przez tę samą cewkę w przeciwnych kierunkach. Pojedynczy modulator lokujemy blisko jednego końca pętli, by przejścia CW i CCW zachodziły w różnych chwilach. W Etapie 1.1 port B zdefiniowano jako ciemny przy zerowej różnicy faz; konwencja znaku obrotu i straty wymagają dalszego doprecyzowania.
 
 ## Pytania badawcze
 
@@ -54,8 +54,20 @@ Nie zapominamy o koniecznych połączeniach optycznych ani o sygnale elektryczny
 - Porównujemy LASER i ASE przy jednakowo zdefiniowanej mocy wejściowej.
 - Źródło szerokopasmowe wymaga całkowania po widmie; pojedyncza długość fali jest tylko przybliżeniem.
 
+## Postęp badania
+
+| Podetap | Cel | Stan |
+|---|---|---|
+| **1.1** | Zasada działania i ścieżka optyczna | **Opracowano teoretycznie** |
+| 1.2 | Wyprowadzenie modelu matematycznego: sprzęgacz, fazy, detektor | Do wykonania |
+| 1.3 | Uporządkowane porównanie LASER/ASE i spójności | Do wykonania |
+| 1.4 | Pierwszy osobny model symulacyjny E01 | Do wykonania |
+| 1.5 | Badania parametryczne i walidacja | Do wykonania |
+| 1.6 | Ostateczne wnioski z badań | Do wykonania |
+
 ## Pliki etapu
 
+- **[Etap 1.1: fizyczna zasada działania](01_01_optical_path.md)** – opis pięciu elementów, portów sprzęgacza, CW/CCW, modulatora i fotodiody.
 - [model.md](model.md) – konkretny model, parametry, równania i status wyprowadzeń.
 - [source_switching_plan.md](simulations/source_switching_plan.md) – projekt późniejszej symulacji LASER/ASE.
 - [simulations/README.md](simulations/README.md) – katalog symulacji; bez wymuszania programu.
