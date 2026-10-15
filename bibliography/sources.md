@@ -2,7 +2,7 @@
 
 **Zasada:** każda pozycja musi zawierać DOI lub stabilny URL. Cytat i twierdzenie w pracy należy sprawdzić **w pełnym tekście** źródła, nie tylko na podstawie abstraktu. Stan „źródło zidentyfikowane” nie znaczy „publikacja przeczytana”.
 
-**Bibliografia maszynowa:** [references.bib](references.bib) zawiera zweryfikowane rekordy L1, L2, L3, L5, L7, L8, L9 i L10. L4 oraz L6 wymagają sprawdzenia dokładnych metadanych przed przeniesieniem do BibTeX.
+**Bibliografia maszynowa:** [references.bib](references.bib) zawiera zweryfikowane rekordy L1, L2, L3, L5, L7, L8, L9, L10 i L11. L4 oraz L6 wymagają sprawdzenia dokładnych metadanych przed przeniesieniem do BibTeX.
 
 ## Podstawowe opracowania
 
@@ -56,6 +56,11 @@ DOI: https://doi.org/10.1016/j.optcom.2019.01.075
 Temat: excess RIN w IFOG, przykład źródła ASE w układzie otwartopętlowym, późniejsze zagadnienia polaryzacji.  
 Status: **METRYKA I ABSTRAKT SPRAWDZONE** na stronie Elsevier; szczegółowy układ zawiera polaryzację, której w E01 nie modelujemy. BibTeX: `li2019rin`.
 
+**[L11]** J. Blake, I. S. Kim, „Distribution of relative intensity noise in the signal and quadrature channels of a fiber-optic gyroscope”, *Optics Letters* 19(20), 1648–1650 (1994).  
+DOI: https://doi.org/10.1364/OL.19.001648  
+Temat: rozkład RIN pomiędzy kanałem sygnałowym i kwadraturowym sinusoidalnie modulowanego FOG.  
+Status: **METRYKA I ABSTRAKT SPRAWDZONE** na stronie Optica; pełny model i współczynniki do analizy. BibTeX: `blake1994rinchannels`.
+
 ## Mapa cytowania
 
 | Teza w brudnopisie | Kandydat źródłowy | Co trzeba sprawdzić przed cytowaniem |
@@ -67,7 +72,7 @@ Status: **METRYKA I ABSTRAKT SPRAWDZONE** na stronie Elsevier; szczegółowy uk�
 | ASE i spójność krótkoczasowa | [L5], [L8], [L10] | model widma, opóźnienia i założenia interferometru |
 | Rayleigh oraz szum od rozpraszania | [L5], [L6] | warunki źródeł i zakres redukcji |
 | Stabilność widma a współczynnik skali | [L9] | średnia/efektywna długość fali; zakres modelu closed-loop |
-| Szum szerokopasmowy RIN | [L8], [L10] | pomiar i pełna charakterystyka szumowa źródła |
+| Szum szerokopasmowy RIN i jego rozkład w FOG | [L8], [L10], [L11] | pomiar i pełna charakterystyka szumowa źródła |
 
 ## Dalszy proces bibliograficzny
 
