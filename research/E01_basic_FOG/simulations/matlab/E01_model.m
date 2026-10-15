@@ -4,7 +4,9 @@ function out = E01_model(cfg, src)
 %
 % P_B(t,lambda) = P_in(lambda)/2*(1-cos(phi_s+phi_mod)).
 % No polarization, losses, RIN, shot noise or Rayleigh backscatter.
-% The coherence plot is a SEPARATE surrogate for a delayed parasitic path.
+% Optional parasitic field is a deliberately simplified extra delayed
+% detector-side coherent field, NOT distributed Rayleigh scattering.
+% Ideal photodiode arrays remain separate for analytic model tests.
 
 c = cfg.c_m_s;
 tau_s = cfg.tau_s;
@@ -26,6 +28,20 @@ current_A = zeros(nOmega,Nt);
 powerB_W = zeros(nOmega,Nt);
 lockin_A = zeros(nOmega,1);
 lockin_formula_A = zeros(nOmega,1);
+powerB_observed_W = zeros(nOmega,Nt);
+current_observed_A = zeros(nOmega,Nt);
+lockin_observed_A = zeros(nOmega,1);
+
+hasParasitic = isfield(cfg,'parasitic_enabled') && cfg.parasitic_enabled;
+if hasParasitic
+    eta=cfg.parasitic_power_fraction;
+    assert(eta>=0 && eta<1, ...
+        'Parasitic power fraction must be between 0 and 1.');
+    nu0=c/(cfg.lambda0_nm*1e-9);
+    % The optical carrier phase at nu0 is absorbed in the phase offset.
+    strayField = sqrt(eta)*exp(1i*(cfg.parasitic_phase_rad + ...
+        2*pi*(src.nu_Hz-nu0)*cfg.parasitic_delay_ps*1e-12));
+end
 for k = 1:nOmega
     omega_rad_s = cfg.omega_test_deg_s(k)*pi/180;
     phiS = K_rad_per_rad_s*omega_rad_s;
@@ -34,6 +50,20 @@ for k = 1:nOmega
          sum(src.weights.*(1-cos(phase)),1);
     powerB_W(k,:) = pB;
     current_A(k,:) = cfg.responsivity_A_W*pB;
+    if hasParasitic
+        % Base normalized detector amplitude produces the dark-port power:
+        % abs((1-exp(1i*phase))/2)^2 = (1-cos(phase))/2.
+        mainField = (1-exp(1i*phase))/2;
+        % A SINGLE stray detector-side path for a COHERENCE DEMONSTRATION.
+        % It is not a calibrated, fully unitary scattering network.
+        observed = cfg.input_power_W * ...
+            sum(src.weights.*abs(mainField+strayField).^2,1);
+    else
+        observed = pB;
+    end
+    powerB_observed_W(k,:) = observed;
+    current_observed_A(k,:) = cfg.responsivity_A_W*observed;
+    lockin_observed_A(k) = 2*mean(current_observed_A(k,:).*ref);
     lockin_A(k) = 2*mean(current_A(k,:).*ref);
     lockin_formula_A(k) = cfg.responsivity_A_W* ...
         cfg.input_power_W*besselj(1,beta)* ...
@@ -71,6 +101,10 @@ out.K_lambda = K_rad_per_rad_s;
 out.omega_deg_s = cfg.omega_test_deg_s(:);
 out.powerB_W = powerB_W;
 out.current_A = current_A;
+out.powerB_observed_W = powerB_observed_W;
+out.current_observed_A = current_observed_A;
+out.lockin_observed_A = lockin_observed_A;
+out.parasitic_enabled = hasParasitic;
 out.lockin_A = lockin_A;
 out.lockin_formula_A = lockin_formula_A;
 out.sweep_deg_s = sweep_deg_s;
