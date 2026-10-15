@@ -18,13 +18,30 @@ Zastosowano wspólny, idealny sprzęgacz 2×2 (50:50), jedną cewkę, jeden modu
 
 Dla źródła LASER i ASE **nic poza widmem źródła się nie zmienia**, w szczególności: L, D, moc wejściowa, responsywność, modulator, opóźnienie, fotodioda i przetwarzanie. Zestaw wzorów i wyprowadzeń: [Etap 1.2](../../01_02_mathematical_derivation.md). Różnice źródeł: [Etap 1.3](../../01_03_laser_vs_ase.md).
 
+## Najprostszy sposób: przełączasz źródło w skrypcie
+
+Otwórz **[E01_start.m](E01_start.m)** w MATLAB R2023b.
+
+Na górze pliku ustaw dokładnie jeden parametr:
+
+```matlab
+SOURCE = "LASER";   % lub "ASE"
+```
+
+Kliknij **Run**. Wykres `03_photodiode.png` pokaże przebieg fotodiody dla wybranego źródła. Drugie uruchomienie po zmianie `SOURCE` na `"ASE"` wygeneruje inny przebieg w osobnym folderze wyników.
+
+**Dlaczego różnica jest widoczna?** W `E01_config.m` domyślnie aktywowano `cfg.parasitic_enabled = true`. To *jawny, uproszczony model pojedynczego dodatkowego pola optycznego docierającego do fotodiody z opóźnieniem 1 ps*; laser i ASE różnią się jego koherentnym nakładaniem.
+
+Gdy ustawisz `cfg.parasitic_enabled = false`, model stanie się **idealny** i oba źródła dadzą bardzo podobne przebiegi fotodiody. Jest to fizycznie spodziewane, a nie błąd programu. Włączenie przykładowej drogi pasożytniczej nie oznacza, że wprowadziliśmy zweryfikowany model rozpraszania Rayleigha ani dokładność rzeczywistego żyroskopu.
+
 ## 2. Pliki
 
 | Plik | Zadanie |
 |---|---|
-| [E01_config.m](E01_config.m) | Parametry modelu i symulacji |
+| **[E01_start.m](E01_start.m)** | **Główny skrypt: jedna linia do przełączenia LASER/ASE i przycisk Run** |
+| [E01_config.m](E01_config.m) | Parametry modelu i symulacji, w tym demonstracja toru pasożytniczego |
 | [E01_source.m](E01_source.m) | Widmo LASER/ASE w W/nm i wagi całkowania |
-| [E01_model.m](E01_model.m) | Fazy Sagnaca i modulatora, średnia moc, prąd, lock-in, spójność |
+| [E01_model.m](E01_model.m) | Fazy, idealna moc/prąd oraz oddzielny prąd obserwowany z opcjonalnym polem pasożytniczym |
 | [run_E01.m](run_E01.m) | Przełącznik źródła, sześć wykresów, eksport CSV/JSON |
 | [test_E01.m](test_E01.m) | Testy numeryczne kontrolujące równania i znaki |
 
@@ -33,19 +50,19 @@ Dla źródła LASER i ASE **nic poza widmem źródła się nie zmienia**, w szcz
 W MATLAB-ie przejdź do katalogu głównego sklonowanego repozytorium `FOG` i wklej:
 
 ```matlab
-addpath(fullfile(pwd,"research","E01_basic_FOG","simulations","matlab"));
-assert(test_E01());     % Weryfikacja implementacji modelu
-out = run_E01("BOTH"); % Na wykresach jednocześnie laser i ASE
+run(fullfile("research","E01_basic_FOG","simulations","matlab","E01_start.m"));  % Edit SOURCE in this script
 ```
 
-Możesz uruchomić tylko jeden wariant:
+Alternatywnie, po `addpath` możesz uruchomić wariant z konsoli:
 
 ```matlab
+addpath(fullfile(pwd,"research","E01_basic_FOG","simulations","matlab"));
+assert(test_E01());
 out = run_E01("LASER");
 out = run_E01("ASE");
 ```
 
-Program domyślnie zapisuje obrazy i pliki CSV do folderu `research/E01_basic_FOG/results/EXP_E01_ideal_demo/` utworzonego **lokalnie podczas wykonania**. Nie zakładamy, że wyniki już zostały wykonane lub są zapisane w GitHubie.
+Program domyślnie zapisuje obrazy i pliki CSV w **oddzielnych katalogach dla każdego źródła**, np. `results/EXP_E01_laser_single_stray_demo/` i `results/EXP_E01_ase_single_stray_demo/`. Katalogi powstają **lokalnie podczas wykonania**. Nie zakładamy, że wyniki już zostały wykonane lub są zapisane w GitHubie.
 
 W razie potrzeby wskaż własny katalog:
 
@@ -61,12 +78,12 @@ W wyniku uruchomienia otrzymasz sześć ilustracji:
 
 1. `01_spectra.png` – dwa widma i rzeczywiste skale mocy widmowej (laser wąski, ASE szerokie).
 2. `02_modulator.png` – faza w obu chwilach przejścia i różnica faz.
-3. `03_photodiode.png` – sygnały fotodiody dla $\Omega=-1,0,+1$ deg/s.
-4. `04_laser_vs_ase.png` – porównanie sygnałów fotodiody i charakterystyk lock-in.
+3. **`03_photodiode.png` – obserwowany sygnał fotodiody wybranego źródła** dla $\Omega=-1,0,+1$ deg/s, z linią idealnego odniesienia przy włączonym modelu pola pasożytniczego.
+4. `04_laser_vs_ase.png` – obserwowany prąd fotodiody dla wybranego źródła lub obu źródeł; dolny panel pozostaje **idealną** charakterystyką lock-in bez pola pasożytniczego.
 5. `05_coherence_surrogate.png` – funkcja $|\gamma(\delta t_p)|$ dla **dodatkowej, hipotetycznej** drogi pasożytniczej.
 6. `06_linear_estimate.png` – idealizowana estymacja liniowa i jej nieliniowość poza pobliżem zera.
 
-CSV `spectrum_*.csv` przechowuje widmo i wagi, `waveform_*.csv` przebiegi czasowe, `sweep_*.csv` charakterystykę odczytu i `coherence_*.csv` moduł korelacji. Plik `config.json` zawiera parametry i wersję MATLAB-a.
+CSV `spectrum_*.csv` przechowuje widmo i wagi, `waveform_*.csv` przebiegi czasowe wraz z **osobnymi kolumnami idealnego i obserwowanego prądu**, `sweep_*.csv` charakterystykę odczytu i `coherence_*.csv` moduł korelacji. Plik `config.json` zawiera parametry i wersję MATLAB-a.
 
 ## 5. Parametry demonstracyjne (nie są to pomiary)
 
@@ -84,12 +101,18 @@ CSV `spectrum_*.csv` przechowuje widmo i wagi, `waveform_*.csv` przebiegi czasow
 | $\varphi_0$ | 0,92 rad (różnicowo $\beta=1,84$ rad) |
 | Liczba próbek widma | 801 na źródło |
 | Czas obserwacji | 16 okresów modulacji |
+| Dodatkowy tor optyczny | **włączony (DEMO)**, można wyłączyć |
+| Dodatkowe opóźnienie | 1 ps (DEMO) |
+| Moc pola pasożytniczego | 0,04% mocy wejściowej (DEMO) |
+| Faza pola pasożytniczego | 0,8 rad (DEMO) |
 
 Szerokości widmowe **nie są** danymi producentów. Zastosowano niezależne siatki dla wąskiego lasera i szerokiego ASE, z całkowaniem metodą trapezów. To chroni przed problemem pominięcia wąskiej linii lasera na grubej siatce ASE.
 
 ## 6. Co pokazuje, a czego NIE pokazuje, model?
 
 **Prawidłowe obserwacje:** interferencja w zrównoważonej pętli; wpływ sinusoidalnej modulacji; znak obrotu po idealnym lock-in; spektralne uśrednianie sygnału; różnica spójności źródeł przy zewnętrznym opóźnieniu.
+
+**Dodatkowy tor jest modelem fenomenologicznym:** do pola detektora dodajemy jedno opóźnione pole pasożytnicze o zadanej amplitudzie i fazie, całkujemy jego interferencję po widmie i obserwujemy, jak krótszy czas spójności ASE zmniejsza wpływ tego pola. Nie jest to pełny, bilansujący wszystkie porty model sieci rozpraszającej, więc z tego wariantu nie wyznaczamy absolutnego bilansu mocy ani dokładności prototypu.
 
 **Model NIE obejmuje:** polaryzacji, depolaryzatora, Rayleigha w pełnej cewce, strat sprzęgacza i włókna, responsywności widmowej, dyspersji, szumów ASE/lasera (w tym RIN), szumu śrutowego, TIA, ADC, dryftu, czasu integracji rzeczywistego pomiaru ani sprzętowej kalibracji.
 
@@ -99,6 +122,6 @@ Szerokości widmowe **nie są** danymi producentów. Zastosowano niezależne sia
 
 Testy [test_E01.m](test_E01.m) wymagają wykonania w MATLAB-ie. Równania zaimplementowane w E01 zweryfikowano dodatkowo niezależnym obliczeniem numerycznym, ale **nie uruchomiono w tym środowisku MATLAB-a**, więc syntaktyczna i wykonawcza zgodność MATLAB R2023b pozostaje do lokalnego potwierdzenia.
 
-Osiągnięty cel implementacyjny: źródło można przełączyć jednym parametrem; oba warianty zachowują ten sam model cewki i toru detekcji.
+Osiągnięty cel implementacyjny: źródło można przełączyć **jedną linijką w E01_start.m**; oba warianty zachowują ten sam model cewki, sprzęgacza, modulatora i toru detekcji. Opcjonalny pojedynczy tor pasożytniczy jest identyczny w obu wariantach. Jego obecność jest fizycznym powodem mocniej różniących się przebiegów.
 
 W kolejnych podetapach rozpoczniemy walidację i analizę wrażliwości. Nie przenosimy tutaj wcześniejszych wyników v1–v8.1 bez osobnego uzasadnienia.
