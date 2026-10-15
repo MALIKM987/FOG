@@ -7,7 +7,7 @@ cfg.source_type = "LASER";      % "LASER", "ASE", or "BOTH"
 
 % Optional simplified detector-side stray optical field (NOT full Rayleigh).
 % This reveals coherence effects; disable to observe ideal Sagnac alone.
-cfg.parasitic_enabled = true;
+cfg.parasitic_enabled = false;
 cfg.parasitic_delay_ps = 1.0;       % extra path delay versus main field
 cfg.parasitic_power_fraction = 4e-4;% parasitic optical power / input power
 cfg.parasitic_phase_rad = 0.8;      % relative phase at lambda0
@@ -34,6 +34,14 @@ cfg.omega_sweep_deg_s = linspace(-30,30,121);
 cfg.coherence_delay_ps = linspace(0,10,401);
 cfg.show_figures = true;
 cfg.save_outputs = true;
+% Source-dependent electrical photodetection noise (DEMO, not measured).
+% Compare noise RMS on the diode even when the mean LASER/ASE trace overlaps.
+cfg.noise_enabled = true;
+cfg.electrical_bandwidth_Hz = 0.8e6; % idealized receiver noise bandwidth
+cfg.laser_rin_dB_Hz = -155;          % illustrative flat laser RIN [dB/Hz]
+cfg.ase_effective_mode_count = 1;    % scalar thermal ASE assumption
+cfg.noise_seed = 20261016;           % reproducible random realization
+cfg.electron_charge_C = 1.602176634e-19;
 cfg.demo_only = true;
 
 cfg.tau_s = cfg.n_group * cfg.L_m / cfg.c_m_s;
