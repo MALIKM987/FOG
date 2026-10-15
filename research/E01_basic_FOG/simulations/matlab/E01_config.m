@@ -2,6 +2,17 @@ function cfg = E01_config()
 %E01_CONFIG Demonstration parameters for the independent FOG-E01-MIS model.
 % MATLAB R2023b. All optical parameters are IDEALIZED, NOT lab measurements.
 % Units are explicit in names.
+% Switch the optical source here, without changing the FOG geometry.
+cfg.source_type = "LASER";      % "LASER", "ASE", or "BOTH"
+
+% Optional simplified detector-side stray optical field (NOT full Rayleigh).
+% This reveals coherence effects; disable to observe ideal Sagnac alone.
+cfg.parasitic_enabled = true;
+cfg.parasitic_delay_ps = 1.0;       % extra path delay versus main field
+cfg.parasitic_power_fraction = 4e-4;% parasitic optical power / input power
+cfg.parasitic_phase_rad = 0.8;      % relative phase at lambda0
+cfg.omega_plot_deg_s = 1;          % main photodiode waveform
+
 cfg.c_m_s = 299792458;
 cfg.L_m = 1000;
 cfg.D_m = 0.160;
