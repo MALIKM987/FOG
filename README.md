@@ -99,3 +99,8 @@ Najważniejsze parametry wymagające pomiaru na hardware:
 Skrypty MATLAB są podstawowym źródłem prawdy. Modele `.slx` mogą być generowane lokalnie ze skryptów. Pliki `.slxc` są cache Simulinka i pozostają ignorowane.
 
 Dalszy rozwój po v8.1 powinien przede wszystkim wykorzystywać **zmierzone parametry pierwszego prototypu**.
+
+## Brudnopis pracy magisterskiej
+
+Nowy roboczy dział dokumentacji: **[notatki-magisterka/](notatki-magisterka/README.md)**.
+Zawiera teorię interferometru Sagnaca, analizę modulatora fazy, porównanie źródeł LASER/ASE, plan osobnej symulacji z przełączanym źródłem, dziennik ustaleń, bibliografię oraz rejestr decyzji i eksperymentów. Materiały są robocze i wymagają weryfikacji merytorycznej.
