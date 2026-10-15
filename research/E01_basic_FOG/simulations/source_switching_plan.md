@@ -3,6 +3,8 @@
 **Status:** PLAN, NIE ZAIMPLEMENTOWANO W TYM ZADANIU  
 **Cel:** nowy, samodzielny model obserwacyjny, bez zmian istniejących plików FOG v1–v8.1.
 
+**Uzasadnienie, teoria i hipotezy H1–H4:** [Etap 1.3 – LASER kontra ASE](../01_03_laser_vs_ase.md) oraz [T3 – źródła optyczne](../../../theory/optical_sources.md).
+
 ## 1. Architektura
 
 ```text
@@ -49,15 +51,15 @@ Pętla, jej długość, geometria, czasy propagacji, funkcja sterowania oraz tor
 | `parasitic_delay_s` | wyłączony | osobny test spójności |
 | `parasitic_field_fraction` | 0 | umowny poziom dodatkowego pola, nie prawo Rayleigha |
 
-Parametry przykładowe to **propozycje**, nie wyniki pomiaru.
+Parametry przykładowe to **propozycje**, nie wyniki pomiaru. W pierwszym teście laser idealnie monochromatyczny może być modelem delty Diraca; przy skończonej linewidth trzeba jawnie dobrać linię widmową (np. lorentzowską) i rozdzielczość numeryczną. W obu trybach zachować tę samą moc $P_{in}=\int S_{in}(\lambda)d\lambda$ i ten sam port B ze znakiem minus przed cosinusem.
 
 ## 3. Trzy poziomy fizyki
 
-**Poziom A: idealny mono-/wielospektralny.** W obu trybach zsumować ważoną odpowiedź interferometru po widmie. Nie dodawać szumu; w idealnej równowadze obie odpowiedzi mogą prawie się pokrywać.
+**Poziom A: idealny mono-/wielospektralny (E01-H1).** W obu trybach zsumować ważoną odpowiedź interferometru po widmie. Nie dodawać szumu; w idealnej równowadze obie odpowiedzi mogą prawie się pokrywać.
 
-**Poziom B: kontrolowane niezrównoważenie optyczne.** Dodać *jawnie oznaczoną* niewielką drogę interferencyjną o różnym czasie propagacji, aby zbadać spadek widzialności zależny od szerokości widma. Wynik traktować jako demonstrację **spójności**, nie realistyczną predykcję dokładności FOG.
+**Poziom B: kontrolowane niezrównoważenie optyczne (E01-H2).** Dodać *jawnie oznaczoną* niewielką drogę interferencyjną o różnym czasie propagacji, aby zbadać spadek widzialności zależny od szerokości widma. Wynik traktować jako demonstrację **spójności**, nie realistyczną predykcję dokładności FOG.
 
-**Poziom C: model stochastyczny.** Dopiero po walidacji A i B: szum źródła, fotodiody, elektroniczny; wyraźne założenia dotyczące korelacji i PSD. Wiele źródeł ASE ma inne RIN niż laser, dlatego nie wystarczy dodać takiej samej białej próbki szumu do obu.
+**Poziom C: model stochastyczny (E01-H4).** Dopiero po walidacji A i B: szum źródła, fotodiody, elektroniczny; wyraźne założenia dotyczące korelacji i PSD. Wiele źródeł ASE ma inne RIN niż laser, dlatego nie wystarczy dodać takiej samej białej próbki szumu do obu.
 
 ## 4. Obowiązkowe wykresy
 
