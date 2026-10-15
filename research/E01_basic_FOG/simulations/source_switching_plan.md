@@ -1,6 +1,6 @@
 # S1. Specyfikacja osobnego symulatora: laser / ASE
 
-**Status:** Model idealny w MATLAB zaimplementowany; test MATLAB i dalsze poziomy szumowe jeszcze nie wykonane. Instrukcja: [matlab/README.md](matlab/README.md).  
+**Status:** Model idealny i uproszczony elektryczny model szumowy LASER/ASE w MATLAB zaimplementowane; test wykonawczy MATLAB jeszcze nie przeprowadzony. Nie jest to pełne modelowanie stochastycznego pola optycznego ani rzeczywistych parametrów ASE. Instrukcja: [matlab/README.md](matlab/README.md).  
 **Cel:** nowy, samodzielny model obserwacyjny, bez zmian istniejących plików FOG v1–v8.1.
 
 **Uzasadnienie, teoria i hipotezy H1–H4:** [Etap 1.3 – LASER kontra ASE](../01_03_laser_vs_ase.md) oraz [T3 – źródła optyczne](../../../theory/optical_sources.md).
@@ -59,17 +59,17 @@ Parametry przykładowe to **propozycje**, nie wyniki pomiaru. W pierwszym teści
 
 **Poziom B: pojedynczy opóźniony tor pasożytniczy przy detektorze (E01-H2).** Dodać *jawnie oznaczoną* niewielką drogę interferencyjną o różnym czasie propagacji, aby zbadać spadek widzialności zależny od szerokości widma. Wynik traktować jako demonstrację **spójności**, nie realistyczną predykcję dokładności FOG. W kodzie MATLAB dodano ten *model zastępczy* z jawnie zadanym opóźnieniem, amplitudą i fazą; prąd idealny jest rejestrowany osobno. Nie wyznacza on dokładnego bilansu mocy wszystkich portów.
 
-**Poziom C: model stochastyczny (E01-H4).** Dopiero po walidacji A i B: szum źródła, fotodiody, elektroniczny; wyraźne założenia dotyczące korelacji i PSD. Wiele źródeł ASE ma inne RIN niż laser, dlatego nie wystarczy dodać takiej samej białej próbki szumu do obu.
+**Poziom C: model stochastyczny (E01-H4).** Zaimplementowano pierwszy krok: uproszczony nadmiarowy RIN ASE wynikający z szerokości widma, przykładowy RIN lasera i szum śrutowy na fotodiodzie. Pełne modelowanie przypadkowego pola optycznego, przenoszenia RIN między kanałami FOG i elektroniki to prace późniejsze.  Wiele źródeł ASE ma inne RIN niż laser, dlatego nie wystarczy dodać takiej samej białej próbki szumu do obu.
 
 ## 4. Obowiązkowe wykresy
 
-1. Wspólne osie: znormalizowane widma LASER i ASE oraz rzeczywiste S(λ).
+1. Wspólne osie: znormalizowane widma LASER i ASE oraz modelowe S(λ) (bez rzeczywistych danych laboratoryjnych).
 2. Fazy φ_m(t), φ_m(t−τ), Δφ_m(t).
 3. Moc na fotodiodzie P(t), dla Ω=0, Ω>0 i Ω<0.
 4. Wynik demodulacji synchronicznej i znak estymowanej Ω.
 5. Charakterystyka sygnału demodulowanego względem Ω.
 6. Kontrast zakłócenia vs dodatkowe opóźnienie drogi, osobno laser i ASE.
-7. Poziom C (później): estymator vs czas, odchylenie, PSD/Allan z odpowiednią definicją.
+7. Zaszumiony fotoprąd minus średni prąd oraz RMS fluktuacji (model obwiedni elektrycznej, wstępny).\n8. Demodulacja z zaszumionych próbek wobec wyniku deterministycznego.\n9. Poziom zaawansowany (później): realistyczna PSD, estymator vs czas oraz Allan z właściwą definicją.
 
 ## 5. Kryteria ukończenia pierwszego modelu
 
