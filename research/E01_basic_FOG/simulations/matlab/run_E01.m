@@ -106,7 +106,7 @@ testCases=[-1 0 1];
 for j=1:numel(testCases)
     idx=find(abs(m.omega_deg_s-testCases(j))<1e-12,1);
     if isempty(idx), continue; end
-    plot(t_us,m.current_observed_A(idx,:)*1e6,'LineWidth',1.4, ...
+    plot(t_us,m.current_measured_A(idx,:)*1e6,'LineWidth',1.4, ...
         'DisplayName',sprintf('%+.0f deg/s',testCases(j)));
 end
 xlim([0,4/cfg.fm_Hz*1e6]);
@@ -173,13 +173,43 @@ title('Small-signal estimator, not absolute metrology');legend('show');
 save_plot(fig,outputDir,'06_linear_estimate.png', ...
     cfg.save_outputs,cfg.show_figures);
 
+% Figure 7: source-dependent stochastic fluctuations near the photodiode.
+% We deliberately plot the difference to the deterministic signal: otherwise
+% ASE noise can be hard to see against the large phase-modulated photocurrent.
+fig=figure('Visible',visibility,'Name','E01: Source intensity noise','Color','w');
+subplot(2,1,1);hold on;grid on;
+noiseRms_uA=zeros(1,numel(models));
+noiseNames=cell(1,numel(models));
+for k=1:numel(models)
+    q=models{k};
+    idx=find(abs(q.omega_deg_s-1)<1e-12,1);
+    residual=q.current_measured_A(idx,:)-q.current_observed_A(idx,:);
+    plot(q.t_s*1e6,residual*1e6,'LineWidth',1.1, ...
+        'DisplayName',q.source.kind);
+    noiseRms_uA(k)=sqrt(mean(residual.^2))*1e6;
+    noiseNames{k}=q.source.kind;
+end
+xlim([0,4/cfg.fm_Hz*1e6]);
+xlabel('Time [us]');ylabel('Random current deviation [uA]');
+title('Photodiode fluctuations: noisy current minus deterministic current');
+legend('show');
+subplot(2,1,2);grid on;
+bar(noiseRms_uA);
+set(gca,'XTick',1:numel(models),'XTickLabel',noiseNames);
+ylabel('RMS deviation [uA]');
+title(sprintf('Illustrative noise in %.0f kHz detector bandwidth', ...
+    cfg.electrical_bandwidth_Hz/1e3));
+save_plot(fig,outputDir,'07_source_noise.png', ...
+    cfg.save_outputs,cfg.show_figures);
+
 % Reproducible text/CSV/JSON outputs with named units.
 for k=1:numel(models)
     q=models{k};
-    fprintf('%s: FWHM=%.4f nm | I1 ideal (+1)=%.6f uA, observed (+1)=%.6f uA\n', ...
+    fprintf('%s: FWHM=%.4f nm | I1 ideal (+1)=%.6f uA, deterministic(+1)=%.6f uA | source RIN=%.2f dB/Hz\n', ...
         q.source.kind,q.source.fwhm_nm, ...
         q.lockin_A(q.omega_deg_s==1)*1e6, ...
-        q.lockin_observed_A(q.omega_deg_s==1)*1e6);
+        q.lockin_observed_A(q.omega_deg_s==1)*1e6, ...
+        q.noise_rin_dB_Hz);
 
     if cfg.save_outputs
         spectrum=table(q.source.lambda_nm,q.source.S_W_per_nm, ...
@@ -199,6 +229,11 @@ for k=1:numel(models)
         signals.i_minus1_observed_A=q.current_observed_A(idxN,:).';
         signals.i_zero_observed_A=q.current_observed_A(idx0,:).';
         signals.i_plus1_observed_A=q.current_observed_A(idxP,:).';
+        signals.i_minus1_noisy_A=q.current_measured_A(idxN,:).';
+        signals.i_zero_noisy_A=q.current_measured_A(idx0,:).';
+        signals.i_plus1_noisy_A=q.current_measured_A(idxP,:).';
+        signals.i_plus1_source_rin_A=q.noise_rin_A(idxP,:).';
+        signals.i_plus1_shot_A=q.noise_shot_A(idxP,:).';
         writetable(signals,fullfile(outputDir, ...
             ['waveform_' lower(q.source.kind) '.csv']));
         sweep=table(q.sweep_deg_s(:),q.lockin_sweep_A(:), ...
@@ -226,7 +261,8 @@ if cfg.save_outputs
     assert(fid>0,'Could not create report README');
     fprintf(fid,['FOG-E01-MIS -- DETERMINISTIC, IDEAL OR SINGLE-STRAY-FIELD DEMO.\n', ...
         'Source parameters are hypothetical, not measurements.\n', ...
-        'No source RIN, distributed Rayleigh backscatter, polarization or noise.\n', ...
+        'Includes ILLUSTRATIVE source-RIN and photodiode shot noise if enabled.\n', ...
+        'No distributed Rayleigh backscatter, real polarization or electronics.\n', ...
         'Observed diode includes OPTIONAL single delayed stray field (toy model).\n', ...
         'Ideal/observed photodiode currents saved as separate columns.\n', ...
         'CSV units specified in every column name; check config.json.\n', ...
