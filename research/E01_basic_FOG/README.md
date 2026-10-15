@@ -72,7 +72,8 @@ Nie zapominamy o koniecznych połączeniach optycznych ani o sygnale elektryczny
 - **[Etap 1.3: LASER vs ASE](01_03_laser_vs_ase.md)** – spójność, model widmowy, ograniczenia i hipotezy badawcze.
 - [model.md](model.md) – skrócony model, parametry i równania.
 - [source_switching_plan.md](simulations/source_switching_plan.md) – projekt późniejszej symulacji LASER/ASE.
-- **[Symulacja MATLAB](simulations/matlab/README.md)** – przełącznik LASER/ASE, wykresy i testy.
+- **[E01_start.m](simulations/matlab/E01_start.m)** – uruchamialny skrypt z jedną linią `SOURCE = "LASER"` lub `"ASE"`.
+- **[Symulacja MATLAB](simulations/matlab/README.md)** – przebieg prądu fotodiody dla wybranego źródła, wariant idealny i opcjonalny jeden tor pasożytniczy; wykresy i testy.
 - [simulations/README.md](simulations/README.md) – katalog symulacji; bez wymuszania programu.
 - [results/README.md](results/README.md) – kryteria zapisu wyników (na razie brak wyników E01).
 - [conclusions.md](conclusions.md) – aktualne wnioski wyłącznie teoretyczne i pytania otwarte.
