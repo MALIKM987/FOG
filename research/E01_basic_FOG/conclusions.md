@@ -1,8 +1,10 @@
 # E01 – Wnioski i otwarte zagadnienia
 
-**Status:** KONCEPCJA / WNIOSKI TEORETYCZNE.  
+**Status:** KONCEPCJA / WNIOSKI TEORETYCZNE; **Etap 1.1 opracowany teoretycznie**.  
 **Wyniki symulacji przypisane do E01:** BRAK.  
 **Wyniki pomiarów przypisane do E01:** BRAK.
+
+[Etap 1.1 – analiza toru optycznego](01_01_optical_path.md) opisuje porty, drogę CW/CCW oraz sygnał detektora. Wnioski nie oznaczają potwierdzenia eksperymentalnego.
 
 ## Wnioski teoretyczne
 
@@ -14,7 +16,7 @@
 
 ## Do sprawdzenia
 
-- [ ] Schemat portów sprzęgacza i punkt pomiaru na fotodiodzie.
+- [x] Przyjęto **idealny** schemat portów sprzęgacza: A=źródło, B=fotodioda (port ciemny dla Δφ=0), C/D=pętla. Fizyczne połączenia należy sprawdzić po wyborze sprzęgacza.
 - [ ] Długość cewki, geometria i rzeczywiste opóźnienie.
 - [ ] Parametry źródła ASE dostępnego w laboratorium.
 - [ ] Dostępny modulator i jego pasmo oraz charakterystyka sterowania.
