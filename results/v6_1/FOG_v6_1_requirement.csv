@@ -1,0 +1,13 @@
+requirement,value,note
+fiber_type,standard SMF,non-PM coil
+fiber_length_m,1000,model
+target_rate_deg_s,0.0001,0.36 deg/h
+polarizer_ER_dB,25,"assumption, not BOM"
+pol_nr_scale_reference,2e-4,phenomenological
+largest_tested_residual_for_3sigma,0.05,"tested grid, robust class separation"
+largest_tested_residual_for_4sigma,0,"tested grid, robust class separation"
+interpolated_residual_3sigma,0.061433,"linear interpolation, model only"
+interpolated_residual_4sigma,0.016182,"linear interpolation, model only"
+ADC_bits,16,v5.1 preferred
+ADC_fs_MSps,1,v5.1 nominal
+AAF_kHz,100,v5.1 working candidate

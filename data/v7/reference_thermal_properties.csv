@@ -1,0 +1,9 @@
+Category,Reference,Property_or_formula,Value_used_in_v7,Use
+Silica thermo-optic,"PMC 2023 - Temperature Dependence of the Thermo-Optic Coefficient of SiO2 Glass","dn/dT @1.55 um room temperature","8.4e-6 1/K","Shupe and transit-time temperature dependence"
+Silica thermal expansion,"fused silica material data / NIST benchmark","linear CTE","0.55e-6 1/K","fiber expansion"
+Shupe model,"PMC - Thermal Performance Analysis and Comparison of Fiber Coils","Omega_E = n/(DL) * dn/dT * integral[dT/dt(l,t)*(L-2l)dl]","implemented with dn/dT + n*alpha","pure Shupe rate error"
+Al6061-T6,"6061-T6 material datasheet","CTE / k / rho / cp","23.6e-6 1/K; 167 W/mK; 2700 kg/m3; 896 J/kgK","former benchmark"
+Invar36,"Carpenter / Invar36 technical data","CTE / k / rho / cp","1.30e-6 1/K; 10.5 W/mK; 8055 kg/m3; 515 J/kgK","precision former benchmark"
+G10-FR4,"K-Mac G10/FR4 technical data","CTE / density benchmark","9e-6 1/K; ~1820 kg/m3","low-expansion composite benchmark; k/cp are engineering proxies"
+POM-C,"Acetal POM-C datasheet","CTE / k / cp benchmark","110e-6 1/K; 0.31 W/mK; 1500 J/kgK","machinable polymer benchmark"
+Pt100,"IEC 60751:2022","AA/A/B tolerance equations","AA=0.10+0.0017|t|; A=0.15+0.002|t|; B=0.30+0.005|t|","temperature sensor class check"

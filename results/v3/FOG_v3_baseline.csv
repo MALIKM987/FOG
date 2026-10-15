@@ -1,0 +1,2 @@
+Omega_zadane_deg_s,Omega_zmierzone_deg_s,Blad_Omega_deg_s,STD_Omega_deg_s,P_source_mW,Pdet_scale_uW,Pdet_avg_teoria_uW,Pdet_avg_symulacja_uW,Pdet_min_symulacja_uW,Pdet_max_symulacja_uW,Pdet_peak_theory_uW,Blad_mocy_avg_percent
+1,0.999985491388592,-1.45086114081705e-05,1.63210571090968e-06,1,45.3847568462627,59.7486160294258,59.7500467995659,31.6757631964433,90.7692880743935,90.7695136925254,0.00239464984328671

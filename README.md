@@ -1,11 +1,10 @@
 # FOG
 
-Repozytorium pracy magisterskiej dotyczącej **interferometrycznego żyroskopu światłowodowego (FOG)** opartego na efekcie Sagnaca, z cyfrowym przetwarzaniem sygnału i kompensacją błędów.
+Repozytorium pracy magisterskiej dotyczącej **interferometrycznego żyroskopu światłowodowego (IFOG)** opartego na efekcie Sagnaca, z cyfrowym przetwarzaniem sygnału, analizą błędów, przygotowaniem BOM-u i modelem closed-loop.
 
 ## Aktualny stan
 
-Środowisko symulacyjne:
-
+Środowisko:
 - MATLAB R2023b Update 7
 - Simulink R2023b
 - Signal Processing Toolbox
@@ -13,53 +12,90 @@ Repozytorium pracy magisterskiej dotyczącej **interferometrycznego żyroskopu �
 - Optimization Toolbox
 - Symbolic Math Toolbox
 
-Pierwszy model `FOG v1` został uruchomiony i zweryfikowany w Simulinku. Model obejmuje:
+Rozwój modelu jest prowadzony warstwowo. Każda wersja dodaje jedno zjawisko fizyczne lub element toru pomiarowego, a następnie jest sprawdzana osobnym zestawem wyników.
 
-- przeliczenie prędkości kątowej na fazę Sagnaca,
-- sinusoidalną modulację fazy,
-- interferencję,
-- model fotodiody i TIA,
-- demodulację synchroniczną,
-- estymację liniową oraz korekcję `asin`,
-- automatyczne testy dla zakresu od -20 do +20 deg/s.
+Aktualnie zakończono i zapisano:
+- v1-v5.1: Sagnac, PZT, lock-in, power budget, RX noise, ADC/DSP,
+- v6-v6.3: standard SMF, polarization, Lyot depolarizer, optical BOM,
+- v7: uniform thermal drift, Shupe i thermal BOM,
+- v8: closed-loop feasibility / actuator / DAC,
+- v8.1: integrated optical closed-loop.
 
-## Parametry bazowe v1
+v7.1 (thermo-mechanical stress / winding / potting gate) jest zaimplementowane i czeka na lokalne uruchomienie / kalibrację.
 
-| Parametr | Wartość |
+## Bazowa architektura POC
+
+```text
+SLD/ASE
+  -> K1
+  -> polarizer / Lyot
+  -> K2
+  -> 1 km SMF Sagnac loop + phase shifter
+  -> K2 / K1 return
+  -> InGaAs photodiode
+  -> TIA
+  -> anti-alias filter
+  -> ADC
+  -> digital lock-in
+  -> open-loop estimate
+
+closed-loop:
+digital residual -> PI/NCO -> DAC/driver -> phase feedback actuator -> Sagnac
+```
+
+## Robocze parametry
+
+| Parametr | Wartość robocza |
 |---|---:|
 | Długość fali | 1550 nm |
-| Długość cewki | 1000 m |
-| Średnia średnica cewki | 160 mm |
-| Współczynnik grupowy | 1.4682 |
-| Częstotliwość modulacji | 20 kHz |
-| Amplituda różnicowej modulacji fazy | 1.84 rad |
-| Responsywność fotodiody | 0.9 A/W |
-| TIA | 20 kOhm |
+| Cewka | 1000 m standard SMF |
+| Efektywna średnica modelu | ~159.4 mm |
+| Modulacja | 20 kHz |
+| beta | 1.84 rad |
+| ADC | 16 bit / 1 MS/s |
+| AAF | ~100 kHz |
+| Digital LPF | 300 Hz |
+| Lyot | 1.7 m + 3.4 m PM1550 |
+| PM fiber purchase | ~6 m |
+| Closed-loop PI | nominalnie 50 Hz |
 
-Dla tej geometrii:
+## Najważniejsze wyniki
 
-- `K_sag ≈ 2.16345 rad/(rad/s)`,
-- `tau ≈ 4.897 us`,
-- `f_opt ≈ 102.10 kHz`,
-- dla `1 deg/s`: `Delta_phi_S ≈ 0.037759 rad`.
+- v3: dla źródła 1 mW peak detector power ~90.8 uW.
+- v4: modelowany RX noise ~47.7 uV RMS.
+- v4.1: zero-rate sigma ~0.0549 deg/h przy 20 ms averaging.
+- v5.1: 14 bit minimum praktyczne, 16 bit preferowane.
+- v6.1: modelowy polarization residual ~0.05 daje >3 sigma punktowo; 0.025 jest bezpieczniejszym celem modelowym.
+- v6.2: Lyot 1.7 m + 3.4 m daje residual proxy ~0.01745.
+- v6.3: 1000 m SMF -> ~18 warstw, ~1997 zwojów, średnica efektywna ~159.395 mm.
+- v7: Invar36 przechodzi obecny combined thermal screening.
+- v8: low-Vpi long-range fiber PZT class przechodzi ideal reset feasibility dla +/-20 deg/s, high-Vpi class nie.
+- v8.1: integrated optical closed-loop działa dla 1 i 20 deg/s; test 0.0001 deg/s daje ~6.42 sigma w konkretnym modelu / oknie 20 ms.
 
-## Plan rozwoju symulacji
+## Ważne ograniczenie
 
-1. **v1** — model deterministyczny, lock-in i korekcja nieliniowości.
-2. **v2** — fizyczny modulator PZT i opóźnienie propagacji CW/CCW.
-3. **v3** — bilans mocy, straty sprzęgaczy i cewki.
-4. **v4** — fotodioda, shot noise, TIA i szumy elektroniki.
-5. **v5** — ADC, próbkowanie i kwantyzacja.
-6. **v6** — zwykłe włókno SMF, polaryzacja i depolaryzator.
-7. **v7** — temperatura, dryft i błędy systematyczne.
-8. **v8** — kompensacja oraz wariant closed-loop.
+„Zweryfikowany model” oznacza zgodność implementacji z przyjętym modelem i testami numerycznymi. Nie oznacza jeszcze walidacji metrologicznej fizycznego żyroskopu.
 
-## Cel projektu
+Najważniejsze parametry wymagające pomiaru na hardware:
+- realne widmo i moc SLD,
+- realne K1/K2,
+- realny photoreceiver,
+- Vpi / phase range / capacitance / resonances PZT,
+- reset glitch i driver current,
+- thermo-mechanical stress, winding i potting,
+- długookresowa stabilność biasu.
 
-Repozytorium ma być jednocześnie:
+## Dokumentacja
 
-- kodem źródłowym symulatora,
-- historią rozwoju modelu,
-- zbiorem wyników i eksperymentów,
-- technicznym zapleczem do pracy magisterskiej,
-- punktem odniesienia przy budowie fizycznego prototypu FOG.
+- `docs/ROADMAP.md` — historia i status wszystkich wersji.
+- `docs/PROJECT_SUMMARY_MODELS_AND_POC.md` — zbiorcze podsumowanie modeli, wyników i budowy POC.
+- `docs/MODEL_*.md` — opis każdej wersji.
+- `docs/VALIDATION_*.md` — wyniki walidacji.
+- `results/` — tabele wynikowe CSV.
+- `matlab/` — skrypty generujące modele.
+
+## Zasada repozytorium
+
+Skrypty MATLAB są podstawowym źródłem prawdy. Modele `.slx` mogą być generowane lokalnie ze skryptów. Pliki `.slxc` są cache Simulinka i pozostają ignorowane.
+
+Dalszy rozwój po v8.1 powinien przede wszystkim wykorzystywać **zmierzone parametry pierwszego prototypu**.

@@ -1,0 +1,2 @@
+Fiber_length_m,Fiber_coating_diameter_um,Spool_core_diameter_mm,Winding_width_mm,Packing_fill,Turns_per_layer,Layers,Total_turns,Outer_diameter_mm,Length_weighted_mean_diameter_mm,Mean_diameter_error_percent,K_sag_rad_per_rad_s,K_sag_error_percent,Recommended_min_flange_diameter_mm
+1000,242,155,30,0.9,111,18,1997.48980353454,163.712,159.394500392266,-0.378437254833965,2.15526561402326,-0.378437254833984,173.712

@@ -1,0 +1,5 @@
+Reference,Center_wavelength_nm,Min_3dB_bandwidth_nm,Typical_3dB_bandwidth_nm,Typical_power_mW,Use_in_v6_2
+Thorlabs SLD1550S-A40,1550,30,33,40,"bandwidth benchmark; power far above nominal 1 mW model"
+Thorlabs SLD1005S,1550,45,50,22,"bandwidth benchmark; power far above nominal 1 mW model"
+Thorlabs SLD1550S-A2,1550,85,90,2.5,"broadband benchmark; requires power-budget check"
+Thorlabs SLD1550S-A1,1550,100,110,1.0,"broadband benchmark close to current 1 mW optical model"

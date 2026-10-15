@@ -1,0 +1,2 @@
+Actuator_candidate,Vpi_V,Driver_Vpp,Usable_2pi_cycles,Actuator_BW_kHz,Ideal_reset_limited_Omega_max_deg_s,Reset_frequency_at_20deg_s_kHz,Required_BW_at_20deg_s_kHz,Piezo_capacitance_uF,Linear_ramp_current_A,Approx_reset_peak_current_A,NCO_bits,NCO_rate_LSB_deg_s
+low-Vpi long-range fiber PZT benchmark,4.5,50,5,20,23.3721235362277,4.88983014780694,17.1144055173243,0.18,0.0396076241972362,0.396076241972362,32,1.90461129827418e-07

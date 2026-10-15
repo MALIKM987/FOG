@@ -1,0 +1,2 @@
+Depol_residual,N_per_class,Omega_signal_deg_s,Zero_mean_deg_s,Zero_STD_deg_s,Zero_STD_deg_h,Zero_3sigma_deg_h,Signal_mean_deg_s,Signal_STD_deg_s,Signal_bias_deg_s,Zero_signal_separation_sigma
+0.1,30,0.0001,1.10442769911756e-05,3.32100717023243e-05,0.119556258128368,0.358668774385103,0.000102401526493097,4.16621742791124e-05,2.40152649309738e-06,2.42494796549052

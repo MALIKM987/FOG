@@ -1,0 +1,2 @@
+Omega_test_deg_s,Tavg_ms,N_runs,Mean_deg_s,STD_deg_s,Bias_deg_s,RMSE_deg_s,SNR_rate_over_STD,Zero_vs_signal_separation_sigma
+0.0001,10,50,9.90545353884938e-05,2.14634314629795e-05,-9.45464611506208e-07,2.12687379901655e-05,4.6590872560374,4.83265110480062

@@ -1,0 +1,2 @@
+f_mod_kHz,phi0_rad,beta_target_rad,beta_symulacja_rad,Omega_zadane_deg_s,Omega_zmierzone_deg_s,Blad_Omega_deg_s,STD_Omega_deg_s
+20,3.03751795216015,1.84,1.83989151658003,1,0.999985491388578,-1.45086114221593e-05,1.63210571089318e-06

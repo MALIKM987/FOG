@@ -1,0 +1,6 @@
+L1_m,L2_m,Total_PM_fiber_m,Worst_DOP_ideal_45deg,Worst_DOP_with_0p5deg_and_ratio_tol,Pass_2p5pct_proxy
+0.5,1,1.5,0.433068,0.443503,false
+1,2,3,0.025149,0.031594,false
+1.2,2.4,3.6,0.004724,0.017962,true
+1.5,3,4.5,0.00022131,0.017452,true
+1.7,3.4,5.1,2.0267e-05,0.017452,true

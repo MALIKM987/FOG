@@ -1,0 +1,7 @@
+Category,Benchmark,Key_spec,Status_2026_09_23,Use_in_v6_3
+Phase shifter,Luna FPS-001,"1260-1650 nm; DC-20 kHz; phase shift >8pi; Vpi <20 V; IL <0.1 dB; PDL <0.05 dB; RL >65 dB; RAM +/-0.01 dB","current benchmark","meets minimum optical and modulation requirements, but 20 kHz is upper edge"
+Polarizer,OZ Optics miniature fiber polarizer class,">30 dB ER; <0.7 dB IL; return loss better than -60 dB; 1550 nm options","current benchmark","exceeds model ER requirement and fits IL target"
+2x2 SM coupler,AC Photonics 1x2/2x2 single-mode fused coupler class,"1550 wideband options; 50:50; low excess loss; PDL <=0.15-0.20 dB class; directivity/return loss >=55 dB","current benchmark","performance class for lab acceptance or replacement"
+2x2 SM coupler,Thorlabs 10202A-50-APC benchmark,"1310/1550; +/-40 nm; 50:50; excess loss 0.2 dB; PDL <0.15 dB; directivity >60 dB","legacy/benchmark","not procurement lock; useful acceptance benchmark"
+SMF,Corning SMF-28 Ultra class,"G.652.D/G.657.A1 class; MFD ~10.4-10.5 um @1550; coating ~242 um; attenuation ~0.18-0.25 dB/km class","current benchmark","coil geometry and loss benchmark"
+PM fiber,PM1550-XP / PM1550-HP class,"1440-1625 nm class; beat length <=5 mm @1550 nm; MFD ~10.1-10.5 um","benchmark","Lyot depolarizer material class"

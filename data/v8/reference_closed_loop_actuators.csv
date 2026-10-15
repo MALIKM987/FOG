@@ -1,0 +1,5 @@
+Class,Reference,Frequency_or_bandwidth,Vpi,Phase_range,Capacitance_or_interface,Optical_notes,Use_in_v8
+Fiber PZT,FPS-001 current benchmark,"DC-20 kHz","<20 V",">8pi","not locked in v8","IL <0.1 dB; PDL <0.05 dB; RL >65 dB; RAM +/-0.01 dB","open-loop and high-Vpi closed-loop benchmark"
+Fiber PZT,FPS-002 current small-frame benchmark,"DC-20 kHz","2.5-4.5 V typ @500 Hz",">65pi @1550","0.18 uF piezo","IL <0.5 dB; SM PDL <0.05 dB; RL >58 dB no connectors","low-Vpi long-range closed-loop benchmark"
+Fiber PZT,FPS-003 historical benchmark,"DC-60 kHz","1-3 V typ",">55pi","discontinued","IL <0.5 dB; PDL <0.05 dB","shows faster all-fiber class existed but is not current procurement target"
+EO phase modulator,LiNbO3 phase-modulator class,">100 MHz to multi-GHz class","few-volt Vpi class","electronic ramp / no piezo stroke limit","RF / transmission-line interface","higher insertion loss than fiber PZT; polarization requirements","fast closed-loop fallback benchmark"

@@ -1,0 +1,2 @@
+N_per_class,Omega_signal_deg_s,Zero_feedback_mean_deg_s,Zero_feedback_STD_deg_s,Zero_feedback_STD_deg_h,Signal_feedback_mean_deg_s,Signal_feedback_STD_deg_s,Signal_feedback_bias_deg_s,Zero_signal_separation_sigma,Zero_residual_mean_deg_s,Zero_residual_STD_deg_s,Signal_residual_mean_deg_s,Signal_residual_STD_deg_s
+20,0.0001,-5.53270655956264e-06,1.45501146479783e-05,0.052380412732722,9.88693197363897e-05,1.78312500542507e-05,-1.13068026361031e-06,6.41542775152122,3.49453055633085e-06,6.10939818175109e-06,2.87436189622167e-06,6.96357511480714e-06

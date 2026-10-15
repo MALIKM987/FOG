@@ -1,0 +1,13 @@
+parameter,value,note
+fiber_length_m,1000,"model"
+fiber_type,standard SMF,"non-PM coil"
+polarizer_ER_dB,25,"assumption, not BOM"
+V_cal,0.9937,"DSP calibration visibility"
+depol_nominal_residual,0.10,"phenomenological, not catalog DOP"
+pol_nr_scale,0.0002,"phenomenological, requires calibration"
+theta_dynamic_amp_deg,20,"accelerated sensitivity test"
+delta_dynamic_amp_rad,0.30,"accelerated sensitivity test"
+ADC_bits,16,"v5.1 preferred"
+ADC_fs_MSps,1,"v5.1 nominal"
+AAF_kHz,100,"v5.1 working candidate"
+f_mod_kHz,20,"baseline modulation"

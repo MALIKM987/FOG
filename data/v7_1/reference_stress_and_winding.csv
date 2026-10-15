@@ -1,0 +1,7 @@
+Category,Reference,Key_point,Use_in_v7_1
+Mohr/T-dot equation,"Nature Communications 2025; PMC11997165","temperature/strain error separates into pure-Shupe term and Delta[n_eff*S] times mean T-dot","basis of v7.1 stress term"
+Thermomechanical FOG coil,"Finite Elements in Analysis and Design 212 (2022) 103826","orthoradial strain dominates Mohr effect; strain field vs temperature must be known; winding pattern matters","justifies effective strain-transfer / symmetry model and later FEM/calibration"
+Coil symmetry,"Applied Optics 62 E109-E118 (2023), DOI 10.1364/AO.483537","pure Shupe reduced by symmetrical winding; T-dot stress effect remains and depends on coil symmetry","winding symmetry acceptance"
+Adhesive thermal properties,"Optics Express 25 30513-30525 (2017), DOI 10.1364/OE.25.030513","adhesive material properties materially affect thermal-induced drift; stress distribution can dominate temperature-field contribution","do not lock potting without test"
+Winding tension,Fraunhofer USA CMI FOG winding,"dynamic tension control +/-0.5 g @60 RPM; steady-state resolution 0.05 g","process benchmark for tension-control target"
+Quadrupole coil benchmark,FOG Photonics precision quadrupole coil,"example coil tension 5-10 g","initial tension setpoint benchmark"

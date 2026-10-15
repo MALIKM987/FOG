@@ -1,0 +1,11 @@
+Test,Method,Pass_or_output_criterion
+Actuator Vpi,"interferometric voltage sweep","measured value used in v8 actuator table"
+Actuator phase range,"slow voltage sweep before reset","enough usable integer 2pi cycles for selected driver voltage"
+Actuator ramp linearity,"command triangular/sawtooth phase and measure optical phase","no cycle slips in intended ramp range"
+2pi reset glitch,"serrodyne ramp at increasing reset frequency; observe residual/demodulated bias","reset residual small enough to keep closed-loop bias inside error budget"
+Full-scale equivalent phase rate,"command equivalent +/-20 deg/s feedback without mechanical rotation","stable command with >=20% range margin preferred"
+Driver reset current,"current probe / shunt during reset","driver remains within voltage/current/thermal limits"
+DAC waveform,"oscilloscope + spectrum/FFT at maximum ramp rate",">=20 samples per optical 2pi phase interval; no major spurs in measurement band"
+Closed-loop step 1 deg/s,"turntable or injected calibrated Sagnac-equivalent phase","stable settling, no sustained oscillation"
+Closed-loop step 20 deg/s,"turntable or injected calibrated Sagnac-equivalent phase","no saturation; commanded feedback tracks full-scale"
+Open/closed noise comparison,"same optical setup, identical averaging window","closed-loop must improve linearity/dynamic range without unacceptable noise penalty"

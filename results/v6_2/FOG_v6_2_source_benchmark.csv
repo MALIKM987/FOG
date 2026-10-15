@@ -1,0 +1,5 @@
+Source_reference,Min_3dB_bandwidth_nm,Typical_3dB_bandwidth_nm,Typical_power_mW,Ldp_estimate_m,Worst_DOP_compact_0p5m_1m,Compact_pass_2p5pct,Worst_DOP_selected_1p7m_3p4m,Selected_pass_2p5pct,Needs_power_management_vs_1mW_model,Note
+SLD1550S-A40 benchmark,30,33,40,0.258333,0.017452,true,0.017452,true,true,"1550 nm, broad-band high-power reference"
+SLD1005S benchmark,45,50,22,0.172222,0.017452,true,0.017452,true,true,"1550 nm, 50 nm class"
+SLD1550S-A2 benchmark,85,90,2.5,0.091176,0.017452,true,0.017452,true,true,"1550 nm, 90 nm class"
+SLD1550S-A1 benchmark,100,110,1,0.0775,0.017452,true,0.017452,true,false,"1550 nm, 1 mW / 110 nm class"
