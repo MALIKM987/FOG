@@ -63,3 +63,8 @@ Repozytorium ma być jednocześnie:
 - zbiorem wyników i eksperymentów,
 - technicznym zapleczem do pracy magisterskiej,
 - punktem odniesienia przy budowie fizycznego prototypu FOG.
+
+## Brudnopis pracy magisterskiej
+
+Nowy roboczy dział dokumentacji: **[notatki-magisterka/](notatki-magisterka/README.md)**.
+Zawiera teorię interferometru Sagnaca, analizę modulatora fazy, porównanie źródeł LASER/ASE, plan osobnej symulacji z przełączanym źródłem, dziennik ustaleń, bibliografię oraz rejestr decyzji i eksperymentów. Materiały są robocze i wymagają weryfikacji merytorycznej.
