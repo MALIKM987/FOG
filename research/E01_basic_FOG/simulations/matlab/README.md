@@ -58,7 +58,7 @@ Dane są demonstracyjne: FWHM LASER 0,02 nm, FWHM ASE 20 nm, laser RIN −155 dB
 | [E01_source.m](E01_source.m) | Widmo LASER/ASE w W/nm i wagi całkowania |
 | [E01_model.m](E01_model.m) | Fazy, idealna i średnia moc/prąd oraz szumowy przebieg detektora |
 | [E01_noise.m](E01_noise.m) | Zredukowany model fizyczny excess RIN ASE, RIN lasera i szumu śrutowego |
-| [run_E01.m](run_E01.m) | Przełącznik źródła, sześć wykresów, eksport CSV/JSON |
+| [run_E01.m](run_E01.m) | Przełącznik źródła, osiem wykresów, eksport CSV/JSON |
 | [test_E01.m](test_E01.m) | Testy numeryczne kontrolujące równania i znaki |
 
 ## 3. Uruchomienie
@@ -90,7 +90,7 @@ Aby zmienić geometrię, moc i częstotliwość modulacji, edytuj [E01_config.m]
 
 ## 4. Co jest widoczne?
 
-W wyniku uruchomienia otrzymasz sześć ilustracji:
+W wyniku uruchomienia otrzymasz osiem ilustracji:
 
 1. `01_spectra.png` – dwa widma i rzeczywiste skale mocy widmowej (laser wąski, ASE szerokie).
 2. `02_modulator.png` – faza w obu chwilach przejścia i różnica faz.
@@ -99,6 +99,7 @@ W wyniku uruchomienia otrzymasz sześć ilustracji:
 5. `05_coherence_surrogate.png` – funkcja $|\gamma(\delta t_p)|$ dla **dodatkowej, hipotetycznej** drogi pasożytniczej.
 6. `06_linear_estimate.png` – idealizowana estymacja liniowa i jej nieliniowość poza pobliżem zera.
 7. **`07_source_noise.png`** – rzeczywista skala dodanych modelowych fluktuacji (µA i RMS).
+8. **`08_noisy_lockin.png`** – demodulowany prąd ze skończonego zaszumionego przebiegu, porównany z odpowiedzią deterministyczną (oraz różnica w nA).
 
 CSV `spectrum_*.csv` przechowuje widmo i wagi, `waveform_*.csv` przebiegi czasowe wraz z **osobnymi kolumnami idealnego i obserwowanego prądu**, `sweep_*.csv` charakterystykę odczytu i `coherence_*.csv` moduł korelacji. Plik `config.json` zawiera parametry i wersję MATLAB-a.
 
