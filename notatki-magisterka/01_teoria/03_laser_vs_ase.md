@@ -17,9 +17,9 @@ Tak. W idealnym Sagnacu obie fale pochodzą z **tego samego źródła** i pokonu
 Dla widma gęstości mocy S(ν) znormalizowana wzajemna funkcja spójności dla opóźnienia δt może być opisana (idealny przypadek stacjonarny) przez:
 
 ```math
-\\gamma(\\delta t)=
-\\frac{\\int S(\\nu)e^{i2\\pi\\nu\\delta t}\\,d\\nu}
-{\\int S(\\nu)\\,d\\nu}.
+\gamma(\delta t)=
+\frac{\int S(\nu)e^{i2\pi\nu\delta t}\,d\nu}
+{\int S(\nu)\,d\nu}.
 ```
 
 Wartość |γ(δt)| ogranicza widzialność interferencji. Przy δt≈0 nawet szerokie widmo może dawać dużą widzialność. Gdy pojawia się dodatkowa droga pasożytnicza ze znacznym opóźnieniem δt_p, jej widzialność maleje szybciej dla szerokiego widma.
@@ -31,8 +31,8 @@ Nie należy utożsamiać szerokości widma w **nm** z szerokością częstotliwo
 W przybliżeniu niezależnych składowych spektralnych z odpowiednią wagą:
 
 ```math
-P(t)=\\int W(\\lambda)\\left[1+V(\\lambda)
-\\cos(\\Delta\\varphi_S(\\lambda)+\\Delta\\varphi_m(\\lambda,t))\\right]d\\lambda.
+P(t)=\int W(\lambda)\left[1+V(\lambda)
+\cos(\Delta\varphi_S(\lambda)+\Delta\varphi_m(\lambda,t))\right]d\lambda.
 ```
 
 W(λ) oznacza rozkład mocy uwzględniający transmisję układu; sygnał prądowy wymaga jeszcze czułości widmowej fotodiody R(λ). Model wyznacza **średnią deterministyczną**; sama całka NIE odtwarza statystyki RIN, szumu śrutowego ani fazowych fluktuacji lasera.
@@ -40,7 +40,7 @@ W(λ) oznacza rozkład mocy uwzględniający transmisję układu; sygnał prądo
 ### Uwaga o Δφ_S dla źródła szerokopasmowego
 
 ```math
-\\Delta\\varphi_S(\\lambda)=\\frac{2\\pi LD\\Omega}{\\lambda c}.
+\Delta\varphi_S(\lambda)=\frac{2\pi LD\Omega}{\lambda c}.
 ```
 
 Zmiana długości fali zmienia współczynnik skali. Widmo ASE i jego stabilność mogą więc wpływać na kalibrację.
