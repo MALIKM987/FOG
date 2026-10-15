@@ -1,6 +1,6 @@
 # E01 – Podstawowy interferometryczny żyroskop światłowodowy
 
-**Status:** KONCEPCJA; **Etapy 1.1 i 1.2 – opracowane teoretycznie** (bez nowej symulacji i bez wyników pomiarowych).  
+**Status:** KONCEPCJA; **Etapy 1.1–1.3 – opracowane teoretycznie** (bez nowej symulacji i bez wyników pomiarowych).  
 **Data rozpoczęcia zapisu:** 2026-10-15.  
 **Cel:** szczegółowo zrozumieć podstawowy tor optyczny FOG i zbadać zasadność zastosowania lasera lub źródła szerokopasmowego ASE. Źródło ASE jest dostępne w laboratorium, ale jego parametry nie są tu jeszcze potwierdzone.
 
@@ -60,7 +60,7 @@ Nie zapominamy o koniecznych połączeniach optycznych ani o sygnale elektryczny
 |---|---|---|
 | **1.1** | Zasada działania i ścieżka optyczna | **Opracowano teoretycznie** |
 | **1.2** | Wyprowadzenie modelu matematycznego: sprzęgacz, fazy, detektor | **Opracowano analitycznie** |
-| 1.3 | Uporządkowane porównanie LASER/ASE i spójności | Do wykonania |
+| **1.3** | Uporządkowane porównanie LASER/ASE i spójności | **Opracowano teoretycznie** |
 | 1.4 | Pierwszy osobny model symulacyjny E01 | Do wykonania |
 | 1.5 | Badania parametryczne i walidacja | Do wykonania |
 | 1.6 | Ostateczne wnioski z badań | Do wykonania |
@@ -69,6 +69,7 @@ Nie zapominamy o koniecznych połączeniach optycznych ani o sygnale elektryczny
 
 - **[Etap 1.1: fizyczna zasada działania](01_01_optical_path.md)** – opis pięciu elementów, portów sprzęgacza, CW/CCW, modulatora i fotodiody.
 - **[Etap 1.2: wyprowadzenie matematyczne](01_02_mathematical_derivation.md)** – macierz sprzęgacza, amplitudy CW/CCW, interferencja, modulacja oraz demodulacja.
+- **[Etap 1.3: LASER vs ASE](01_03_laser_vs_ase.md)** – spójność, model widmowy, ograniczenia i hipotezy badawcze.
 - [model.md](model.md) – skrócony model, parametry i równania.
 - [source_switching_plan.md](simulations/source_switching_plan.md) – projekt późniejszej symulacji LASER/ASE.
 - [simulations/README.md](simulations/README.md) – katalog symulacji; bez wymuszania programu.
