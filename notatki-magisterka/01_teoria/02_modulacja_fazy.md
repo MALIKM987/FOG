@@ -13,7 +13,7 @@ Modulator elektrycznie zmienia *fazę* światła. W uproszczonym modelu każda f
 Jeśli odległość modulatora od jednego końca cewki jest pomijalna, odstęp między przejściami wynosi w przybliżeniu τ. Różnicowa faza modulacji (przy określonej konwencji znaku i przesunięciu początku czasu) to:
 
 ```math
-\\Delta\\varphi_m(t)=\\varphi_m(t)-\\varphi_m(t-\\tau).
+\Delta\varphi_m(t)=\varphi_m(t)-\varphi_m(t-\tau).
 ```
 
 **Kontrprzykłady:**
@@ -28,25 +28,25 @@ To uproszczenie nie opisuje każdego typu modulatora, np. rozłożonego modulato
 Niech
 
 ```math
-\\varphi_m(t)=\\varphi_0\\sin(2\\pi f_m t).
+\varphi_m(t)=\varphi_0\sin(2\pi f_m t).
 ```
 
 Wtedy
 
 ```math
-\\Delta\\varphi_m(t)=2\\varphi_0\\sin(\\pi f_m\\tau)\\cos[2\\pi f_m(t-\\tau/2)].
+\Delta\varphi_m(t)=2\varphi_0\sin(\pi f_m\tau)\cos[2\pi f_m(t-\tau/2)].
 ```
 
 Różnicowa amplituda to
 
 ```math
-\\beta=2\\varphi_0|\\sin(\\pi f_m\\tau)|.
+\beta=2\varphi_0|\sin(\pi f_m\tau)|.
 ```
 
 Pierwsze maksimum β przy zadanej φ_0 występuje dla częstotliwości
 
 ```math
-f_{proper}=\\frac{1}{2\\tau}\\approx102{,}1\\ \\mathrm{kHz}
+f_{proper}=\frac{1}{2\tau}\approx102{,}1\ \mathrm{kHz}
 ```
 
 dla L=1000 m i n_g=1,4682. To nie znaczy, że **każde** kryterium optymalności (RIN, amplituda pierwszej harmonicznej, pasmo PZT) ma maksimum dla tej samej amplitudy/frekwencji.
@@ -56,19 +56,19 @@ dla L=1000 m i n_g=1,4682. To nie znaczy, że **każde** kryterium optymalności
 Faza wejściowa interferometru:
 
 ```math
-\\Delta\\varphi(t)=\\Delta\\varphi_S+\\Delta\\varphi_m(t).
+\Delta\varphi(t)=\Delta\varphi_S+\Delta\varphi_m(t).
 ```
 
 Moc optyczna na jednym z portów:
 
 ```math
-P(t)=P_{dc}\\{1+V\\cos[\\Delta\\varphi_S+\\Delta\\varphi_m(t)]\\}.
+P(t)=P_{dc}\{1+V\cos[\Delta\varphi_S+\Delta\varphi_m(t)]\}.
 ```
 
 Detektor zamienia moc na prąd. Po synchronizacji z sygnałem sterującym i odpowiednim uśrednieniu otrzymujemy człon nieparzysty względem fazy Sagnaca, proporcjonalny do:
 
 ```math
-S_1\\propto J_1(\\beta)\\sin(\\Delta\\varphi_S).
+S_1\propto J_1(\beta)\sin(\Delta\varphi_S).
 ```
 
 W pobliżu zera sin(Δφ_S)≈Δφ_S=K_S Ω, czyli znak demodulowanego sygnału pozwala rozróżnić kierunek obrotu (po ustaleniu konwencji znaku). Odpowiedź w otwartej pętli jest okresowa; liniowość ma ograniczony zakres.
