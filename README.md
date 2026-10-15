@@ -100,7 +100,27 @@ Skrypty MATLAB są podstawowym źródłem prawdy. Modele `.slx` mogą być gener
 
 Dalszy rozwój po v8.1 powinien przede wszystkim wykorzystywać **zmierzone parametry pierwszego prototypu**.
 
-## Brudnopis pracy magisterskiej
+## Organizacja projektu naukowego
 
-Nowy roboczy dział dokumentacji: **[notatki-magisterka/](notatki-magisterka/README.md)**.
-Zawiera teorię interferometru Sagnaca, analizę modulatora fazy, porównanie źródeł LASER/ASE, plan osobnej symulacji z przełączanym źródłem, dziennik ustaleń, bibliografię oraz rejestr decyzji i eksperymentów. Materiały są robocze i wymagają weryfikacji merytorycznej.
+**Punkt wejścia:** [research/E01_basic_FOG/](research/E01_basic_FOG/README.md) – Etap E01: koncepcja minimalnego interferometru FOG (źródło LASER/ASE, sprzęgacz, modulator, cewka, fotodioda).
+
+| Katalog | Przeznaczenie |
+|---|---|
+| [theory/](theory/README.md) | Wspólna teoria, wzory, wyprowadzenia i założenia |
+| [research/](research/README.md) | Pytania badawcze, koncepcje, eksperymenty i wyniki |
+| [bibliography/](bibliography/README.md) | Literatura, linki, DOI, rekordy BibTeX |
+| [thesis/](thesis/README.md) | Przyszły tekst pracy magisterskiej |
+| [docs/](docs/ROADMAP.md) | Dokumentacja wcześniejszych modeli v1–v8.1 |
+| [matlab/](matlab/) i [results/](results/) | Kod i wyniki wcześniejszych modeli, zachowane w dotychczasowej lokalizacji |
+
+**Ważne:** obecnie E01 ma status **KONCEPCJA**. Nie uruchomiono jeszcze osobnego modelu E01 LASER/ASE. Zapisane wcześniej skrypty i wyniki dotyczą starszej ścieżki rozwoju modeli, nie stanowią automatycznie walidacji nowego badania.
+
+Stary adres [notatki-magisterka/](notatki-magisterka/README.md) pozostał jako odsyłacz po reorganizacji.
+
+### Zasady pracy w repozytorium
+
+- Domyślnie pracujemy na **main**; nie tworzymy gałęzi bez wyraźnego polecenia właściciela.
+- Każda teza ma podstawę teoretyczną, źródło lub jawne oznaczenie hipotezy.
+- Narzędzia symulacyjne wybieramy dopiero dla konkretnego pytania badawczego; nie tworzymy pustych folderów programów.
+- Modele i wyniki pozostają odtwarzalne (program, wersja, parametry, jednostki, SHA).
+- Repo jest publiczne: nie publikujemy prywatnej korespondencji ani niezatwierdzonych danych laboratoryjnych.
