@@ -1,6 +1,6 @@
 # E01 / 1.1 — Fizyczna zasada działania minimalnego FOG
 
-**Identyfikator modelu:** \`FOG-E01-MIS\` (Minimalny Interferometr Sagnaca).  
+**Identyfikator modelu:** `FOG-E01-MIS` (Minimalny Interferometr Sagnaca).  
 **Status:** OPRACOWANIE TEORETYCZNE, bez symulacji i pomiarów E01.  
 **Data:** 2026-10-15.  
 **Główny cel:** wyjaśnić *jak* światło przechodzi przez układ złożony z pięciu elementów optycznych i *dlaczego* obrót wpływa na sygnał elektryczny.
@@ -22,13 +22,11 @@ Elementy funkcjonalne:
 
 Wyobraźmy sobie idealny, wzajemny sprzęgacz z portami oznaczonymi A, B (po lewej) oraz C, D (po prawej).
 
-\`\`\`text
-   ŹRÓDŁO ─── A ┌─────────────────┐ C ── MODULATOR ─┐
-                │  SPRZĘGACZ 2×2  │                 │
- FOTODIODA ── B └─────────────────┘ D ──────────────┤
-                                    ▲               │
-                                    └── CEWKA ◄─────┘
-\`\`\`
+```text
+   ŹRÓDŁO ─── A ┌─────────────────┐ C ── MODULATOR ── CEWKA ──┐
+                │  SPRZĘGACZ 2×2  │                          │
+ FOTODIODA ── B └─────────────────┘ D ───────────────────────┘
+```
 
 *Schemat wyłącznie topologiczny; połączenie jest jednym obwodem od C do D przez modulator i cewkę. CW i CCW pokonują tę samą trasę w przeciwnych kierunkach.*
 
