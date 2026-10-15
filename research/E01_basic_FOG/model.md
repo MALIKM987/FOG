@@ -6,7 +6,7 @@
 
 Jedno źródło → jeden idealny sprzęgacz 2×2 → dwie fale CW/CCW w jednej cewce → modulator przy jednym końcu → powrót do sprzęgacza → jeden wybrany port do fotodiody.
 
-W Etapie 1.1 definiujemy porty sprzęgacza 2×2 następująco: A = źródło, B = fotodioda, C i D = dwa końce pętli (w pętli znajdują się modulator oraz cewka). Przy idealnym sprzęgaczu 50:50 port B jest ciemny dla zerowej różnicy faz, a port A jest portem jasnym, przez który światło może wracać ku źródłu. Modulator sterowany z zewnątrz zmienia fazę w czasie. Nie przyspiesza bezpośrednio propagacji jednej fali względem drugiej. Pełne fizyczne omówienie: [Etap 1.1](01_01_optical_path.md).
+W Etapie 1.1 definiujemy porty sprzęgacza 2×2 następująco: A = źródło, B = fotodioda, C i D = dwa końce pętli (w pętli znajdują się modulator oraz cewka). Przy idealnym sprzęgaczu 50:50 port B jest ciemny dla zerowej różnicy faz, a port A jest portem jasnym, przez który światło może wracać ku źródłu. Modulator sterowany z zewnątrz zmienia fazę w czasie. Nie przyspiesza bezpośrednio propagacji jednej fali względem drugiej. Pełne fizyczne omówienie: [Etap 1.1](01_01_optical_path.md). **Wyprowadzenie macierzy sprzęgacza, pól i mocy:** [Etap 1.2](01_02_mathematical_derivation.md).
 
 Punkt odniesienia: teoria [Sagnaca](../../theory/sagnac.md), [modulacji](../../theory/phase_modulation.md) i [źródeł](../../theory/optical_sources.md).
 
@@ -88,16 +88,16 @@ Idealną fotodiodę można opisać przez $i(t)=R(\lambda)P(t)$ w wąskopasmowym 
 
 ## 7. LASER vs ASE
 
-W modelu szerokopasmowym fotoprąd:
+Dla tego samego portu B, przy widmie $W(\lambda)$ i widzialności $V(\lambda)$, uśredniony szerokopasmowy fotoprąd:
 
 $$
 i(t)=\int R(\lambda)W(\lambda)
-\left\{1+V(\lambda)\cos\left[
+\left\{1-V(\lambda)\cos\left[
 \Delta\varphi_S(\lambda)+\Delta\varphi_m(\lambda,t)
 \right]\right\}\,d\lambda.
 $$
 
-Widmo $W(\lambda)$ musi być poprawnie znormalizowane do przyjętej mocy. Ten zapis dotyczy oczekiwanej/deterministycznej odpowiedzi, **nie modeluje** szumu ASE ani wszystkich korelacji stochastycznych.
+Widmo $W(\lambda)$ [W/m] musi być poprawnie znormalizowane do przyjętej mocy wejściowej: $\int W(\lambda)\,d\lambda=P_{\mathrm{in}}$. Równanie ma ten sam znak minus co port B z Etapu 1.2. Ten zapis dotyczy oczekiwanej/deterministycznej odpowiedzi, **nie modeluje** szumu ASE ani wszystkich korelacji stochastycznych.
 
 **Wniosek modelowy:** LASER i ASE mogą dawać podobne podstawowe sygnały w idealnym, zrównoważonym układzie. Różnice w odporności na interferencję pasożytniczą trzeba badać przy jawnie określonym niezrównoważeniu lub rozpraszaniu.
 
