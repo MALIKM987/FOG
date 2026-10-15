@@ -1,6 +1,6 @@
 # S1. Specyfikacja osobnego symulatora: laser / ASE
 
-**Status:** PLAN, NIE ZAIMPLEMENTOWANO W TYM ZADANIU  
+**Status:** Model idealny w MATLAB zaimplementowany; test MATLAB i dalsze poziomy szumowe jeszcze nie wykonane. Instrukcja: [matlab/README.md](matlab/README.md).  
 **Cel:** nowy, samodzielny model obserwacyjny, bez zmian istniejących plików FOG v1–v8.1.
 
 **Uzasadnienie, teoria i hipotezy H1–H4:** [Etap 1.3 – LASER kontra ASE](../01_03_laser_vs_ase.md) oraz [T3 – źródła optyczne](../../../theory/optical_sources.md).
@@ -73,15 +73,15 @@ Parametry przykładowe to **propozycje**, nie wyniki pomiaru. W pierwszym teści
 
 ## 5. Kryteria ukończenia pierwszego modelu
 
-- [ ] Jeden przełącznik LASER/ASE, bez zmian pozostałego toru.
-- [ ] Dane źródła oddzielone od algorytmu FOG.
+- [x] Jeden przełącznik LASER/ASE/BOTH, bez zmian pozostałego toru (implementacja).
+- [x] Dane źródła oddzielone od algorytmu FOG (implementacja).
 - [ ] Walidacja Ω=0, +Ω i −Ω.
 - [ ] Potwierdzenie \(K_S=2\pi LD/(\lambda c)\) w granicy wąskiego widma.
-- [ ] Porównanie idealne bez sugerowania, że ASE „wygrywa” samo z siebie.
-- [ ] Osobne wykresy wpływu spójności z oznaczeniem modelu zastępczego.
-- [ ] Zachowane konfiguracje, kod, wynik i commit SHA.
+- [x] Porównanie idealne bez sugerowania, że ASE „wygrywa” samo z siebie (implementacja).
+- [x] Osobne wykresy wpływu spójności z oznaczeniem modelu zastępczego (implementacja, bez symulacji Rayleigha).
+- [ ] Zachowane konfiguracje, kod, wynik i commit SHA (skrypt eksportuje dane; rzeczywiste uruchomienie i SHA raportu do uzupełnienia).
 - [ ] Sprawdzone jednostki, konwencje znaków i stałe widmo źródła.
-- [ ] Wersja w MATLAB/Simulink R2023b możliwa do uruchomienia jedną instrukcją.
+- [ ] Uruchomienie w MATLAB R2023b i przejście `test_E01()` do potwierdzenia. Kod nie wymaga Simulinka.
 
 ## 6. Weryfikacja analityczna
 
