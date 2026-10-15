@@ -115,7 +115,7 @@ Dalszy rozwój po v8.1 powinien przede wszystkim wykorzystywać **zmierzone para
 
 **Ważne:** obecnie E01 ma status **KONCEPCJA**. Nie uruchomiono jeszcze osobnego modelu E01 LASER/ASE. Zapisane wcześniej skrypty i wyniki dotyczą starszej ścieżki rozwoju modeli, nie stanowią automatycznie walidacji nowego badania.
 
-Stary adres [notatki-magisterka/](notatki-magisterka/README.md) pozostał jako odsyłacz po reorganizacji.
+Dawny katalog roboczych notatek przeniesiono do [archive/notatki-magisterka/](archive/notatki-magisterka/README.md). Zasady archiwizacji i lista przeniesionych materiałów: [archive/](archive/README.md).
 
 ### Zasady pracy w repozytorium
 
