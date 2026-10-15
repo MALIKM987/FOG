@@ -7,6 +7,7 @@ function ok = test_E01()
 % These are numerical MODEL tests, not hardware or metrological validation.
 
 cfg=E01_config();
+cfg.parasitic_enabled=false;   % Validate the ideal model independently.
 c=cfg.c_m_s;
 K0=2*pi*cfg.L_m*cfg.D_m/(cfg.lambda0_nm*1e-9*c);
 assert(abs(K0-2.1635)<0.001, 'Unexpected Sagnac scale.');
@@ -67,7 +68,21 @@ qNull=E01_model(cfgNull,l);
 assert(max(abs(qNull.phase_diff_rad))<1e-10, ...
     'Frequency of zero differential modulation failed.');
 
-fprintf('PASS: E01 optical power, spectra, phase, lock-in and coherence tests.\n');
+% Source-dependent *observed* current with one extra delayed optical path.
+cfgStray=cfg;
+cfgStray.parasitic_enabled=true;
+qL=E01_model(cfgStray,l);
+qA=E01_model(cfgStray,a);
+iP=find(qL.omega_deg_s==1,1);
+assert(max(abs(qL.current_observed_A(iP,:)- ...
+    qA.current_observed_A(iP,:)))>1e-6, ...
+    'Switching source does not change the observed photodiode waveform.');
+assert(max(abs(qL.current_A(:)-mL.current_A(:)))<1e-12, ...
+    'Enabling parasitic field must not change the original ideal output.');
+assert(max(abs(qA.current_A(:)-mA.current_A(:)))<1e-12, ...
+    'Enabling parasitic field must not change the original ideal ASE output.');
+
+fprintf('PASS: E01 optical power, spectra, phase, lock-in, coherence and source switching.\n');
 fprintf('Scope: ideal numerical model, not MATLAB/Simulink hardware validation.\n');
 ok=true;
 end
