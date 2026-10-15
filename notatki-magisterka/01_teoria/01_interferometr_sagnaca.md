@@ -14,13 +14,13 @@ Uwaga: idealny **układ z pętlą, modulatorem i laserem, ale bez sprzęgacza i 
 Dla N identycznych zwojów o polu A i osi obrotu prostopadłej do cewki:
 
 ```math
-\\Delta\\varphi_S=\\frac{8\\pi NA\\Omega}{\\lambda c}
+\Delta\varphi_S=\frac{8\pi NA\Omega}{\lambda c}
 ```
 
 Przy A = πD²/4 i L = NπD otrzymujemy:
 
 ```math
-\\boxed{\\Delta\\varphi_S=\\frac{2\\pi LD}{\\lambda c}\\Omega=K_S\\Omega}
+\boxed{\Delta\varphi_S=\frac{2\pi LD}{\lambda c}\Omega=K_S\Omega}
 ```
 
 gdzie: L [m] – długość nawiniętego włókna; D [m] – średnia średnica cewki; λ [m] – długość fali w próżni; c [m/s] – prędkość światła w próżni; Ω [rad/s] – składowa prędkości kątowej wzdłuż osi cewki.
@@ -45,7 +45,7 @@ To wartości referencyjne wcześniejszych modeli; nie są potwierdzeniem paramet
 Czas przejścia przez cewkę:
 
 ```math
-\\tau=\\frac{n_g L}{c}\\approx4{,}897\\ \\mathrm{\\mu s}.
+\tau=\frac{n_g L}{c}\approx4{,}897\ \mathrm{\mu s}.
 ```
 
 **Ważne rozróżnienie:** opóźnienie grupowe (n_g) opisuje czasy przejścia sygnału/modulacji; współczynnik skali Sagnaca opisany powyżej nie jest prostym przemnożeniem przez n_g.
@@ -55,7 +55,7 @@ Czas przejścia przez cewkę:
 Dla **wybranego** portu idealnego interferometru można zapisać:
 
 ```math
-P(t)=P_{dc}[1+V\\cos(\\Delta\\varphi(t))].
+P(t)=P_{dc}[1+V\cos(\Delta\varphi(t))].
 ```
 
 P_dc zawiera poziom optyczny, straty oraz podział mocy; V∈[0,1] jest widzialnością prążków. Na przeciwnym porcie może wystąpić znak minus. Port i fazę odniesienia trzeba jednoznacznie określić w przyszłym modelu.
