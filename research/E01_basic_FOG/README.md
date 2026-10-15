@@ -1,6 +1,6 @@
 # E01 – Podstawowy interferometryczny żyroskop światłowodowy
 
-**Status:** KONCEPCJA; **Etapy 1.1–1.3 – opracowane teoretycznie** (bez nowej symulacji i bez wyników pomiarowych).  
+**Status:** Etapy 1.1–1.3 opracowane teoretycznie; **1.4 – kod MATLAB przygotowany, oczekuje na lokalne uruchomienie i testy** (bez wyników pomiarowych).  
 **Data rozpoczęcia zapisu:** 2026-10-15.  
 **Cel:** szczegółowo zrozumieć podstawowy tor optyczny FOG i zbadać zasadność zastosowania lasera lub źródła szerokopasmowego ASE. Źródło ASE jest dostępne w laboratorium, ale jego parametry nie są tu jeszcze potwierdzone.
 
@@ -61,7 +61,7 @@ Nie zapominamy o koniecznych połączeniach optycznych ani o sygnale elektryczny
 | **1.1** | Zasada działania i ścieżka optyczna | **Opracowano teoretycznie** |
 | **1.2** | Wyprowadzenie modelu matematycznego: sprzęgacz, fazy, detektor | **Opracowano analitycznie** |
 | **1.3** | Uporządkowane porównanie LASER/ASE i spójności | **Opracowano teoretycznie** |
-| 1.4 | Pierwszy osobny model symulacyjny E01 | Do wykonania |
+| **1.4** | Pierwszy osobny model symulacyjny E01 | **Kod MATLAB gotowy, test wykonawczy oczekuje** |
 | 1.5 | Badania parametryczne i walidacja | Do wykonania |
 | 1.6 | Ostateczne wnioski z badań | Do wykonania |
 
@@ -72,6 +72,7 @@ Nie zapominamy o koniecznych połączeniach optycznych ani o sygnale elektryczny
 - **[Etap 1.3: LASER vs ASE](01_03_laser_vs_ase.md)** – spójność, model widmowy, ograniczenia i hipotezy badawcze.
 - [model.md](model.md) – skrócony model, parametry i równania.
 - [source_switching_plan.md](simulations/source_switching_plan.md) – projekt późniejszej symulacji LASER/ASE.
+- **[Symulacja MATLAB](simulations/matlab/README.md)** – przełącznik LASER/ASE, wykresy i testy.
 - [simulations/README.md](simulations/README.md) – katalog symulacji; bez wymuszania programu.
 - [results/README.md](results/README.md) – kryteria zapisu wyników (na razie brak wyników E01).
 - [conclusions.md](conclusions.md) – aktualne wnioski wyłącznie teoretyczne i pytania otwarte.
