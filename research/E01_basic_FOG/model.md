@@ -91,7 +91,7 @@ Idealną fotodiodę można opisać przez $i(t)=R(\lambda)P(t)$ w wąskopasmowym 
 Dla tego samego portu B, przy widmie $W(\lambda)$ i widzialności $V(\lambda)$, uśredniony szerokopasmowy fotoprąd:
 
 $$
-i(t)=\int R(\lambda)W(\lambda)
+i(t)=\frac{1}{2}\int R(\lambda)W(\lambda)
 \left\{1-V(\lambda)\cos\left[
 \Delta\varphi_S(\lambda)+\Delta\varphi_m(\lambda,t)
 \right]\right\}\,d\lambda.
