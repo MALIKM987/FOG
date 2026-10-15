@@ -35,7 +35,7 @@ $$
 \qquad \omega_0=\frac{2\pi c}{\lambda}.
 $$
 
-Do rachunku portów stosujemy już **znormalizowaną amplitudę** $E_0=\sqrt{P_{\rm in}}e^{j\varphi_0}$, gdzie $P_{\rm in}$ jest mocą optyczną dochodzącą do portu A.
+Do rachunku portów stosujemy już **znormalizowaną amplitudę** $E_0=\sqrt{P_{\rm in}}e^{j\varphi_{\rm in}}$, gdzie $P_{\rm in}$ jest mocą optyczną dochodzącą do portu A.
 
 Rozdzielenie amplitud następuje na polach, a nie na samych mocach: dopiero po ich ponownym dodaniu obliczamy kwadraty modułów.
 
