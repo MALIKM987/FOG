@@ -2,6 +2,8 @@
 
 **Zasada:** każda pozycja musi zawierać DOI lub stabilny URL. Cytat i twierdzenie w pracy należy sprawdzić **w pełnym tekście** źródła, nie tylko na podstawie abstraktu. Stan „źródło zidentyfikowane” nie znaczy „publikacja przeczytana”.
 
+**Bibliografia maszynowa:** [references.bib](references.bib) zawiera zweryfikowane rekordy L1, L2, L3 i L5. L4 oraz L6 wymagają sprawdzenia dokładnych metadanych przed przeniesieniem do BibTeX.
+
 ## Podstawowe opracowania
 
 **[L1]** H. C. Lefèvre, „The fiber-optic gyroscope, a century after Sagnac's experiment: The ultimate rotation-sensing technology?”, *Comptes Rendus Physique* 15 (2014), nr 10, s. 851–858.  
@@ -14,17 +16,17 @@ DOI: https://doi.org/10.1364/OFS.1996.Tu3S1
 Temat: zasada działania, wzajemność, modulacja, źródła i elementy optyczne.  
 Status: **ŹRÓDŁO ZIDENTYFIKOWANE**, wymaga analizy tekstu.
 
-**[L3]** „Efficient Modulation and Processing Method for Closed-Loop Fiber Optic Gyroscope with Piezoelectric Modulator”, 2019.  
+**[L3]** M. Skalský, Z. Havránek, J. Fialka, „Efficient Modulation and Processing Method for Closed-Loop Fiber Optic Gyroscope with Piezoelectric Modulator”, *Sensors* 19(7), 1710 (2019). DOI: https://doi.org/10.3390/s19071710.  
 Tekst: https://pmc.ncbi.nlm.nih.gov/articles/PMC6480926/  
 Temat: modulacja z opóźnieniem w pętli i „proper frequency” \(f_b=1/(2\tau)\), uwarunkowania modulatora PZT.  
-Status: **ŹRÓDŁO ZIDENTYFIKOWANE**, sprawdzić autorów, DOI i zakres stosowalności do open-loop.
+Status: **ŹRÓDŁO ZIDENTYFIKOWANE**, autorzy i DOI sprawdzeni; zweryfikować pełne równania oraz zakres stosowalności do open-loop.
 
 **[L4]** „Miniaturization of Interferometric Optical Gyroscopes: A Review”, 2023, *IEEE*.  
 Indeks: https://ieeexplore.ieee.org/document/10301584  
 Temat: źródła szerokopasmowe, stabilność średniej długości fali, błędy, szumy.  
 Status: **ŹRÓDŁO ZIDENTYFIKOWANE**, sprawdzić pełną metrykę i dostępność.
 
-**[L5]** „Fiber-optic gyroscopes: from design to production”, *Applied Optics* 50 (2011).  
+**[L5]** J. Nayak, „Fiber-optic gyroscopes: from design to production”, *Applied Optics* 50(25), E152–E161 (2011).  
 DOI: https://doi.org/10.1364/AO.50.00E152  
 Temat: źródła błędów, rozpraszanie wsteczne, wybór źródła.  
 Status: **ŹRÓDŁO ZIDENTYFIKOWANE**, wymaga lektury całego tekstu.
@@ -47,7 +49,7 @@ Status: **ŹRÓDŁO ZIDENTYFIKOWANE**, pełna metryka i równania do sprawdzenia
 
 ## Dalszy proces bibliograficzny
 
-- Dodać pełne rekordy BibTeX po sprawdzeniu DOI.
+- Dopisywać do `references.bib` nowe rekordy po sprawdzeniu autorów, tytułu, roku i DOI.
 - Dopisać numer strony/rysunku/wzoru pod każdą tezę.
 - Rozdzielić cytowania **teorii** od cytowań parametrów **konkretnego komponentu**.
 - Unikać kopii wykresów z artykułów; przygotować własne schematy i wyniki z właściwym odniesieniem.
