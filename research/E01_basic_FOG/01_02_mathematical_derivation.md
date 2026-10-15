@@ -10,7 +10,7 @@ Rozpatrujemy idealny sprzęgacz bezstratny 50:50, jednomodową cewkę o równej 
 
 **Topologia portów:**
 
-\`\`\`text
+```text
                        A (źródło)       C
   E_in ---> port A ---> [ sprzęgacz ] ---> modulator ---> cewka ---+
              port B <---[    2 × 2  ] <--- port D <-----------------+
@@ -18,7 +18,7 @@ Rozpatrujemy idealny sprzęgacz bezstratny 50:50, jednomodową cewkę o równej 
           fotodioda
 
 Przejście C -> D oznaczamy CW, a D -> C oznaczamy CCW.
-\`\`\`
+```
 
 Sprzęgacz obserwujemy **z obu stron**. Pole wejściowe $E_0$ pochodzi z portu A. Port B jest wybrany jako **ciemny przy zerowej różnicy faz**. Port A jest w tej idealizacji jasny, co oznacza możliwy powrót mocy do źródła.
 
@@ -266,11 +266,11 @@ gdzie $R(\lambda_0)$ [A/W] jest responsywnością fotodiody. Fotodioda nie rozr�
 
 Chcemy wiedzieć, czy wirujemy w prawo czy w lewo. Wprowadzamy znany przebieg fazy i **korelujemy** prąd fotodiody z sygnałem odniesienia $\cos\theta(t)$.
 
-Dla całkowitej liczby okresów i idealnego uśredniania definiujemy amplitudę pierwszej harmonicznej:
+Dla całkowitej liczby okresów $M$ i idealnego uśredniania trwającego $T=M/f_m$ definiujemy amplitudę pierwszej harmonicznej:
 
 $$
 I_1=\frac{2}{T}\int_{t_0}^{t_0+T}i_B(t)\cos\theta(t)\,dt
-\quad\text{(T to całkowita liczba okresów modulacji).}
+
 $$
 
 Przez rozwinięcie Jacobi–Angera otrzymujemy współczynnik pierwszej harmonicznej (pozostałe harmoniczne są ortogonalne):
@@ -338,7 +338,7 @@ Do **późniejszego sprawdzenia numerycznego**:
 
 - H. C. Lefèvre, *Fundamentals of the Interferometric Fiber-Optic Gyroscope*, Optical Fiber Sensors 1996, Tu3S1, https://doi.org/10.1364/OFS.1996.Tu3S1 – podstawy interferometrii Sagnaca.
 - M. Skalský, Z. Havránek, J. Fialka, *Efficient Modulation and Processing Method for Closed-Loop Fiber Optic Gyroscope with Piezoelectric Modulator*, Sensors 19(7), 1710 (2019), https://doi.org/10.3390/s19071710 – sekcja 2.1 oraz wzory (1)-(2), opis częstotliwości proper i asymetrii położenia modulatora.
-- J. P. Dowling, *Heisenberg-Limited Sagnac Interferometry*, Optics Express 15 (2007), https://doi.org/10.1364/OE.15.006798 – sekcja 3.1, rozdzielacz 50:50 i pola interferujące. **Pełna metryka autora do sprawdzenia przed wpisaniem do BibTeX.**
+- A. Kolkiran, G. S. Agarwal, *Heisenberg limited Sagnac interferometry*, *Optics Express* 15(11), 6798–6808 (2007), https://doi.org/10.1364/OE.15.006798 – sekcja 3.1, rozdzielacz 50:50 i pola interferujące. **Autorzy i metryka zweryfikowane na stronie Optica.**
 
 ## 12. Ograniczenia
 
