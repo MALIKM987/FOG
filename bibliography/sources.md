@@ -2,7 +2,7 @@
 
 **Zasada:** każda pozycja musi zawierać DOI lub stabilny URL. Cytat i twierdzenie w pracy należy sprawdzić **w pełnym tekście** źródła, nie tylko na podstawie abstraktu. Stan „źródło zidentyfikowane” nie znaczy „publikacja przeczytana”.
 
-**Bibliografia maszynowa:** [references.bib](references.bib) zawiera zweryfikowane rekordy L1, L2, L3, L5 i L7. L4 oraz L6 wymagają sprawdzenia dokładnych metadanych przed przeniesieniem do BibTeX.
+**Bibliografia maszynowa:** [references.bib](references.bib) zawiera zweryfikowane rekordy L1, L2, L3, L5, L7, L8, L9 i L10. L4 oraz L6 wymagają sprawdzenia dokładnych metadanych przed przeniesieniem do BibTeX.
 
 ## Podstawowe opracowania
 
@@ -41,6 +41,21 @@ DOI: https://doi.org/10.1364/OE.15.006798
 Temat: **sekcja 3.1, wejście klasyczne** – współczynniki sprzęgacza 50:50, dwie przeciwbieżne amplitudy i porty interferometryczne.  
 Status: **METRYKA I SEKCJA 3.1 SPRAWDZONE** na stronie wydawcy Optica; pełną analizę innych części publikacji odłożyć (dotyczą m.in. kwantowego interferometru). Klucz BibTeX: `kolkiran2007sagnac`.
 
+**[L8]** F. Hakimi, J. D. Moores, „RIN-reduced light source for ultra-low noise interferometric fibre optic gyroscopes”, *Electronics Letters* 49(3), 205–207 (2013).  
+DOI: https://doi.org/10.1049/el.2012.3371  
+Temat: źródła szerokopasmowe, excess RIN i kompromis między spójnością a szumem.  
+Status: **METRYKA I ABSTRAKT SPRAWDZONE** na stronie Wiley; pełne równania/strony do dalszej analizy. BibTeX: `hakimi2013rin`.
+
+**[L9]** Y. Liu, J. Yan, Y. Tan, X. Chen, „Influence of the average wavelength on the scale factor stability of interferometric fiber optic gyroscope”, *Applied Optics* 63(19), F53–F58 (2024).  
+DOI: https://doi.org/10.1364/AO.522560  
+Temat: wpływ zmian efektywnej długości fali na stabilność współczynnika skali IFOG.  
+Status: **METRYKA I ABSTRAKT SPRAWDZONE** na stronie Optica; pełny tekst/strony do dalszej analizy. BibTeX: `liu2024wavelength`.
+
+**[L10]** Y. Li, F. Ben, R. Luo, C. Peng, Z. Li, „Excess relative intensity noise suppression in depolarized interferometric fiber optic gyroscopes”, *Optics Communications* 440, 83–88 (2019).  
+DOI: https://doi.org/10.1016/j.optcom.2019.01.075  
+Temat: excess RIN w IFOG, przykład źródła ASE w układzie otwartopętlowym, późniejsze zagadnienia polaryzacji.  
+Status: **METRYKA I ABSTRAKT SPRAWDZONE** na stronie Elsevier; szczegółowy układ zawiera polaryzację, której w E01 nie modelujemy. BibTeX: `li2019rin`.
+
 ## Mapa cytowania
 
 | Teza w brudnopisie | Kandydat źródłowy | Co trzeba sprawdzić przed cytowaniem |
@@ -49,9 +64,10 @@ Status: **METRYKA I SEKCJA 3.1 SPRAWDZONE** na stronie wydawcy Optica; pełną a
 | Faza Sagnaca proporcjonalna do Ω | [L1], [L2] | współczynnik 2πLD/(λc), geometria |
 | Sygnał interferencji i wymaganie biasu | [L2], [L3] | znaki, port sprzęgacza, sposób demodulacji |
 | Częstotliwość proper 1/(2τ) | [L3] | τ i dokładna definicja fazy modulatora |
-| ASE i spójność krótkoczasowa | [L4], [L5] | dokładny model widma i rola opóźnienia |
+| ASE i spójność krótkoczasowa | [L5], [L8], [L10] | model widma, opóźnienia i założenia interferometru |
 | Rayleigh oraz szum od rozpraszania | [L5], [L6] | warunki źródeł i zakres redukcji |
-| Stabilność widma a współczynnik skali | [L4] | średnia/efektywna długość fali |
+| Stabilność widma a współczynnik skali | [L9] | średnia/efektywna długość fali; zakres modelu closed-loop |
+| Szum szerokopasmowy RIN | [L8], [L10] | pomiar i pełna charakterystyka szumowa źródła |
 
 ## Dalszy proces bibliograficzny
 
