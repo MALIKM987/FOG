@@ -86,6 +86,7 @@ end
 % Keep deterministic and random signals as separate arrays for comparison.
 sampling_Hz=cfg.samples_per_period*cfg.fm_Hz;
 noise=E01_noise(cfg,src,current_observed_A,sampling_Hz);
+lockin_measured_A=2*mean(noise.current_noisy_A.*ref,2);
 
 % Degree-of-coherence magnitude versus DELAY OF AN EXTRA PATH.
 % Optical carrier removed to avoid ultrafast fringes; modulus unchanged.
@@ -116,6 +117,7 @@ out.optical_noise_bandwidth_Hz = noise.optical_effective_bandwidth_Hz;
 out.electrical_bandwidth_Hz = noise.electrical_bandwidth_Hz;
 out.noise_enabled = noise.noise_enabled;
 out.lockin_observed_A = lockin_observed_A;
+out.lockin_measured_A = lockin_measured_A;
 out.parasitic_enabled = hasParasitic;
 out.lockin_A = lockin_A;
 out.lockin_formula_A = lockin_formula_A;
