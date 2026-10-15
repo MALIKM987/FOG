@@ -1,8 +1,8 @@
 # E01 – Wyniki
 
-**Nie zarejestrowano jeszcze wyników symulacji ani pomiarów Etapu E01.**
+**Nie zarejestrowano jeszcze wyników z uruchomienia MATLAB ani pomiarów Etapu E01 w repozytorium.** Przygotowano kod symulatora i niezależnie sprawdzono jego równania; nie jest to jeszcze raport z uruchomienia MATLAB.
 
-Po uruchomieniu eksperymentu utworzymy osobny katalog `EXP-YYYY-NNN/` i zapiszemy w nim:
+Pierwszy skrypt [run_E01.m](../simulations/matlab/run_E01.m) tworzy lokalnie `EXP_E01_ideal_demo/` i zapisuje wykresy oraz CSV/JSON. Po zatwierdzeniu wyników uruchomienia możemy dodać je do repozytorium i uzupełnić raport. Kolejne eksperymenty będą otrzymywały osobny katalog `EXP-YYYY-NNN/` i zapiszemy w nim:
 - parametry wejściowe (np. JSON),
 - dane wynikowe (np. CSV, format natywny programu),
 - wykresy z podpisami i jednostkami,
