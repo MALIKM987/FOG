@@ -6,7 +6,7 @@
 
 Jedno źródło → jeden idealny sprzęgacz 2×2 → dwie fale CW/CCW w jednej cewce → modulator przy jednym końcu → powrót do sprzęgacza → jeden wybrany port do fotodiody.
 
-Sposób podłączenia sprzęgacza musi zapewnić rozdzielenie i ponowną interferencję; port pomiarowy wpływa na znak członu interferencyjnego. Modulator sterowany z zewnątrz zmienia fazę w czasie. Nie przyspiesza bezpośrednio propagacji jednej fali względem drugiej.
+W Etapie 1.1 definiujemy porty sprzęgacza 2×2 następująco: A = źródło, B = fotodioda, C i D = dwa końce pętli (w pętli znajdują się modulator oraz cewka). Przy idealnym sprzęgaczu 50:50 port B jest ciemny dla zerowej różnicy faz, a port A jest portem jasnym, przez który światło może wracać ku źródłu. Modulator sterowany z zewnątrz zmienia fazę w czasie. Nie przyspiesza bezpośrednio propagacji jednej fali względem drugiej. Pełne fizyczne omówienie: [Etap 1.1](01_01_optical_path.md).
 
 Punkt odniesienia: teoria [Sagnaca](../../theory/sagnac.md), [modulacji](../../theory/phase_modulation.md) i [źródeł](../../theory/optical_sources.md).
 
@@ -74,13 +74,15 @@ Pierwsza częstotliwość maksymalizująca amplitudę **różnicowej** modulacji
 
 ## 6. Fotodioda i detekcja
 
-Na wybranym porcie w modelu idealnym:
+Na porcie **B**, wybranym jako ciemny przy zerowej fazie, dla idealnego bezstratnego sprzęgacza 50:50:
 
-$$
-P(t)=P_{dc}\left[1+V\cos\left(\Delta\varphi_S+\Delta\varphi_m(t)\right)\right].
-$$
+$
+P_B(t)=\frac{P_{\mathrm{in}}}{2}\left[1-V\cos\left(\Delta\varphi_S+\Delta\varphi_m(t)\right)\right].
+$
 
-$P_{dc}$ jest skalą mocy średniej na porcie, a $V$ oznacza widzialność. Gdy modulator jest wyłączony, cosinus nie rozróżnia dodatniego i ujemnego Ω. Dla modulacji sinusoidalnej składowa po demodulacji synchronicznej może być proporcjonalna do $J_1(\beta)\sin(\Delta\varphi_S)$, gdzie $\beta=2\varphi_0|\sin(\pi f_m\tau)|$; stała i znak wymagają konwencji fazy odniesienia.
+$P_{\mathrm{in}}$ jest mocą wejściową, $V$ jest widzialnością interferencji. Dla idealnego $V=1$ i $\Delta\varphi=0$ zachodzi $P_B=0$. Moc na porcie A jest komplementarna w bezstratnym przypadku: $P_A(t)=P_{\mathrm{in}}-P_B(t)$. Oznaczenia odpowiadają [Etapowi 1.1](01_01_optical_path.md). W układzie rzeczywistym straty i asymetrie zmieniają wartości tych mocy.
+
+Gdy modulator jest wyłączony, cosinus nie rozróżnia dodatniego i ujemnego Ω. Dla modulacji sinusoidalnej składowa po demodulacji synchronicznej może być proporcjonalna do $J_1(\beta)\sin(\Delta\varphi_S)$, gdzie $\beta=2\varphi_0|\sin(\pi f_m\tau)|$; stała i znak wymagają konwencji fazy odniesienia.
 
 Idealną fotodiodę można opisać przez $i(t)=R(\lambda)P(t)$ w wąskopasmowym przybliżeniu. Dla szerokiego widma należy uwzględnić $R(\lambda)$ podczas całkowania po widmie.
 
