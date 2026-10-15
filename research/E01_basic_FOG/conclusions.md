@@ -1,10 +1,10 @@
 # E01 – Wnioski i otwarte zagadnienia
 
-**Status:** KONCEPCJA / WNIOSKI TEORETYCZNE; **Etap 1.1 opracowany teoretycznie**.  
+**Status:** KONCEPCJA / WNIOSKI TEORETYCZNE; **Etapy 1.1 i 1.2 opracowane teoretycznie**.  
 **Wyniki symulacji przypisane do E01:** BRAK.  
 **Wyniki pomiarów przypisane do E01:** BRAK.
 
-[Etap 1.1 – analiza toru optycznego](01_01_optical_path.md) opisuje porty, drogę CW/CCW oraz sygnał detektora. Wnioski nie oznaczają potwierdzenia eksperymentalnego.
+[Etap 1.1 – analiza toru optycznego](01_01_optical_path.md) opisuje porty, drogę CW/CCW oraz sygnał detektora. [Etap 1.2 – wyprowadzenie analityczne](01_02_mathematical_derivation.md) daje ścisły model amplitud sprzęgacza i prądu fotodiody. Wnioski nie oznaczają potwierdzenia eksperymentalnego.
 
 ## Wnioski teoretyczne
 
@@ -13,6 +13,9 @@
 3. Jeden modulator fazy może dawać różnicową fazę, bo fale CW i CCW przechodzą przez niego **w różnych chwilach**. Nie oznacza to przyspieszania jednej fali względem drugiej.
 4. Źródło ASE może interferować w zrównoważonym interferometrze Sagnaca mimo szerokiego widma, gdy wzajemna różnica opóźnień obu dróg jest mała.
 5. Aby porównać odporność LASER i ASE na zakłócenia spójne, potrzebny jest model kontrolowanej drogi pasożytniczej lub bardziej realistycznego rozpraszania; nie wolno wyciągać takich wniosków z samej charakterystyki idealnej.
+
+6. Dla idealnego sprzęgacza 50:50 dowiedziono w modelu $P_A+P_B=P_{\rm in}$, a wybrany port B ma $P_B=P_{\rm in}[1-\cos\Delta\varphi]/2$.
+7. Pierwsza harmoniczna po idealnej demodulacji jest proporcjonalna do $J_1(\beta)\sin(K_S\Omega)$. Dzięki temu jej znak umożliwia wykrycie kierunku obrotu w zakresie małych kątów fazy.
 
 ## Do sprawdzenia
 
