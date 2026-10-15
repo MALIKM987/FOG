@@ -2,9 +2,14 @@
 % Edytuj TYLKO te linie (nie zmieniasz cewki ani sprzegacza):
 SOURCE = "LASER";     % "LASER", "ASE" lub "BOTH"
 %
-% W E01_config.m:
-%  cfg.parasitic_enabled = true;   % wyrazna roznica na fotodiodzie
-%  cfg.parasitic_enabled = false;  % idealny FOG, prawie te same sygnaly
+% W E01_config.m (ustawienia zaawansowane):
+%  cfg.noise_enabled = true;       % domyslnie: losowe szumy LASER/ASE
+%  cfg.noise_enabled = false;      % tylko sredni sygnal, prawie jednakowy
+%  cfg.parasitic_enabled = false;  % domyslnie: bez odbic optycznych
+%  cfg.parasitic_enabled = true;   % dodatkowa DEMO droga odbicia
+%
+% Obserwuj 03_photodiode.png (prad fotodiody) oraz 07_source_noise.png
+% (fluktuacje w uA). Szersze ASE NIE MUSI oznaczac innego sredniego pradu.
 %
 % To DEMONSTRACJA fizyki interferometru i spojnosci, NIE pomiar.
 % MATLAB R2023b, bez wymagania Simulinka.
