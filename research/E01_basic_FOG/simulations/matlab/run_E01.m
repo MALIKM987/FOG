@@ -26,8 +26,10 @@ end
 if nargin<2 || isempty(outputDir)
     if cfg.parasitic_enabled
         caseName = 'single_stray_demo';
+    elseif cfg.noise_enabled
+        caseName = 'source_noise_demo';
     else
-        caseName = 'ideal';
+        caseName = 'deterministic';
     end
     outputDir = fullfile(here,'..','..','results', ...
         ['EXP_E01_' lower(char(sourceType)) '_' caseName]);
@@ -63,8 +65,10 @@ fprintf('Source mode: %s | input power: %.3f mW | beta: %.3f rad\n', ...
     char(sourceType),cfg.input_power_W*1e3,models{1}.beta_rad);
 fprintf('K_sag(lambda0)=%.9f rad/(rad/s)\n', ...
     2*pi*cfg.L_m*cfg.D_m/(cfg.lambda0_nm*1e-9*cfg.c_m_s));
-fprintf('Parasitic delayed field model: %d (0 = ideal, 1 = toy model)\n', ...
+fprintf('Parasitic delayed field model: %d (0 = off, 1 = toy model)\n', ...
     cfg.parasitic_enabled);
+fprintf('Source/photodiode fluctuations enabled: %d, bandwidth %.0f kHz\n', ...
+    cfg.noise_enabled,cfg.electrical_bandwidth_Hz/1e3);
 fprintf('WARNING: DEMO spectra and toy stray-field model, NOT laboratory measurements.\n\n');
 
 % Figure 1: spectra. Two panels show wide view and local peak zoom.
