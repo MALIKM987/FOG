@@ -206,6 +206,32 @@ title(sprintf('Illustrative noise in %.0f kHz detector bandwidth', ...
 save_plot(fig,outputDir,'07_source_noise.png', ...
     cfg.save_outputs,cfg.show_figures);
 
+% Figure 8: lock-in from noisy photodiode samples, not just analytic curve.
+fig=figure('Visible',visibility,'Name','E01: Noisy lock-in','Color','w');
+subplot(2,1,1);hold on;grid on;
+for k=1:numel(models)
+    q=models{k};
+    plot(q.omega_deg_s,q.lockin_measured_A*1e6,'o-', ...
+        'LineWidth',1.2,'DisplayName',[q.source.kind ' measured']);
+    plot(q.omega_deg_s,q.lockin_observed_A*1e6,'--', ...
+        'LineWidth',0.9,'DisplayName',[q.source.kind ' deterministic']);
+end
+xlabel('Omega [deg/s]');ylabel('Finite-window lock-in [uA]');
+title('Photodiode after finite-time synchronous detection');
+legend('show');
+subplot(2,1,2);hold on;grid on;
+for k=1:numel(models)
+    q=models{k};
+    plot(q.omega_deg_s, ...
+        (q.lockin_measured_A-q.lockin_observed_A)*1e9, ...
+        'o-','LineWidth',1.2,'DisplayName',q.source.kind);
+end
+xlabel('Omega [deg/s]');ylabel('Noisy minus deterministic lock-in [nA]');
+title('Stochastic uncertainty in one 16-period window');
+legend('show');
+save_plot(fig,outputDir,'08_noisy_lockin.png', ...
+    cfg.save_outputs,cfg.show_figures);
+
 % Reproducible text/CSV/JSON outputs with named units.
 for k=1:numel(models)
     q=models{k};
@@ -238,6 +264,12 @@ for k=1:numel(models)
         signals.i_plus1_noisy_A=q.current_measured_A(idxP,:).';
         signals.i_plus1_source_rin_A=q.noise_rin_A(idxP,:).';
         signals.i_plus1_shot_A=q.noise_shot_A(idxP,:).';
+        lockin_summary=table(q.omega_deg_s,q.lockin_A, ...
+            q.lockin_observed_A,q.lockin_measured_A, ...
+            'VariableNames',{'omega_deg_s','I1_ideal_A', ...
+            'I1_deterministic_A','I1_noisy_A'});
+        writetable(lockin_summary,fullfile(outputDir, ...
+            ['lockin_' lower(q.source.kind) '.csv']));
         writetable(signals,fullfile(outputDir, ...
             ['waveform_' lower(q.source.kind) '.csv']));
         sweep=table(q.sweep_deg_s(:),q.lockin_sweep_A(:), ...
