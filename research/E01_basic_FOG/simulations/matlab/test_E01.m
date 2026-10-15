@@ -82,6 +82,34 @@ assert(max(abs(qL.current_A(:)-mL.current_A(:)))<1e-12, ...
 assert(max(abs(qA.current_A(:)-mA.current_A(:)))<1e-12, ...
     'Enabling parasitic field must not change the original ideal ASE output.');
 
+% Source RIN and detector shot noise (electrical-envelope approximation).
+% Different source noises must change the photodiode distribution even
+% when mean ideal FOG waveforms overlap.
+cfgNoise=cfg;
+cfgNoise.parasitic_enabled=false;
+cfgNoise.noise_enabled=true;
+qLaserNoise=E01_model(cfgNoise,l);
+qASENoise=E01_model(cfgNoise,a);
+iTest=find(qLaserNoise.omega_deg_s==1,1);
+laserResidual=qLaserNoise.current_measured_A(iTest,:)- ...
+    qLaserNoise.current_observed_A(iTest,:);
+aseResidual=qASENoise.current_measured_A(iTest,:)- ...
+    qASENoise.current_observed_A(iTest,:);
+laserRms=sqrt(mean(laserResidual.^2));
+aseRms=sqrt(mean(aseResidual.^2));
+assert(aseRms>5*laserRms, ...
+    'Demo ASE intensity fluctuations should exceed demo laser noise.');
+assert(qASENoise.noise_rin_dB_Hz > qLaserNoise.noise_rin_dB_Hz, ...
+    'ASE spectral beat RIN must exceed illustrative laser RIN.');
+assert(max(abs(qLaserNoise.current_observed_A(:)- ...
+    mL.current_observed_A(:)))<1e-12, ...
+    'Adding noise must not modify the deterministic optical signal.');
+cfgNoise.noise_enabled=false;
+qNoiseOff=E01_model(cfgNoise,a);
+assert(max(abs(qNoiseOff.current_measured_A(:)- ...
+    qNoiseOff.current_observed_A(:)))==0, ...
+    'Disabling noise must recover deterministic detector output.');
+
 fprintf('PASS: E01 optical power, spectra, phase, lock-in, coherence and source switching.\n');
 fprintf('Scope: ideal numerical model, not MATLAB/Simulink hardware validation.\n');
 ok=true;
