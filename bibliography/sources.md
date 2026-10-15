@@ -2,7 +2,7 @@
 
 **Zasada:** każda pozycja musi zawierać DOI lub stabilny URL. Cytat i twierdzenie w pracy należy sprawdzić **w pełnym tekście** źródła, nie tylko na podstawie abstraktu. Stan „źródło zidentyfikowane” nie znaczy „publikacja przeczytana”.
 
-**Bibliografia maszynowa:** [references.bib](references.bib) zawiera zweryfikowane rekordy L1, L2, L3 i L5. L4 oraz L6 wymagają sprawdzenia dokładnych metadanych przed przeniesieniem do BibTeX.
+**Bibliografia maszynowa:** [references.bib](references.bib) zawiera zweryfikowane rekordy L1, L2, L3, L5 i L7. L4 oraz L6 wymagają sprawdzenia dokładnych metadanych przed przeniesieniem do BibTeX.
 
 ## Podstawowe opracowania
 
@@ -36,10 +36,16 @@ Abstrakt: https://www.wip.osapublishing.org/josaa/abstract.cfm?uri=josaa-2-6-872
 Temat: ilościowe modelowanie rozpraszania Rayleigha przy małej spójności.  
 Status: **ŹRÓDŁO ZIDENTYFIKOWANE**, pełna metryka i równania do sprawdzenia.
 
+**[L7]** A. Kolkiran, G. S. Agarwal, „Heisenberg limited Sagnac interferometry”, *Optics Express* 15(11), 6798–6808 (2007).  
+DOI: https://doi.org/10.1364/OE.15.006798  
+Temat: **sekcja 3.1, wejście klasyczne** – współczynniki sprzęgacza 50:50, dwie przeciwbieżne amplitudy i porty interferometryczne.  
+Status: **METRYKA I SEKCJA 3.1 SPRAWDZONE** na stronie wydawcy Optica; pełną analizę innych części publikacji odłożyć (dotyczą m.in. kwantowego interferometru). Klucz BibTeX: `kolkiran2007sagnac`.
+
 ## Mapa cytowania
 
 | Teza w brudnopisie | Kandydat źródłowy | Co trzeba sprawdzić przed cytowaniem |
 |---|---|---|
+| Macierz idealnego sprzęgacza i interferencja pól | [L7], [L2] | zweryfikować konwencję portów z E01/1.2 |
 | Faza Sagnaca proporcjonalna do Ω | [L1], [L2] | współczynnik 2πLD/(λc), geometria |
 | Sygnał interferencji i wymaganie biasu | [L2], [L3] | znaki, port sprzęgacza, sposób demodulacji |
 | Częstotliwość proper 1/(2τ) | [L3] | τ i dokładna definicja fazy modulatora |
