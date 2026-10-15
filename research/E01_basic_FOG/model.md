@@ -76,9 +76,9 @@ Pierwsza częstotliwość maksymalizująca amplitudę **różnicowej** modulacji
 
 Na porcie **B**, wybranym jako ciemny przy zerowej fazie, dla idealnego bezstratnego sprzęgacza 50:50:
 
-$
+$$
 P_B(t)=\frac{P_{\mathrm{in}}}{2}\left[1-V\cos\left(\Delta\varphi_S+\Delta\varphi_m(t)\right)\right].
-$
+$$
 
 $P_{\mathrm{in}}$ jest mocą wejściową, $V$ jest widzialnością interferencji. Dla idealnego $V=1$ i $\Delta\varphi=0$ zachodzi $P_B=0$. Moc na porcie A jest komplementarna w bezstratnym przypadku: $P_A(t)=P_{\mathrm{in}}-P_B(t)$. Oznaczenia odpowiadają [Etapowi 1.1](01_01_optical_path.md). W układzie rzeczywistym straty i asymetrie zmieniają wartości tych mocy.
 
