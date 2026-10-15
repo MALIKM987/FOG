@@ -179,7 +179,54 @@ W idealnym modelu $V(\lambda)=1$. Jeżeli dla części widma modulator wnosi inn
 
 **Zastrzeżenie fizyczne:** całka reprezentuje średnią odpowiedź (prążki składowych widmowych). **Nie jest** realizacją pola losowego ASE i sama nie wytwarza jego RIN, szumu śrutowego ani zaburzeń fazowych.
 
-## 8. Czego nauczy nas pierwsza symulacja, a czego nie?
+## 8. Redukowany model szumu ASE i fotodiody w kodzie MATLAB E01
+
+Wariant E01/1.4 został rozszerzony o **model statystyczny obwiedni prądu fotodiody**. Powód: samo uśrednianie widma wyznacza wartość oczekiwaną fotoprądu, lecz nie pokazuje losowych fluktuacji ASE. Zapis średniej bez zmienności nie oznacza, że oba źródła są fizycznie identyczne.
+
+W code path [E01_noise.m](../research/E01_basic_FOG/simulations/matlab/E01_noise.m) przyjęto ograniczone pasmo odbiorcze $B_e$ i osobny parametr RIN dla każdego źródła.
+
+Niech $S_\nu(\nu)$ oznacza widmową gęstość **mocy**. Definiujemy efektywną szerokość optyczną przez:
+
+$
+\boxed{
+B_{\rm eff}=\frac{\left(\int S_\nu(\nu)d\nu\right)^2}
+{\int S_\nu^2(\nu)d\nu}
+}.
+$
+
+Znormalizowana jednoprzemianowa funkcja spójności pozwala opisać termiczny charakter ASE. Dla **jednego skalarnie opisanego modu i białego przybliżenia szumu** o małych częstotliwościach elektrycznych ($f\ll B_{\rm eff}$), przyjmujemy przybliżoną, jednostronną gęstość widmową:
+
+$
+\boxed{
+\mathrm{RIN}_{\rm ASE,1s}\simeq
+\frac{2}{M B_{\rm eff}}\quad[\mathrm{Hz}^{-1}],
+}
+$
+
+gdzie $M$ jest przyjętą liczbą niezależnych stopni swobody. Na obecnym etapie używamy $M=1$ **wyłącznie w modelu skalarnym**, bez deklarowania polaryzacji rzeczywistego ASE. W pełnym układzie współczynnik może być inny ze względu na polaryzację, kształt widma, wzmocnienie i filtrację. Dla lasera RIN nie wynika po prostu z wąskiej linii: przyjmujemy osobny przykładowy parametr w dB/Hz. Źródło fizycznego przybliżenia i roli odbiornika: [L8], [L10], [L11] oraz *Fiber Optic Measurement Techniques* (Hui, O'Sullivan).
+
+Dla średniego chwilowego fotoprądu $I_0(t)$, idealnego pasma elektrycznego $B_e$ i ładunku elektronu $q$:
+
+$
+\begin{aligned}
+\sigma^2_{\rm RIN}(t)&\approx I_0^2(t)\;\mathrm{RIN}_{1s}\,B_e,\\
+\sigma^2_{\rm shot}(t)&\approx 2q I_0(t)\,B_e.
+\end{aligned}
+$
+
+Prąd dla wybranego źródła reprezentujemy jako
+
+$
+i_{\rm det}(t)=I_0(t)+\delta i_{\rm RIN}(t)+\delta i_{\rm shot}(t).
+$
+
+Program generuje ograniczone pasmowo realizacje liczb losowych o odpowiedniej wartości skutecznej oraz stosuje **stały seed dla odtwarzalności**. Wartości przykładowe: LASER RIN −155 dB/Hz, ASE obliczony z $B_{\rm eff}$, $B_e=0{,}8$ MHz. **Nie są to parametry urządzeń z laboratorium.**
+
+**Ograniczenie krytyczne:** prawdziwy interferometr Sagnaca moduluje też sposób przechodzenia zakłóceń ASE do kanału pomiarowego. Przedstawiony model przybliża fluktuacje w domenie elektrycznej, bez pełnego propagowania losowych pól ASE i bez korelacji między kanałem fazowym a kwadraturowym. Szczególnie nie należy z niego wyznaczać rzeczywistej dokładności żyroskopu, ARW ani bias stability. Dla pełniejszej teorii rozkładu RIN w kanałach: [L11] J. Blake, I. S. Kim, *Optics Letters* 19 (1994), https://doi.org/10.1364/OL.19.001648.
+
+**Obserwacje w E01:** \`03_photodiode.png\` pokazuje modelowo zaszumiony prąd. \`07_source_noise.png\` pokazuje sam szum w µA i RMS, a \`08_noisy_lockin.png\` pokazuje jego wpływ na odczyt po skończonym czasie uśredniania. Nie są to pomiary.
+
+## 9. Czego nauczy nas pierwsza symulacja, a czego nie?
 
 Minimalna symulacja LASER/ASE może wiarygodnie pokazać:
 1. Normalizację widm i ich szerokości.
@@ -193,7 +240,7 @@ Bez osobnego modelu szumowego nie wolno z niej wyciągać wniosków o:
 - pełnym tłumieniu rozpraszania Rayleigha;
 - przewadze konkretnego generatora ASE z laboratorium.
 
-## 9. Bibliografia i stan weryfikacji
+## 10. Bibliografia i stan weryfikacji
 
 Bibliografia centralna: [bibliography/sources.md](../bibliography/sources.md) i [references.bib](../bibliography/references.bib).
 
