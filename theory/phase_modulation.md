@@ -59,11 +59,13 @@ Faza wejściowa interferometru:
 \Delta\varphi(t)=\Delta\varphi_S+\Delta\varphi_m(t).
 ```
 
-Moc optyczna na jednym z portów:
+Moc optyczna zależy od wybranego portu. Dla modelu E01 **port B jest ciemny przy zerowej różnicy faz**, dlatego:
 
 ```math
-P(t)=P_{dc}\{1+V\cos[\Delta\varphi_S+\Delta\varphi_m(t)]\}.
+P_B(t)=\frac{P_{in}}{2}\{1-V\cos[\Delta\varphi_S+\Delta\varphi_m(t)]\}.
 ```
+
+Port jasny A ma znak **plus** przed cosinusem. Wyprowadzenie i konwencje: [E01 / 1.2](../research/E01_basic_FOG/01_02_mathematical_derivation.md).
 
 Detektor zamienia moc na prąd. Po synchronizacji z sygnałem sterującym i odpowiednim uśrednieniu otrzymujemy człon nieparzysty względem fazy Sagnaca, proporcjonalny do:
 
