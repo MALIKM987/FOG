@@ -29,7 +29,7 @@
 
 *To uproszczony schemat funkcjonalny. W implementacji należy dopracować topologię portów i położenie modulatora.*
 
-Pętla, jej długość, geometria, czasy propagacji, funkcja sterowania oraz tor odbiorczy muszą pozostać wspólne obu trybom. Jedyne przełączenie: **model źródła**.
+Pętla, jej długość, geometria, czasy propagacji, funkcja sterowania oraz tor odbiorczy muszą pozostać wspólne obu trybom. Jedyne przełączenie: **model źródła**. W `matlab/E01_start.m` wystarczy ustawić `SOURCE = "LASER"` albo `SOURCE = "ASE"`. Ten sam uproszczony tor pasożytniczy, jeśli włączony, jest wspólny dla obu źródeł.
 
 ## 2. Wejścia interaktywne / parametry
 
@@ -57,7 +57,7 @@ Parametry przykładowe to **propozycje**, nie wyniki pomiaru. W pierwszym teści
 
 **Poziom A: idealny mono-/wielospektralny (E01-H1).** W obu trybach zsumować ważoną odpowiedź interferometru po widmie. Nie dodawać szumu; w idealnej równowadze obie odpowiedzi mogą prawie się pokrywać.
 
-**Poziom B: kontrolowane niezrównoważenie optyczne (E01-H2).** Dodać *jawnie oznaczoną* niewielką drogę interferencyjną o różnym czasie propagacji, aby zbadać spadek widzialności zależny od szerokości widma. Wynik traktować jako demonstrację **spójności**, nie realistyczną predykcję dokładności FOG.
+**Poziom B: pojedynczy opóźniony tor pasożytniczy przy detektorze (E01-H2).** Dodać *jawnie oznaczoną* niewielką drogę interferencyjną o różnym czasie propagacji, aby zbadać spadek widzialności zależny od szerokości widma. Wynik traktować jako demonstrację **spójności**, nie realistyczną predykcję dokładności FOG. W kodzie MATLAB dodano ten *model zastępczy* z jawnie zadanym opóźnieniem, amplitudą i fazą; prąd idealny jest rejestrowany osobno. Nie wyznacza on dokładnego bilansu mocy wszystkich portów.
 
 **Poziom C: model stochastyczny (E01-H4).** Dopiero po walidacji A i B: szum źródła, fotodiody, elektroniczny; wyraźne założenia dotyczące korelacji i PSD. Wiele źródeł ASE ma inne RIN niż laser, dlatego nie wystarczy dodać takiej samej białej próbki szumu do obu.
 
