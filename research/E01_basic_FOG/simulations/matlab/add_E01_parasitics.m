@@ -42,6 +42,11 @@ end
 blockName=[model '/Tor pasozytniczy - odbicie'];
 if getSimulinkBlockHandle(blockName)~=-1
     fprintf('Tor pasozytniczy juz istnieje w schemacie.\n');
+    if saveAfter
+        % Older generated diagrams might still have a double-click
+        % callback that starts the full 84-simulation sweep.
+        disable_E01_auto_sweep(model);
+    end
     return;
 end
 cfg=E01_config();
