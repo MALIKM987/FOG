@@ -2,6 +2,7 @@
 
 **Status: model MATLAB E01/1.4 zaimplementowany; test w MATLAB R2023b i zapis jego wyników jeszcze nie wykonane.**
 
+- **[Interaktywny schemat Simulink](matlab/SIMULINK_MODEL.md)** – generator edytowalnego `.slx`, przełączanie źródła w modelu, jeden podsystem cewki CW/CCW, osobny lokalny test kompilacji.
 - **[Model MATLAB E01/1.4](matlab/README.md)** – źródło przełączane **bezpośrednio w `E01_start.m`**, przebieg fotodiody wraz z modelowymi fluktuacjami ASE/lasera i fotodiody, osiem wykresów, CSV/JSON i testy. Dodatkowa droga pasożytnicza jest opcjonalna i domyślnie wyłączona.
 - [Specyfikacja eksperymentu LASER/ASE](source_switching_plan.md) zawiera plan kontroli modelu.
 - [Model matematyczny](../model.md) jest wspólnym punktem odniesienia.
