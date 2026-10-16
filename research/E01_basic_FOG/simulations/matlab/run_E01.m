@@ -1,5 +1,5 @@
 function out = run_E01(sourceType, outputDir)
-%RUN_E01 Explore the isolated FOG-E01-MIS in MATLAB R2023b.
+%RUN_E01 Symulacja podstawowego FOG-E01-MIS (MATLAB R2023b).
 %
 % out = run_E01();          read source from E01_config.m
 % out = run_E01("BOTH");   compare source variants without changing FOG
@@ -11,8 +11,8 @@ function out = run_E01(sourceType, outputDir)
 % addpath(fullfile('research','E01_basic_FOG','simulations','matlab'));
 % out = run_E01("BOTH");
 %
-% NOTE: all sources are DEMO spectra. Figures are MODEL outputs, not lab
-% measurements or a validated noise simulation.
+% UWAGA: widma źródeł są przykładowe. Wykresy to wyniki MODELU,
+% a nie pomiary laboratoryjne ani zwalidowany model szumu.
 
 here = fileparts(mfilename('fullpath'));
 cfg = E01_config();
@@ -72,7 +72,7 @@ fprintf('Source/photodiode fluctuations enabled: %d, bandwidth %.0f kHz\n', ...
 fprintf('WARNING: DEMO spectra and toy stray-field model, NOT laboratory measurements.\n\n');
 
 % Figure 1: spectra. Two panels show wide view and local peak zoom.
-fig=figure('Visible',visibility,'Name','E01: Spectrum','Color','w');
+fig=figure('Visible',visibility,'Name','E01: Widma źródeł','Color','w');
 subplot(1,2,1);hold on;grid on;
 for k=1:numel(models)
     s=models{k}.source;
@@ -81,106 +81,106 @@ for k=1:numel(models)
 end
 xlim([cfg.lambda0_nm-2*cfg.ase_fwhm_nm, ...
       cfg.lambda0_nm+2*cfg.ase_fwhm_nm]);
-xlabel('Wavelength [nm]'); ylabel('Normalized spectral density');
-title('Same total source power');legend('show');
+xlabel('Długość fali [nm]'); ylabel('Znormalizowana gęstość widmowa [-]');
+title('Źródła o tej samej mocy całkowitej');legend('show');
 subplot(1,2,2);hold on;grid on;
 for k=1:numel(models)
     s=models{k}.source;
     plot(s.lambda_nm,s.S_W_per_nm,'DisplayName',s.kind,'LineWidth',1.6);
 end
-xlabel('Wavelength [nm]');ylabel('S_{\lambda} [W/nm]');
-title('Actual spectral density scales');legend('show');
+xlabel('Długość fali [nm]');ylabel('S_{\lambda} [W/nm]');
+title('Gęstość widmowa w skali bezwzględnej');legend('show');
 save_plot(fig,outputDir,'01_spectra.png',cfg.save_outputs,cfg.show_figures);
 
 % Figure 2: phase timing, independent of the source.
 m=models{1}; t_us=m.t_s*1e6;
-fig=figure('Visible',visibility,'Name','E01: Phase modulation','Color','w');
-plot(t_us,m.phase_late_rad,'LineWidth',1.2,'DisplayName','phase(t)');
+fig=figure('Visible',visibility,'Name','E01: Modulacja fazy','Color','w');
+plot(t_us,m.phase_late_rad,'LineWidth',1.2,'DisplayName','Faza modulatora w chwili t');
 hold on;grid on;
-plot(t_us,m.phase_early_rad,'LineWidth',1.2,'DisplayName','phase(t-tau)');
-plot(t_us,m.phase_diff_rad,'LineWidth',1.6,'DisplayName','differential phase');
-xlim([0,4/cfg.fm_Hz*1e6]);xlabel('Time [us]');ylabel('Phase [rad]');
-title('Both beams see one modulator at different times');legend('show');
+plot(t_us,m.phase_early_rad,'LineWidth',1.2,'DisplayName','Faza modulatora w chwili t-\tau');
+plot(t_us,m.phase_diff_rad,'LineWidth',1.6,'DisplayName','Różnicowa faza modulacji');
+xlim([0,4/cfg.fm_Hz*1e6]);xlabel('Czas [µs]');ylabel('Faza [rad]');
+title('Dwie fale przechodzą przez modulator w różnych chwilach');legend('show');
 save_plot(fig,outputDir,'02_modulator.png',cfg.save_outputs,cfg.show_figures);
 
 % Figure 3: SELECTED SOURCE photodiode for omega=-1,0,+1 deg/s.
-fig=figure('Visible',visibility,'Name','E01: Photodiode current','Color','w');
+fig=figure('Visible',visibility,'Name','E01: Prąd fotodiody','Color','w');
 hold on;grid on;
 testCases=[-1 0 1];
 for j=1:numel(testCases)
     idx=find(abs(m.omega_deg_s-testCases(j))<1e-12,1);
     if isempty(idx), continue; end
     plot(t_us,m.current_measured_A(idx,:)*1e6,'LineWidth',1.4, ...
-        'DisplayName',sprintf('%+.0f deg/s',testCases(j)));
+        'DisplayName',sprintf('%+.0f °/s',testCases(j)));
 end
 xlim([0,4/cfg.fm_Hz*1e6]);
-xlabel('Time [us]');ylabel('Photodiode current [uA]');
-title(['DETECTOR B | SOURCE = ' m.source.kind]);legend('show');
+xlabel('Czas [µs]');ylabel('Prąd fotodiody [µA]');
+title(['FOTODIODA (port B) | ŹRÓDŁO: ' m.source.kind]);legend('show');
 if cfg.parasitic_enabled
     idx=find(m.omega_deg_s==cfg.omega_plot_deg_s,1);
     if ~isempty(idx)
         plot(t_us,m.current_A(idx,:)*1e6,'k--', ...
-            'LineWidth',1.2,'DisplayName','ideal FOG reference');
+            'LineWidth',1.2,'DisplayName','Idealny FOG bez zakłóceń');
     end
     legend('show');
 end
 save_plot(fig,outputDir,'03_photodiode.png',cfg.save_outputs,cfg.show_figures);
 
 % Figure 4: PHOTOdiode comparison and ideal lock-in curve.
-fig=figure('Visible',visibility,'Name','E01: Source comparison','Color','w');
+fig=figure('Visible',visibility,'Name','E01: Porównanie źródeł','Color','w');
 subplot(2,1,1);hold on;grid on;
 for k=1:numel(models)
     q=models{k};
     idx=find(abs(q.omega_deg_s-1)<1e-12,1);
-    plot(q.t_s*1e6,q.current_observed_A(idx,:)*1e6,'LineWidth',1.3, ...
+    plot(q.t_s*1e6,q.current_measured_A(idx,:)*1e6,'LineWidth',1.3, ...
         'DisplayName',q.source.kind);
 end
 xlim([0,4/cfg.fm_Hz*1e6]);
-xlabel('Time [us]');ylabel('Current at +1 deg/s [uA]');
-title('Detected current at +1 deg/s (source change only)');legend('show');
+xlabel('Czas [µs]');ylabel('Prąd fotodiody przy +1 °/s [µA]');
+title('Prąd fotodiody dla +1 °/s (zmieniamy tylko źródło)');legend('show');
 subplot(2,1,2);hold on;grid on;
 for k=1:numel(models)
     q=models{k};
     plot(q.sweep_deg_s,q.lockin_sweep_A*1e6,'LineWidth',1.5, ...
         'DisplayName',q.source.kind);
 end
-xlabel('Rotation [deg/s]');ylabel('First lock-in harmonic [uA]');
-title('IDEAL lock-in response (stray field excluded)');legend('show');
+xlabel('Prędkość kątowa [°/s]');ylabel('Pierwsza harmoniczna po demodulacji [µA]');
+title('Idealna demodulacja synchroniczna (bez zakłóceń)');legend('show');
 save_plot(fig,outputDir,'04_laser_vs_ase.png',cfg.save_outputs,cfg.show_figures);
 
 % Figure 5: normalized coherence is a separate parasitic-path illustration.
-fig=figure('Visible',visibility,'Name','E01: Coherence','Color','w');
+fig=figure('Visible',visibility,'Name','E01: Spójność światła','Color','w');
 hold on;grid on;
 for k=1:numel(models)
     q=models{k};
     plot(q.coherence_delay_ps,q.coherence_abs,'LineWidth',1.5, ...
         'DisplayName',q.source.kind);
 end
-xlabel('ADDITIONAL path delay [ps]');ylabel('|gamma(delta t)|');
-title('Surrogate: visibility of delayed parasitic field');
+xlabel('Dodatkowe opóźnienie drogi [ps]');ylabel('Moduł spójności |\gamma(\Delta t)| [-]');
+title('Widzialność zakłócenia od dodatkowej drogi (model uproszczony)');
 ylim([0 1.05]);legend('show');
 save_plot(fig,outputDir,'05_coherence_surrogate.png', ...
     cfg.save_outputs,cfg.show_figures);
 
 % Figure 6: linear approximation illustrates open-loop nonlinearity.
-fig=figure('Visible',visibility,'Name','E01: Estimate linearity','Color','w');
+fig=figure('Visible',visibility,'Name','E01: Liniowość odczytu','Color','w');
 hold on;grid on;
 plot(cfg.omega_sweep_deg_s,cfg.omega_sweep_deg_s,'k--', ...
-     'LineWidth',1,'DisplayName','ideal Omega');
+     'LineWidth',1,'DisplayName','Prędkość rzeczywista (odczyt idealny)');
 for k=1:numel(models)
     q=models{k};
     plot(q.sweep_deg_s,q.est_sweep_deg_s,'LineWidth',1.5, ...
-         'DisplayName',[q.source.kind ' linear estimate']);
+         'DisplayName',[q.source.kind ' - oszacowanie liniowe']);
 end
-xlabel('True Omega [deg/s]');ylabel('Estimated Omega [deg/s]');
-title('Small-signal estimator, not absolute metrology');legend('show');
+xlabel('Rzeczywista prędkość kątowa [°/s]');ylabel('Oszacowana prędkość kątowa [°/s]');
+title('Przybliżenie dla małych obrotów (model idealny)');legend('show');
 save_plot(fig,outputDir,'06_linear_estimate.png', ...
     cfg.save_outputs,cfg.show_figures);
 
 % Figure 7: source-dependent stochastic fluctuations near the photodiode.
 % We deliberately plot the difference to the deterministic signal: otherwise
 % ASE noise can be hard to see against the large phase-modulated photocurrent.
-fig=figure('Visible',visibility,'Name','E01: Source intensity noise','Color','w');
+fig=figure('Visible',visibility,'Name','E01: Szum źródła światła','Color','w');
 subplot(2,1,1);hold on;grid on;
 noiseRms_uA=zeros(1,numel(models));
 noiseNames=cell(1,numel(models));
@@ -194,30 +194,30 @@ for k=1:numel(models)
     noiseNames{k}=q.source.kind;
 end
 xlim([0,4/cfg.fm_Hz*1e6]);
-xlabel('Time [us]');ylabel('Random current deviation [uA]');
-title('Photodiode fluctuations: noisy current minus deterministic current');
+xlabel('Czas [µs]');ylabel('Odchylenie prądu [µA]');
+title('Fluktuacje: prąd zaszumiony minus prąd bez szumu');
 legend('show');
 subplot(2,1,2);grid on;
 bar(noiseRms_uA);
 set(gca,'XTick',1:numel(models),'XTickLabel',noiseNames);
-ylabel('RMS deviation [uA]');
-title(sprintf('Illustrative noise in %.0f kHz detector bandwidth', ...
+ylabel('Wartość skuteczna szumu RMS [µA]');
+title(sprintf('Przykładowy szum przy paśmie fotodiody %.0f kHz', ...
     cfg.electrical_bandwidth_Hz/1e3));
 save_plot(fig,outputDir,'07_source_noise.png', ...
     cfg.save_outputs,cfg.show_figures);
 
 % Figure 8: lock-in from noisy photodiode samples, not just analytic curve.
-fig=figure('Visible',visibility,'Name','E01: Noisy lock-in','Color','w');
+fig=figure('Visible',visibility,'Name','E01: Demodulacja sygnału zaszumionego','Color','w');
 subplot(2,1,1);hold on;grid on;
 for k=1:numel(models)
     q=models{k};
     plot(q.omega_deg_s,q.lockin_measured_A*1e6,'o-', ...
-        'LineWidth',1.2,'DisplayName',[q.source.kind ' measured']);
+        'LineWidth',1.2,'DisplayName',[q.source.kind ' - z szumem']);
     plot(q.omega_deg_s,q.lockin_observed_A*1e6,'--', ...
-        'LineWidth',0.9,'DisplayName',[q.source.kind ' deterministic']);
+        'LineWidth',0.9,'DisplayName',[q.source.kind ' - bez szumu']);
 end
-xlabel('Omega [deg/s]');ylabel('Finite-window lock-in [uA]');
-title('Photodiode after finite-time synchronous detection');
+xlabel('Prędkość kątowa [°/s]');ylabel('Sygnał po demodulacji [µA]');
+title('Demodulacja synchroniczna z zaszumionego prądu fotodiody');
 legend('show');
 subplot(2,1,2);hold on;grid on;
 for k=1:numel(models)
@@ -226,8 +226,8 @@ for k=1:numel(models)
         (q.lockin_measured_A-q.lockin_observed_A)*1e9, ...
         'o-','LineWidth',1.2,'DisplayName',q.source.kind);
 end
-xlabel('Omega [deg/s]');ylabel('Noisy minus deterministic lock-in [nA]');
-title('Stochastic uncertainty in one 16-period window');
+xlabel('Prędkość kątowa [°/s]');ylabel('Różnica: z szumem - bez szumu [nA]');
+title(sprintf('Losowa odchyłka w oknie %d okresów modulacji',cfg.n_periods));
 legend('show');
 save_plot(fig,outputDir,'08_noisy_lockin.png', ...
     cfg.save_outputs,cfg.show_figures);
