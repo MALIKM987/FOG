@@ -49,6 +49,10 @@ Domyślnie `cfg.noise_enabled = true`. Ustawienie `false` w [E01_config.m](E01_c
 
 Dane są demonstracyjne: FWHM LASER 0,02 nm, FWHM ASE 20 nm, laser RIN −155 dB/Hz, detektor 0,8 MHz i moc wejściowa 1 mW. **Żaden z tych parametrów źródeł nie jest pomiarem laboratoryjnym.** Model ASE jest zredukowanym modelem statystycznym w paśmie elektrycznym, a nie bezpośrednią symulacją wszystkich losowych oscylacji pola optycznego.
 
+## Graficzny model Simulink (osobna wersja .slx)
+
+Jeżeli chcesz **schemat z elementami optycznymi, a nie sam skrypt z wykresami**, przejdź do [SIMULINK_MODEL.md](SIMULINK_MODEL.md). Generator [build_E01_simulink.m](build_E01_simulink.m) tworzy lokalnie edytowalny **FOG_E01_SIMULINK.slx**. Zawiera źródło LASER/ASE z przełącznikiem, sprzęgacz 2×2, **jedną cewkę CW/CCW**, modulator, fotodiodę, demodulację i oscyloskopy. Wymaga MATLAB R2023b i Simulink; test uruchomieniowy jest osobny: [test_E01_simulink.m](test_E01_simulink.m).
+
 ## 2. Pliki
 
 | Plik | Zadanie |
