@@ -56,7 +56,7 @@ restore=onCleanup(@()restoreOriginal( ...
     sourceSwitch,rot,strayEnable,noiseBlocks,original));
 
 % Temporarily disable source RIN. The comparison then measures the
-% deterministic current-voltage (?) optical interference effect only.
+% deterministic coherent optical interference effect only.
 set_param(noiseBlocks{1},'Variance','0');
 set_param(noiseBlocks{2},'Variance','0');
 
@@ -129,9 +129,11 @@ parasiticError_uA=zeros(nPoints,2);
 bias_deg_s=zeros(nPoints,2);
 slope_uA_per_deg_s=zeros(1,2);
 for m=1:2
-    nearZero=(abs(omega)<=6);
-    x=omega(nearZero);
-    y=firstHarmonic_uA(nearZero,m,1);
+    % Use the three points nearest to zero for any requested grid size.
+    [~,order]=sort(abs(omega));
+    selected=sort(order(1:min(5,nPoints)));
+    x=omega(selected);
+    y=firstHarmonic_uA(selected,m,1);
     assert(numel(x)>=3, ...
         'Need at least three sweep samples in +/- 6 deg/s for calibration.');
     coeff=polyfit(x,y,1);
@@ -149,7 +151,7 @@ plot(omega,bias_deg_s(:,1)*3600,'LineWidth',1.5, ...
     'DisplayName','LASER - wpływ odbicia');
 plot(omega,bias_deg_s(:,2)*3600,'LineWidth',1.5, ...
     'DisplayName','ASE - wpływ odbicia');
-xlabel('Prędkość kątowa \\Omega [°/s]');
+xlabel('Prędkość kątowa \Omega [°/s]');
 ylabel('Równoważny błąd od odbicia [°/h]');
 title('Wpływ tej samej drogi pasożytniczej na pomiar');
 legend('show','Location','best');
@@ -164,25 +166,25 @@ for m=1:2
         (source{m}.nu_Hz-nu0)*cfg.parasitic_delay_ps*1e-12));
     gammaAbs(m)=abs(gamma);
 end
-fprintf('Dodatkowa droga: opoznienie %.3f ps, odbicie eta=%.3g.\\n', ...
+fprintf('Dodatkowa droga: opoznienie %.3f ps, odbicie eta=%.3g.\n', ...
     cfg.parasitic_delay_ps,cfg.parasitic_power_fraction);
-fprintf('|gamma| LASER = %.6g, ASE = %.6g.\\n', ...
+fprintf('|gamma| LASER = %.6g, ASE = %.6g.\n', ...
     gammaAbs(1),gammaAbs(2));
 if gammaAbs(2)>0
-    fprintf('Tlumienie KOHERENTNEJ amplitudy przez ASE/LASER: %.3g razy.\\n', ...
+    fprintf('Tlumienie KOHERENTNEJ amplitudy przez ASE/LASER: %.3g razy.\n', ...
         gammaAbs(1)/gammaAbs(2));
 end
 rmsError_deg_h=3600*sqrt(mean(bias_deg_s.^2,1));
-fprintf('RMS blędu rownowaznego od odbicia LASER: %.6g deg/h.\\n', ...
+fprintf('RMS bledu rownowaznego od odbicia LASER: %.6g deg/h.\n', ...
     rmsError_deg_h(1));
-fprintf('RMS blędu rownowaznego od odbicia ASE: %.6g deg/h.\\n', ...
+fprintf('RMS blędu rownowaznego od odbicia ASE: %.6g deg/h.\n', ...
     rmsError_deg_h(2));
 if rmsError_deg_h(2)>1e-10
-    fprintf('Iloraz bledow od odbicia LASER/ASE: %.3g razy.\\n', ...
+    fprintf('Iloraz bledow od odbicia LASER/ASE: %.3g razy.\n', ...
         rmsError_deg_h(1)/rmsError_deg_h(2));
 else
-    fprintf('ASE: błąd na poziomie rozdzielczosci numerycznej,\\n');
-    fprintf('brak wiarygodnego liczbowo stosunku bledow.\\n');
+    fprintf('ASE: błąd na poziomie rozdzielczosci numerycznej,\n');
+    fprintf('brak wiarygodnego liczbowo stosunku bledow.\n');
 end
 
 % Use a unique output directory rather than overwriting previous results.
