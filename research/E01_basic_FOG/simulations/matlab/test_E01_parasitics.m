@@ -30,6 +30,7 @@ old={get_param(srcSwitch,'sw'), ...
 restore=onCleanup(@()restoreAll( ...
     srcSwitch,straySwitch,omega,nr1,nr2,old));
 
+extraEffects=E01_disable_effects_for_test(model,false);
 set_param(model,'SimulationCommand','update');
 % Suppress stochastic differences to isolate coherent parasitic effect.
 set_param(omega,'Value','0');
