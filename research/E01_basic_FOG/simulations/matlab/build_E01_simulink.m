@@ -24,6 +24,10 @@ Kase = sum(ase.weights .* (2*pi*cfg.L_m*cfg.D_m ./ ...
 Be = cfg.electrical_bandwidth_Hz;
 rinLaser = 10^(cfg.laser_rin_dB_Hz/10);
 rinASE = source_rin_ase(cfg,ase);
+if ~cfg.noise_enabled
+    rinLaser=0;
+    rinASE=0;
+end
 
 dt = 1/(cfg.fm_Hz*cfg.samples_per_period);
 Tstop = cfg.n_periods/cfg.fm_Hz;
