@@ -122,90 +122,44 @@ Przebiegi mogą też zostać zapisane w wyjściach To Workspace: **E01_prad_foto
 
 Dane modelu pochodzą z [E01_config.m](E01_config.m). W szczególności długość cewki = 1000 m, średnica = 0,160 m, λ₀ = 1550 nm, a moc źródła = 1 mW. Są to **wartości demonstracyjne**, nie parametry potwierdzone laboratoryjnie.
 
-## Eksperyment: prąd fotodiody a obrót i wpływ odbicia
+## Jeden interaktywny wykres I(Ω), Rayleigh i Kerr w tym samym .slx
 
-**Rozszerzenie tego samego `FOG_E01_SIMULINK.slx`**, nie nowa konstrukcja żyroskopu. Do aktualnego schematu dołączamy podsystem optyczny **`Tor pasozytniczy - odbicie`** po sprzęgaczu powrotnym i przed fotodiodą. Przełącznik **`Odbicie 0=wyl 1=wl`** pozwala osobno porównać układ idealny (0) i zakłócony (1). W źródłach LASER/ASE pojawia się dodatkowy sygnał spójności `|gamma(τ_p)|`, automatycznie wybierany tym samym przełącznikiem źródeł. Dotychczasowe OSA, modulator, cewka, fotodioda i demodulacja nadal funkcjonują w tym samym schemacie.
+E01 zawiera rozszerzenia **tej samej cewki i tego samego toru optycznego**:
+`Tor pasozytniczy - odbicie`, `Rayleigh - efektywne drogi`, `Kerr E0^2` oraz `Kerr gamma L asymetria`. Każde zjawisko ma osobny przełącznik `0=wyl 1=wl`. Źródła LASER i ASE podają swoje widma do OSA, a w torze interferometru odrębne efektywne współczynniki dla dodatkowych dróg.
 
-### Dodanie do już otwartego modelu, bez ponownego generowania
-
-Po aktualizacji GitHub `main`, w MATLAB R2023b:
+### Rozbudowa istniejącego pliku, bez uruchamiania testu
 
 ~~~matlab
-folder = "C:\AGH\MAGISTER\Praca_Magisterska_Zyroskop\FOG\research\E01_basic_FOG\simulations\matlab";
-addpath(folder,"-begin");
-rehash;
-save_system('FOG_E01_SIMULINK');  % chroni Twoje wlasne zmiany
-add_E01_parasitics();             % rozbuduj aktualny otwarty model
+folder="C:\AGH\MAGISTER\Praca_Magisterska_Zyroskop\FOG\research\E01_basic_FOG\simulations\matlab";
+addpath(folder,"-begin"); rehash;
+save_system('FOG_E01_SIMULINK');
+add_E01_parasitics();
+add_E01_advanced_effects();
 ~~~
 
-Skrypt `add_E01_parasitics.m` tworzy własną kopię bezpieczeństwa modelu przed zmianą. Jeśli tor już istnieje, nie dodaje go ponownie. Modele generowane od zera przez `build_E01_simulink()` otrzymują ten podsystem automatycznie.
+Oba instalatory zostawiają aktualny układ i wykonują kopie bezpieczeństwa przy modyfikacji istniejącego zapisanego modelu. Samo utworzenie modelu `build_E01_simulink()` również wstawia efekty, ale **nie uruchamia pomiarów zakresowych**.
 
-**Starszy model mógł mieć przycisk `POMIAR prad od Omega - kliknij 2x`, który automatycznie uruchamiał 84 symulacje. Usunęliśmy to zachowanie.** Jeśli twój obecny `.slx` powstał przed tą poprawką, wykonaj jednorazowo:
+W starszej wersji był przycisk `POMIAR prad od Omega - kliknij 2x`, który automatycznie wykonywał 84 uruchomienia. Teraz takie zachowanie jest usunięte. Aby wyłączyć callback w zapisanym starszym `.slx`, użyj jednorazowo:
 
 ~~~matlab
 save_system('FOG_E01_SIMULINK');
 disable_E01_auto_sweep();
 ~~~
 
-Funkcja wykonuje kopię bezpieczeństwa, usuwa **jedynie** callback starego przycisku i zapisuje istniejący schemat, nie uruchamiając ani jednej symulacji. Można też wywołać `add_E01_parasitics()` ponownie: jeśli tor już istnieje, skrypt usunie stare automatyczne wyzwalanie. **Nie trzeba od nowa generować modelu.**
-
-### Pomiar prądu fotodiody od prędkości kątowej
-
-**Eksperyment nie uruchamia się automatycznie.** Nie jest uruchamiany przy otwieraniu schematu, regenerowaniu .slx, klikaniu bloków ani przy zwykłym **Run**. Seria wielu pomiarów wystartuje **wyłącznie po świadomym wpisaniu polecenia w MATLAB Command Window**:
+### WYKRES: wyłącznie średni prąd fotodiody od prędkości kątowej
 
 ~~~matlab
-wyniki = sweep_E01_simulink(21);
+wyniki=E01_current_layers(101);
 ~~~
 
-Domyślnie program wykonuje **84 symulacje**: 21 prędkości kątowych (od −30 do +30°/s) × dwa źródła × dwa stany odbicia. Następnie zebrane z bloku fotodiody próbki są przetwarzane na:
+To **jeden wykres** i 10 niezależnych warstw: LASER/ASE × (idealny, odbicie, Rayleigh, Kerr, wszystkie). Klikanie etykiet w legendzie przełącza widoczność warstw, nie wywołuje nowej symulacji. Pliki: jeden edytowalny wykres `.fig` oraz jeden `.csv` z wartościami prądu [µA] i prędkości [°/s].
 
-1. **Średni prąd fotodiody [µA] względem prędkości kątowej [°/s]**, wszystkie cztery przebiegi na jednym wykresie.
-2. **Pierwszą harmoniczną prądu [µA]** względem prędkości kątowej, czyli sygnał po demodulacji synchronicznej, zawierający znak obrotu.
-3. **Błąd równoważny wskazania [°/h]** wywołany wyłącznie dodatkową drogą optyczną: (I₁,odbicie − I₁,idealne) / małosygnałowe nachylenie idealnego I₁.
+Funkcja korzysta z **widmowo uśrednionego rozwiązania analitycznego** obecnego uproszczonego E01, w którym przy sinusoidalnej modulacji średni fotoprąd jest obliczany po spektrum przy użyciu współczynnika `J0(beta)` i fazy Sagnaca. Wersja `sweep_E01_simulink(nPoints)` deleguje obecnie do tej samej funkcji i **nie uruchamia 84 symulacji silnika .slx**. Zwykły **Run** w `.slx` nadal wykonuje jedną symulację w dziedzinie czasu z aktualnie włączonymi efektami. Użytkownik uruchamia eksperyment sam.
 
-Dane trafiają do nowego katalogu `results/EXP_E01_sweep_Simulink_.../`: `prad_od_predkosci_katowej.csv` i edytowalne wykresy `.fig`. Wyniki w CSV mają jednostki w nazwach kolumn. **Parametry źródeł i pozostałe nastawy modelu są wspólne w całym eksperymencie.** Do samego porównania deterministycznego wpływu odbicia chwilowo ustawiamy RIN=0, a po zakończeniu przywracamy poprzednie wartości. Oddzielna analiza RIN pozostaje dostępna w `compare_E01_simulink()`.
+**Ograniczenia:** dodatkowe odbicie reprezentuje jedną drogę; Rayleigh to skończony zestaw modelowych opóźnionych ścieżek (domyślnie 48), nie rozwiązanie rozproszonego pola Rayleigha w kilometrze włókna; Kerr to efektywne różnicowe przesunięcie fazy zależne od nierównowagi mocy CW/CCW, a nie pełna propagacja nieliniowa. Model widmowy wykresu uwzględnia iloczyny krzyżowe hipotetycznych odbić, natomiast schemat Simulink używa ich zredukowanego odpowiednika koherentnego i tła niespójnego: **wyniki wykresu i próbki czasowe Simulinka nie są identycznymi implementacjami wszystkich przybliżeń**. Oba służą badaniu tendencji, nie certyfikacji właściwości urządzenia.
 
-### Jak sprawdzić, „o ile ASE jest lepsze”?
+Źródła korzystają z `E01_source.m`: profile `GAUSSIAN`, `LORENTZIAN` albo opcjonalny rzeczywisty profil `CSV` (`lambda_nm,S_W_per_nm`) przy równej mocy całkowitej. Przed interpretacją ilościową w pracy potrzebna jest walidacja w MATLAB R2023b i pomiary laboratoryjne. Polaryzacja i szczegółowy bilans strat są na razie świadomie pominięte.
 
-Zmieniaj nadmiarowe opóźnienie drogi, udział mocy odbitej i fazę za pomocą:
-
-~~~matlab
-save_system('FOG_E01_SIMULINK');
-set_E01_parasitic_params(0.2,4e-4,0.8);  % opóźnienie 0.2 ps
-wyniki_krotkie = sweep_E01_simulink(11);
-
-save_system('FOG_E01_SIMULINK');
-set_E01_parasitic_params(1.0,4e-4,0.8);  % opóźnienie 1.0 ps
-wyniki_dlugie = sweep_E01_simulink(11);
-~~~
-
-Nastawy oznaczają odpowiednio nadmiarowe opóźnienie [ps], stosunek mocy pasożytniczej do mocy źródła (np. `4e-4` = 0,04%) i fazę względną [rad]. Funkcja oblicza z widm LASER/ASE spójności przy podanym opóźnieniu i aktualizuje wszystkie powiązane bloki. Wywołanie wymaga uprzedniego zapisania własnych modyfikacji i wykonuje kopię bezpieczeństwa `.slx`.
-
-Raport podaje **dwie różne miary**: stosunek spójności `|gamma_LASER|/|gamma_ASE|` oraz stosunek równoważnego błędu od odbicia. Są one zależne od opóźnienia, fazy i mocy odbicia. Gdy błąd ASE zbliża się do precyzji numerycznej, nie podajemy nieskończonej ani pozornej przewagi, lecz informujemy o ograniczeniu modelu.
-
-### Równania przyjętego zjawiska
-
-Model osobnej dodatkowej drogi działa na zespolonym polu portu detekcyjnego:
-
-$
-\begin{aligned}
-\gamma(\tau_p)&=\int p(\nu)e^{j2\pi(\nu-\nu_0)\tau_p}\,d\nu,\\
-E_{p,\mathrm{coh}}&=\sqrt{\eta}\,E_0|\gamma(\tau_p)|e^{j\theta},\\
-P_B&=|E_B+E_{p,\mathrm{coh}}|^2+\eta|E_0|^2(1-|\gamma|^2).
-\end{aligned}
-$
-
-Wynik stanowi **uproszczone widmowo uśrednione przybliżenie** pojedynczego odbicia. `E_B` jest polem głównym na porcie fotodiody, `eta` hipotetycznym stosunkiem mocy toru odbitego do źródła, `tau_p` dodatkowym opóźnieniem, a `theta` względną fazą na centralnej długości fali. Faza spójności znormalizowanej jest w demonstracji pochłonięta do `theta`; nie jest to pełny model spektralnych faz wszystkich ścieżek. Przy wyłączeniu odbicia oba dodatkowe składniki zanikają.
-
-**Ograniczenia:** nie modelujemy rozproszonego Rayleigha, mikroskopowych położeń centrów rozpraszania, wielu wzajemnie interferujących odbić, polaryzacji, Kerr/Faraday/Shupe, odbicia zależnego od temperatury ani długookresowego dryfu źródła. Model nie zachowuje pełnej unitarności sieci sprzęgaczy i nie służy do wyznaczania ARW czy parametru bias stability urządzenia. Sam laser może mieć mniejszy RIN, podczas gdy ASE redukuje skutki spójnych odbić; nie istnieje jedna bezwarunkowa „przewaga ASE”.
-
-### Kontrola poprawności
-
-~~~matlab
-assert(test_E01_parasitics());
-~~~
-
-Test sprawdza przełączanie odbicia, wartości fotoprądu, demodulację oraz przypadek domyślny opóźnienia 1 ps. **Testy MATLAB/Simulink należy uruchomić na komputerze z R2023b**: kod dodano do repozytorium bez możliwości wykonania w niniejszym środowisku.
 
 ## 4. Dlaczego prawie nie widać różnicy LASER/ASE na fotodiodzie?
 
@@ -275,7 +229,7 @@ Pierwsza harmoniczna prądu po demodulacji małosygnałowej jest skalowana wspó
 
 To **model optycznych zespolonych obwiedni**, a nie symulacja nośnej światła o częstotliwości około 193 THz. LASER i ASE różnią się źródłowym RIN i przybliżonym efektywnym współczynnikiem skali; pełne optyczne widmo ASE nie jest propagowane jako tysiące losowych fal.
 
-RIN jest uproszczonym dyskretnym modelem fluktuacji mocy. Nie symulujemy dokładnie elektroniki odbiorczej, szumu śrutowego, depolaryzatora, birefringencji, strat, rozpraszania Rayleigha ani pasożytniczych odbić. W konsekwencji z tego pierwszego schematu **nie wyznaczamy jeszcze rzeczywistej dokładności, ARW ani bias stability**.
+RIN jest uproszczonym dyskretnym modelem fluktuacji mocy. Nie symulujemy dokładnie elektroniki odbiorczej, szumu śrutowego, depolaryzatora, birefringencji, strat ani pełnego rozproszonego Rayleigha. Efektywne odbicia, modelowe ścieżki Rayleigha i nieliniowa faza Kerra są rozszerzeniami jakościowymi, nie sprzętowo skalibrowanymi efektami. W konsekwencji z tego schematu **nie wyznaczamy jeszcze rzeczywistej dokładności, ARW ani bias stability**.
 
 Jedna cewka jest reprezentowana przez dwie ścieżki matematyczne, ale jej parametry są wspólne. W ten sposób modelujemy wzajemność dróg i efekt Sagnaca bez tworzenia dwóch fizycznych cewek.
 
