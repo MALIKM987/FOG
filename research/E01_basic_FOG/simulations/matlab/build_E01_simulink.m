@@ -164,6 +164,11 @@ join(model,'Diagnostyka szumu fotodiody/1', ...
 join(model,'Demodulacja synchroniczna/1','OSC - predkosc katowa/1');
 join(model,'Demodulacja synchroniczna/1','Predkosc - dane/1');
 
+% The detector-side parasitic leakage is controlled by an editable Constant
+% 0/1 and is weighted by the spectral coherence of each selected source.
+% The sweep button runs actual Simulink simulations across Omega values.
+add_E01_parasitics(model,false);
+
 try
     set_param(model,'ZoomFactor','FitSystem');
 catch
