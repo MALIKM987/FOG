@@ -430,12 +430,14 @@ join(s,'Na stopnie na sekunde/1','Omega oszacowane [deg_s]/1');
 end
 
 function rin = source_rin_ase(cfg,src)
-% Effective optical noise bandwidth from power spectral density.
+% Effective optical bandwidth, including NONUNIFORM measured CSV grids.
+% Convert PSD from W/nm to W/Hz and integrate S_nu^2 over frequency.
 lambda=src.lambda_nm(:)*1e-9;
-s=src.S_W_per_nm(:);
-d_nm=src.lambda_nm(2)-src.lambda_nm(1);
-q=ones(size(lambda));q([1 end])=0.5;
-den=sum(q.*s.^2.*(1e9*lambda.^2/cfg.c_m_s))*d_nm;
+nu=cfg.c_m_s./lambda;
+s_nu=src.S_W_per_nm(:).*(lambda.^2/cfg.c_m_s)*1e9;
+[nuSorted,order]=sort(nu);
+den=trapz(nuSorted,s_nu(order).^2);
+assert(den>0,'Niepoprawny profil ASE lub gestosc widmowa.');
 Beff=cfg.input_power_W^2/den;
 rin=2/(cfg.ase_effective_mode_count*Beff);
 end
