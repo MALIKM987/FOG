@@ -122,6 +122,82 @@ Przebiegi mogą też zostać zapisane w wyjściach To Workspace: **E01_prad_foto
 
 Dane modelu pochodzą z [E01_config.m](E01_config.m). W szczególności długość cewki = 1000 m, średnica = 0,160 m, λ₀ = 1550 nm, a moc źródła = 1 mW. Są to **wartości demonstracyjne**, nie parametry potwierdzone laboratoryjnie.
 
+## Eksperyment: prąd fotodiody a obrót i wpływ odbicia
+
+**Rozszerzenie tego samego `FOG_E01_SIMULINK.slx`**, nie nowa konstrukcja żyroskopu. Do aktualnego schematu dołączamy podsystem optyczny **`Tor pasozytniczy - odbicie`** po sprzęgaczu powrotnym i przed fotodiodą. Przełącznik **`Odbicie 0=wyl 1=wl`** pozwala osobno porównać układ idealny (0) i zakłócony (1). W źródłach LASER/ASE pojawia się dodatkowy sygnał spójności `|gamma(τ_p)|`, automatycznie wybierany tym samym przełącznikiem źródeł. Dotychczasowe OSA, modulator, cewka, fotodioda i demodulacja nadal funkcjonują w tym samym schemacie.
+
+### Dodanie do już otwartego modelu, bez ponownego generowania
+
+Po aktualizacji GitHub `main`, w MATLAB R2023b:
+
+~~~matlab
+folder = "C:\AGH\MAGISTER\Praca_Magisterska_Zyroskop\FOG\research\E01_basic_FOG\simulations\matlab";
+addpath(folder,"-begin");
+rehash;
+save_system('FOG_E01_SIMULINK');  % chroni Twoje wlasne zmiany
+add_E01_parasitics();             % rozbuduj aktualny otwarty model
+~~~
+
+Skrypt `add_E01_parasitics.m` tworzy własną kopię bezpieczeństwa modelu przed zmianą. Jeśli tor już istnieje, nie dodaje go ponownie. Modele generowane od zera przez `build_E01_simulink()` otrzymują ten podsystem automatycznie.
+
+### Pomiar prądu fotodiody od prędkości kątowej
+
+W schemacie znajduje się nowy blok **`POMIAR prad od Omega - kliknij 2x`**, którego dwukrotne kliknięcie uruchamia serię rzeczywistych symulacji blokowych. Możesz też wpisać:
+
+~~~matlab
+wyniki = sweep_E01_simulink(21);
+~~~
+
+Domyślnie program wykonuje **84 symulacje**: 21 prędkości kątowych (od −30 do +30°/s) × dwa źródła × dwa stany odbicia. Następnie zebrane z bloku fotodiody próbki są przetwarzane na:
+
+1. **Średni prąd fotodiody [µA] względem prędkości kątowej [°/s]**, wszystkie cztery przebiegi na jednym wykresie.
+2. **Pierwszą harmoniczną prądu [µA]** względem prędkości kątowej, czyli sygnał po demodulacji synchronicznej, zawierający znak obrotu.
+3. **Błąd równoważny wskazania [°/h]** wywołany wyłącznie dodatkową drogą optyczną: (I₁,odbicie − I₁,idealne) / małosygnałowe nachylenie idealnego I₁.
+
+Dane trafiają do nowego katalogu `results/EXP_E01_sweep_Simulink_.../`: `prad_od_predkosci_katowej.csv` i edytowalne wykresy `.fig`. Wyniki w CSV mają jednostki w nazwach kolumn. **Parametry źródeł i pozostałe nastawy modelu są wspólne w całym eksperymencie.** Do samego porównania deterministycznego wpływu odbicia chwilowo ustawiamy RIN=0, a po zakończeniu przywracamy poprzednie wartości. Oddzielna analiza RIN pozostaje dostępna w `compare_E01_simulink()`.
+
+### Jak sprawdzić, „o ile ASE jest lepsze”?
+
+Zmieniaj nadmiarowe opóźnienie drogi, udział mocy odbitej i fazę za pomocą:
+
+~~~matlab
+save_system('FOG_E01_SIMULINK');
+set_E01_parasitic_params(0.2,4e-4,0.8);  % opóźnienie 0.2 ps
+wyniki_krotkie = sweep_E01_simulink(11);
+
+save_system('FOG_E01_SIMULINK');
+set_E01_parasitic_params(1.0,4e-4,0.8);  % opóźnienie 1.0 ps
+wyniki_dlugie = sweep_E01_simulink(11);
+~~~
+
+Nastawy oznaczają odpowiednio nadmiarowe opóźnienie [ps], stosunek mocy pasożytniczej do mocy źródła (np. `4e-4` = 0,04%) i fazę względną [rad]. Funkcja oblicza z widm LASER/ASE spójności przy podanym opóźnieniu i aktualizuje wszystkie powiązane bloki. Wywołanie wymaga uprzedniego zapisania własnych modyfikacji i wykonuje kopię bezpieczeństwa `.slx`.
+
+Raport podaje **dwie różne miary**: stosunek spójności `|gamma_LASER|/|gamma_ASE|` oraz stosunek równoważnego błędu od odbicia. Są one zależne od opóźnienia, fazy i mocy odbicia. Gdy błąd ASE zbliża się do precyzji numerycznej, nie podajemy nieskończonej ani pozornej przewagi, lecz informujemy o ograniczeniu modelu.
+
+### Równania przyjętego zjawiska
+
+Model osobnej dodatkowej drogi działa na zespolonym polu portu detekcyjnego:
+
+$
+\begin{aligned}
+\gamma(\tau_p)&=\int p(\nu)e^{j2\pi(\nu-\nu_0)\tau_p}\,d\nu,\\
+E_{p,\mathrm{coh}}&=\sqrt{\eta}\,E_0|\gamma(\tau_p)|e^{j\theta},\\
+P_B&=|E_B+E_{p,\mathrm{coh}}|^2+\eta|E_0|^2(1-|\gamma|^2).
+\end{aligned}
+$
+
+Wynik stanowi **uproszczone widmowo uśrednione przybliżenie** pojedynczego odbicia. `E_B` jest polem głównym na porcie fotodiody, `eta` hipotetycznym stosunkiem mocy toru odbitego do źródła, `tau_p` dodatkowym opóźnieniem, a `theta` względną fazą na centralnej długości fali. Faza spójności znormalizowanej jest w demonstracji pochłonięta do `theta`; nie jest to pełny model spektralnych faz wszystkich ścieżek. Przy wyłączeniu odbicia oba dodatkowe składniki zanikają.
+
+**Ograniczenia:** nie modelujemy rozproszonego Rayleigha, mikroskopowych położeń centrów rozpraszania, wielu wzajemnie interferujących odbić, polaryzacji, Kerr/Faraday/Shupe, odbicia zależnego od temperatury ani długookresowego dryfu źródła. Model nie zachowuje pełnej unitarności sieci sprzęgaczy i nie służy do wyznaczania ARW czy parametru bias stability urządzenia. Sam laser może mieć mniejszy RIN, podczas gdy ASE redukuje skutki spójnych odbić; nie istnieje jedna bezwarunkowa „przewaga ASE”.
+
+### Kontrola poprawności
+
+~~~matlab
+assert(test_E01_parasitics());
+~~~
+
+Test sprawdza przełączanie odbicia, wartości fotoprądu, demodulację oraz przypadek domyślny opóźnienia 1 ps. **Testy MATLAB/Simulink należy uruchomić na komputerze z R2023b**: kod dodano do repozytorium bez możliwości wykonania w niniejszym środowisku.
+
 ## 4. Dlaczego prawie nie widać różnicy LASER/ASE na fotodiodzie?
 
 **Średni przebieg Sagnaca będzie niemal identyczny.** Obie przeciwbieżne fale powstają z tego samego źródła i pokonują zrównoważoną drogę. Duży sygnał po modulacji fazowej maskuje niewielkie źródłowe fluktuacje mocy, dlatego porównywanie tylko oscyloskopu `OSC - prad fotodiody` jest niewystarczające.
