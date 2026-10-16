@@ -69,8 +69,7 @@ put('simulink/Signal Routing/Demux',[model '/Pole i K Sagnaca'], ...
     [415 190 420 265],'Outputs','2');
 
 addCoupler(model,[490 132 650 300]);
-addPhasePath(model,'Fala CW - do portu D',[885 105 1055 250]);
-addPhasePath(model,'Fala CCW - do portu C',[885 325 1055 470]);
+addCoil(model,[850 120 1070 470]);
 addRecombination(model,[1110 195 1275 375]);
 addPhotodiode(model,cfg.responsivity_A_W,[1330 205 1510 335]);
 
@@ -121,12 +120,12 @@ join(model,'Minus pol fazy/1','Faza CW/2');
 join(model,'Plus pol fazy/1','Faza CCW/2');
 join(model,'Modulator - dwa momenty/1','Faza CW/1');
 join(model,'Modulator - dwa momenty/2','Faza CCW/1');
-join(model,'Faza CW/1','Fala CW - do portu D/2');
-join(model,'Faza CCW/1','Fala CCW - do portu C/2');
-join(model,'Sprzegacz 2x2 - podzial/1','Fala CW - do portu D/1');
-join(model,'Sprzegacz 2x2 - podzial/2','Fala CCW - do portu C/1');
-join(model,'Fala CW - do portu D/1','Sprzegacz 2x2 - powrot/2');
-join(model,'Fala CCW - do portu C/1','Sprzegacz 2x2 - powrot/1');
+join(model,'Faza CW/1','Cewka SMF - CW i CCW/3');
+join(model,'Faza CCW/1','Cewka SMF - CW i CCW/4');
+join(model,'Sprzegacz 2x2 - podzial/1','Cewka SMF - CW i CCW/1');
+join(model,'Sprzegacz 2x2 - podzial/2','Cewka SMF - CW i CCW/2');
+join(model,'Cewka SMF - CW i CCW/1','Sprzegacz 2x2 - powrot/2');
+join(model,'Cewka SMF - CW i CCW/2','Sprzegacz 2x2 - powrot/1');
 join(model,'Sprzegacz 2x2 - powrot/1','Fotodioda - port B/1');
 join(model,'Fotodioda - port B/1','Demodulacja synchroniczna/1');
 join(model,'Pole i K Sagnaca/2','Demodulacja synchroniczna/2');
@@ -202,6 +201,29 @@ join(s,'E zrodla/1','t = 1 przez sqrt2/1');
 join(s,'E zrodla/1','k = j przez sqrt2/1');
 join(s,'t = 1 przez sqrt2/1','Do CW - port C/1');
 join(s,'k = j przez sqrt2/1','Do CCW - port D/1');
+end
+
+function addCoil(root,pos)
+% ONE physical coil subsystem with two reciprocal directions.
+% Optical input from C propagates CW -> returns at D.
+% Optical input from D propagates CCW -> returns at C.
+s=mkSubsystem(root,'Cewka SMF - CW i CCW',pos);
+put('simulink/Sources/In1',[s '/Wejscie z C'],[30 48 60 68]);
+put('simulink/Sources/In1',[s '/Wejscie z D'],[30 258 60 278]);
+put('simulink/Sources/In1',[s '/Faza CW'],[30 128 60 148]);
+put('simulink/Sources/In1',[s '/Faza CCW'],[30 338 60 358]);
+addPhasePath(s,'Propagacja CW - do D',[130 38 320 178]);
+addPhasePath(s,'Propagacja CCW - do C',[130 243 320 383]);
+put('simulink/Sinks/Out1',[s '/Wyjscie CW do D'], ...
+    [390 88 420 108]);
+put('simulink/Sinks/Out1',[s '/Wyjscie CCW do C'], ...
+    [390 294 420 314]);
+join(s,'Wejscie z C/1','Propagacja CW - do D/1');
+join(s,'Faza CW/1','Propagacja CW - do D/2');
+join(s,'Wejscie z D/1','Propagacja CCW - do C/1');
+join(s,'Faza CCW/1','Propagacja CCW - do C/2');
+join(s,'Propagacja CW - do D/1','Wyjscie CW do D/1');
+join(s,'Propagacja CCW - do C/1','Wyjscie CCW do C/1');
 end
 
 function addPhasePath(root,label,pos)
