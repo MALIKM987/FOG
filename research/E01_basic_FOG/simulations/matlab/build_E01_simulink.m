@@ -99,6 +99,17 @@ put('simulink/Sinks/Scope',[model '/OSC - prad fotodiody'], ...
 put('simulink/Sinks/Scope',[model '/OSC - predkosc katowa'], ...
     [1800 235 1920 290]);
 
+% A small intensity-noise term cannot be distinguished from the full
+% Sagnac waveform on an auto-scaled scope. Subtract the exact deterministic
+% (noise-free) photocurrent for the SAME Omega and modulation settings.
+addNoiseDiagnostics(model,cfg,[1580 565 1800 740]);
+put('simulink/Sinks/Scope',[model '/OSC - fluktuacje fotodiody [uA]'], ...
+    [1845 555 2005 615]);
+put('simulink/Sinks/To Workspace',[model '/Fluktuacje fotodiody - dane'], ...
+    [1835 670 2000 710], ...
+    'VariableName','E01_fluktuacje_fotodiody_uA', ...
+    'SaveFormat','Structure with Time');
+
 put('simulink/Sinks/To Workspace',[model '/Prad fotodiody - dane'], ...
     [1560 480 1700 515],'VariableName','E01_prad_fotodiody', ...
     'SaveFormat','Structure with Time');
@@ -131,6 +142,13 @@ join(model,'Fotodioda - port B/1','Demodulacja synchroniczna/1');
 join(model,'Pole i K Sagnaca/2','Demodulacja synchroniczna/2');
 join(model,'Fotodioda - port B/1','OSC - prad fotodiody/1');
 join(model,'Fotodioda - port B/1','Prad fotodiody - dane/1');
+join(model,'Fotodioda - port B/1','Diagnostyka szumu fotodiody/1');
+join(model,'Faza CW/1','Diagnostyka szumu fotodiody/2');
+join(model,'Faza CCW/1','Diagnostyka szumu fotodiody/3');
+join(model,'Diagnostyka szumu fotodiody/1', ...
+    'OSC - fluktuacje fotodiody [uA]/1');
+join(model,'Diagnostyka szumu fotodiody/1', ...
+    'Fluktuacje fotodiody - dane/1');
 join(model,'Demodulacja synchroniczna/1','OSC - predkosc katowa/1');
 join(model,'Demodulacja synchroniczna/1','Predkosc - dane/1');
 
@@ -155,6 +173,47 @@ fprintf('Potem nacisnij Run. Zawartosc to model obwiedni optycznej.\n');
 end
 
 % ======================= BLOCK BUILDERS ==============================
+
+function addNoiseDiagnostics(root,cfg,pos)
+% Detector-level residual: measured - EXACT analytical ideal Sagnac current.
+% This is a time-resolved visualization of source fluctuations, not a
+% simulation of optical backscattering, polarization or shot noise.
+s=mkSubsystem(root,'Diagnostyka szumu fotodiody',pos);
+put('simulink/Sources/In1',[s '/Prad zmierzony [A]'], ...
+    [35 60 65 80]);
+put('simulink/Sources/In1',[s '/Faza CW [rad]'], ...
+    [35 170 65 190]);
+put('simulink/Sources/In1',[s '/Faza CCW [rad]'], ...
+    [35 275 65 295]);
+put('simulink/Math Operations/Sum',[s '/Roznica faz CCW - CW'], ...
+    [140 205 175 260],'Inputs','+-');
+put('simulink/Math Operations/Trigonometric Function', ...
+    [s '/Cosinus roznicy faz'],[235 207 330 255], ...
+    'Operator','cos');
+put('simulink/Sources/Constant',[s '/Stala 1'], ...
+    [235 325 315 355],'Value','1');
+put('simulink/Math Operations/Sum',[s '/1 minus cosinus'], ...
+    [385 235 420 290],'Inputs','+-');
+put('simulink/Math Operations/Gain',[s '/R razy P przez 2'], ...
+    [480 238 585 283], ...
+    'Gain',sprintf('%.17g',cfg.responsivity_A_W*cfg.input_power_W/2));
+put('simulink/Math Operations/Sum',[s '/Prad minus srednia'], ...
+    [660 105 695 160],'Inputs','+-');
+put('simulink/Math Operations/Gain',[s '/Ampery na mikroampery'], ...
+    [750 107 870 155],'Gain','1e6');
+put('simulink/Sinks/Out1',[s '/Szum fotodiody [uA]'], ...
+    [935 120 970 140]);
+join(s,'Faza CCW [rad]/1','Roznica faz CCW - CW/1');
+join(s,'Faza CW [rad]/1','Roznica faz CCW - CW/2');
+join(s,'Roznica faz CCW - CW/1','Cosinus roznicy faz/1');
+join(s,'Stala 1/1','1 minus cosinus/1');
+join(s,'Cosinus roznicy faz/1','1 minus cosinus/2');
+join(s,'1 minus cosinus/1','R razy P przez 2/1');
+join(s,'Prad zmierzony [A]/1','Prad minus srednia/1');
+join(s,'R razy P przez 2/1','Prad minus srednia/2');
+join(s,'Prad minus srednia/1','Ampery na mikroampery/1');
+join(s,'Ampery na mikroampery/1','Szum fotodiody [uA]/1');
+end
 
 function addSource(root,label,pos,P,K,rin,Be,dt,seed)
 s=mkSubsystem(root,label,pos);
