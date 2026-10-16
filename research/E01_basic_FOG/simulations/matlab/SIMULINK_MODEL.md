@@ -31,28 +31,45 @@ open_system(fullfile(repo,"research","E01_basic_FOG","simulations", ...
     "matlab","FOG_E01_SIMULINK.slx"));
 ~~~
 
-## Podgląd obu widm bez przebudowy modelu
+## Analizatory widma OSA bezpośrednio przy wyjściach obu źródeł
 
-Otwórz aktualny schemat Simulink, **zapisz niezapisane zmiany** i w MATLAB wpisz:
+W grafie FOG znajdują się teraz dwa **oddzielne analizatory widma optycznego**:
+
+- **`OSA LASER - analizator widma`** połączony z dodatkowym wyjściem widmowym LASER.
+- **`OSA ASE - analizator widma`** połączony z dodatkowym wyjściem widmowym ASE.
+
+Każde źródło ma trzy wyjścia. **Port 1** dostarcza do właściwego interferometru FOG obwiednię pola i uśredniony współczynnik Sagnaca. **Port 2** udostępnia wektor modelowanej gęstości mocy $S_\lambda$ w W/nm, a **port 3** powiązany wektor długości fali w nm. Porty 2 i 3 trafiają bezpośrednio do swojego bloku OSA. Dlatego analizatory wizualizują dane widmowe dostarczone przez źródło, a nie próbują odtworzyć widma optycznego za pomocą FFT sygnału o częstotliwości elektrycznej.
+
+### Instalacja w istniejącym schemacie .slx, bez usuwania zmian
+
+Najpierw zaktualizuj lokalne pliki skryptów (Git), następnie wykonaj w MATLAB R2023b:
 
 ~~~matlab
+folder = "C:\AGH\MAGISTER\Praca_Magisterska_Zyroskop\FOG\research\E01_basic_FOG\simulations\matlab";
+addpath(folder,"-begin");
+rehash;
 save_system('FOG_E01_SIMULINK');
-show_E01_spectra();       % Natychmiast otwiera wykresy obu źródeł
-add_E01_spectrum_view();  % Dodaje do obecnego .slx klikalny blok widm
+add_E01_optical_analyzers();
 ~~~
 
-**Nie uruchamiaj ponownie `build_E01_simulink()` tylko po to, by zobaczyć widma.** Generator celowo odmawia nadpisania schematu, który ma niezapisane zmiany. Dodanie bloku `WIDMA LASER I ASE - kliknij 2x` do otwartego, zapisanego modelu nie usuwa istniejących podsystemów i połączeń.
+Nie wywołuj ponownie `build_E01_simulink()`, jeżeli chcesz tylko dołożyć analizatory do istniejącego modelu. Operacja jest pomyślana jako **nieinwazyjne rozszerzenie**: dodaje brakujące wyjścia widmowe do źródeł, rysuje połączenia do nowych bloków i zapisuje obecny model.
 
-Nowo wygenerowane modele dostają taki blok automatycznie. Dwukrotne kliknięcie otwiera polskie wykresy za pomocą oficjalnego callbacku `OpenFcn` w Simulinku.
+Kliknij dwukrotnie **OSA LASER** lub **OSA ASE**, aby otworzyć wykres z polskimi podpisami. Widoczna jest długość fali [nm] i gęstość mocy widmowej [W/nm], wraz z mocą całkowitą i przybliżoną szerokością FWHM. Do wyświetlenia widma **nie trzeba uruchamiać symulacji**.
 
-[show_E01_spectra.m](show_E01_spectra.m) rysuje **cztery ujęcia**:
+Sprawdzenie połączeń i samych wykresów:
 
-1. Wspólna oś długości fali: laser jako wąski pik, ASE jako szerokie widmo.
-2. Zbliżenie do okolic 1550 nm, tak aby było widać szczegóły lasera.
-3. Bezwzględna gęstość mocy `W/nm` na osi logarytmicznej.
-4. Moc skumulowana `mW` pokazująca, że oba źródła mają tę samą moc całkowitą.
+~~~matlab
+assert(test_E01_osa());
+~~~
 
-**To podgląd matematycznych widm z `E01_config.m` i `E01_source.m`, a nie odczyt widma z rzeczywistego urządzenia ani analizator widma optycznego dla przebiegów w Simulinku.** Nasz schemat Simulink wciąż propaguje zredukowaną obwiednię pola, nie każdą składową widmową jako niezależny sygnał.
+### Ważne ograniczenie fizyczne
+
+To **OSA dla danych widmowych źródła**, a nie wirtualny spektrometr, który wylicza widmo na podstawie propagacji wszystkich optycznych częstotliwości. Nasz sygnał toru interferometru nadal jest **zredukowaną zespoloną obwiednią**, a nie pełnym polem optycznym. Gotowy blok DSP **Spectrum Analyzer** zastosowany na tym wyjściu pokazałby widmo częstotliwości elektrycznych (np. RIN), a nie szerokość linii optycznej lasera wokół 1550 nm.
+
+Widma w OSA są profilami demonstracyjnymi z `E01_config.m` i `E01_source.m`: LASER FWHM 0,02 nm, ASE FWHM 20 nm i moc całkowita obu 1 mW. Nie są to pomiary laboratoriów. Jeżeli w przyszłości będziemy zmieniać widmo fizycznie w samym schemacie, konieczne będzie powiązanie modelu propagacji z tymi wyjściami widmowymi.
+
+[show_E01_spectra.m](show_E01_spectra.m) nadal pozwala porównać oba widma na czterech wspólnych wykresach, ale nie jest wymagana do korzystania z dwóch bloków OSA.
+
 
 ## 2. Schemat fizyczny
 
