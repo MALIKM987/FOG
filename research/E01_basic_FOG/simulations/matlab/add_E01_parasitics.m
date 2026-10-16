@@ -180,17 +180,10 @@ connect(model,'Tor pasozytniczy - odbicie/1', ...
 connect(model,'Tor pasozytniczy - odbicie/2', ...
     'Fotodioda - port B/2');
 
-% A graph button that uses ACTUAL runs of the Simulink photodiode.
-% It is an instrument panel, not an additional optical path.
-curve=[model '/POMIAR prad od Omega - kliknij 2x'];
-if getSimulinkBlockHandle(curve)==-1
-    put('simulink/Ports & Subsystems/Subsystem',curve, ...
-        [1580 765 1830 835]);
-    Simulink.SubSystem.deleteContents(curve);
-end
-callback=['addpath(fileparts(get_param(bdroot(gcb),', ...
-    '''FileName''))); sweep_E01_simulink(21);'];
-set_param(curve,'OpenFcn',callback);
+% IMPORTANT: no automatic angular sweep is attached to the model.
+% The sweep is deliberately started ONLY by explicit MATLAB command:
+%   wyniki = sweep_E01_simulink(21);
+% Building/opening/running the FOG model never starts that experiment.
 
 % Reflect actual detector departures from pure Sagnac, including stray field.
 % Previous diagnostic is "residual" rather than pure source RIN when ON.
