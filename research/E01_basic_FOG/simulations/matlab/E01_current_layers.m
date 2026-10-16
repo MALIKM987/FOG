@@ -86,7 +86,8 @@ for k=1:2
     kerr_rad(k)=phiK;
 
     for v=1:5
-        useRef=(v==2||v==5) && cfg.parasitic_enabled;
+        % Layer selection is independent of the default E01 config switch.
+        useRef=(v==2||v==5);
         useRay=(v==3||v==5) && cfg.rayleigh_enabled;
         useKerr=(v==4||v==5) && cfg.kerr_enabled;
         phi=phiS+double(useKerr)*phiK;
@@ -137,7 +138,7 @@ end
 xlabel(ax,'Prędkość kątowa \Omega [°/s]');
 ylabel(ax,'Średni prąd fotodiody [µA]');
 title(ax,'IFOG: wpływ odbić, Rayleigha i efektu Kerra');
-lgd=legend(ax,'show','Location','eastoutside');
+lgd=legend(ax,lines(:),'Location','eastoutside');
 lgd.ItemHitFcn=@E01_toggle_layer;
 
 % Save reusable numerical results and the ONE interactive .fig.
