@@ -42,6 +42,32 @@ cfg.laser_rin_dB_Hz = -155;          % illustrative flat laser RIN [dB/Hz]
 cfg.ase_effective_mode_count = 1;    % scalar thermal ASE assumption
 cfg.noise_seed = 20261016;           % reproducible random realization
 cfg.electron_charge_C = 1.602176634e-19;
+% Extended E01 optical physics. By default, do not load measured data.
+% Optional spectral model: "GAUSSIAN", "LORENTZIAN", "CSV".
+cfg.laser_profile = "GAUSSIAN";
+cfg.ase_profile = "GAUSSIAN";
+cfg.laser_spectrum_csv = "";
+cfg.ase_spectrum_csv = "";
+
+% Kerr effective differential phase. Identical CW/CCW powers -> no bias.
+% gamma_nonlin [1/(W*m)], length [m], relative CW/CCW imbalance [-].
+cfg.kerr_enabled = true;
+cfg.kerr_gamma_Wm = 1.3e-3;         % illustrative SMF near 1550 nm
+cfg.kerr_relative_power_imbalance = 0.05; % DEMO only, not measured
+
+% Single external parasitic reflection: uses parasitic_* above.
+% Rayleigh proxy = MANY weak paths with short EXCESS delays, random phases,
+% and total scattered power fraction. This is NOT a physical solution of
+% distributed first-/double-Rayleigh scattering in 1 km.
+cfg.rayleigh_enabled = true;
+cfg.rayleigh_path_count = 48;
+cfg.rayleigh_total_power_fraction = 2e-5;
+cfg.rayleigh_excess_delay_ps = [0.4 15]; % demonstrative path overlap
+cfg.rayleigh_random_seed = 20261016;
+
+% Curve experiment is independent of auto-running the Simulink engine.
+% No callback may start sweep_E01_simulink() or E01_current_layers().
+cfg.omega_layer_points = 101;
 cfg.demo_only = true;
 
 cfg.tau_s = cfg.n_group * cfg.L_m / cfg.c_m_s;
