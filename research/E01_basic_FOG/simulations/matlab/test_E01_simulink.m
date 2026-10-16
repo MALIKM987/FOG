@@ -25,6 +25,7 @@ if hasStray
 else
     restore=onCleanup(@()set_param(switchPath,'sw',previousSource));
 end
+extraEffects=E01_disable_effects_for_test(model,false);
 assert(~isempty(find_system(model,'SearchDepth',1, ...
     'Name','Cewka SMF - CW i CCW')), ...
     'One shared coil subsystem missing.');
