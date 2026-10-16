@@ -25,7 +25,17 @@ end
 
 switchPath=[model '/WYBOR ZRODLA - kliknij 2x'];
 savedState=get_param(switchPath,'sw');
-restoreState=onCleanup(@()set_param(switchPath,'sw',savedState));
+straySwitch=[model '/Odbicie 0=wyl 1=wl'];
+hasStray=(getSimulinkBlockHandle(straySwitch)~=-1);
+if hasStray
+    oldStray=get_param(straySwitch,'Value');
+    restoreState=onCleanup(@()restoreModes( ...
+        switchPath,savedState,straySwitch,oldStray));
+    % Isolate the SOURCE intensity RIN comparison from reflection bias.
+    set_param(straySwitch,'Value','0');
+else
+    restoreState=onCleanup(@()set_param(switchPath,'sw',savedState));
+end
 
 cfg=E01_config();
 modes=["LASER","ASE"];
@@ -97,4 +107,9 @@ end
 fprintf('To porownanie przykladowych parametrow, nie pomiar.\n');
 report=struct('sources',modes,'rms_noise_uA',rms_uA, ...
     'laser',runData{1},'ase',runData{2},'figure',fig);
+end
+
+function restoreModes(sw,oldSource,stray,oldStray)
+set_param(sw,'sw',oldSource);
+set_param(stray,'Value',oldStray);
 end
