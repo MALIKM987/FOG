@@ -101,10 +101,10 @@ put('simulink/Sinks/Scope',[model '/OSC - predkosc katowa'], ...
 
 put('simulink/Sinks/To Workspace',[model '/Prad fotodiody - dane'], ...
     [1560 480 1700 515],'VariableName','E01_prad_fotodiody', ...
-    'SaveFormat','Structure With Time');
+    'SaveFormat','Structure with Time');
 put('simulink/Sinks/To Workspace',[model '/Predkosc - dane'], ...
     [1810 390 1935 425],'VariableName','E01_predkosc', ...
-    'SaveFormat','Structure With Time');
+    'SaveFormat','Structure with Time');
 
 % Return-path wiring: C->D, D->C. This port swap is critical.
 join(model,'LASER - zrodlo/1','WYBOR ZRODLA - kliknij 2x/1');
@@ -134,7 +134,11 @@ join(model,'Fotodioda - port B/1','Prad fotodiody - dane/1');
 join(model,'Demodulacja synchroniczna/1','OSC - predkosc katowa/1');
 join(model,'Demodulacja synchroniczna/1','Predkosc - dane/1');
 
-set_param(model,'ZoomFactor','FitSystem');
+try
+    set_param(model,'ZoomFactor','FitSystem');
+catch
+    % Display-only property differs across releases; model still functions.
+end
 try
     set_param(model,'SimulationCommand','update');
 catch ME
