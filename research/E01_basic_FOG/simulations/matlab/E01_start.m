@@ -20,4 +20,7 @@ thisFolder = fileparts(mfilename('fullpath'));
 addpath(thisFolder);
 
 fprintf('FOG-E01-MIS: wybrane zrodlo = %s\n', char(SOURCE));
+fprintf('UWAGA: E01_start.m uruchamia wykresy MATLAB, a NIE schemat Simulink.\n');
+fprintf('Kod wykresow z pliku: %s\n',which('run_E01'));
+fprintf('Schemat Simulink: uruchom osobno build_E01_simulink().\n');
 out = run_E01(SOURCE);
