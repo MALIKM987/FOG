@@ -37,6 +37,7 @@ else
     restoreState=onCleanup(@()set_param(switchPath,'sw',savedState));
 end
 
+extraEffects=E01_disable_effects_for_test(model,false);
 cfg=E01_config();
 modes=["LASER","ASE"];
 runData=cell(1,2);
