@@ -49,6 +49,25 @@ Domyślnie `cfg.noise_enabled = true`. Ustawienie `false` w [E01_config.m](E01_c
 
 Dane są demonstracyjne: FWHM LASER 0,02 nm, FWHM ASE 20 nm, laser RIN −155 dB/Hz, detektor 0,8 MHz i moc wejściowa 1 mW. **Żaden z tych parametrów źródeł nie jest pomiarem laboratoryjnym.** Model ASE jest zredukowanym modelem statystycznym w paśmie elektrycznym, a nie bezpośrednią symulacją wszystkich losowych oscylacji pola optycznego.
 
+## Podgląd widma obu źródeł
+
+Nie musisz generować schematu Simulink ponownie. Funkcja **[show_E01_spectra.m](show_E01_spectra.m)** wyświetla cztery wykresy widm LASER i ASE po polsku:
+
+~~~matlab
+show_E01_spectra();
+~~~
+
+Aby dodać do **już otwartego i zapisanego** schematu przycisk otwierający widma:
+
+~~~matlab
+save_system('FOG_E01_SIMULINK');
+add_E01_spectrum_view();
+~~~
+
+Po tej operacji w schemacie będzie blok **WIDMA LASER I ASE - kliknij 2x**. Podwójne kliknięcie pokazuje oba widma bez uruchamiania symulacji. Nowe modele budowane przez [build_E01_simulink.m](build_E01_simulink.m) dostają ten blok automatycznie.
+
+Widma są **matematycznie zadanymi profilami Gaussa** o mocach całkowitych 1 mW, FWHM LASER 0,02 nm i ASE 20 nm (domyślnie), a nie zmierzonymi widmami laboratoriów. Model Simulink operuje przybliżeniem obwiedni i **nie** generuje fizycznego widma optycznego w Scope.
+
 ## Graficzny model Simulink (osobna wersja .slx)
 
 Jeżeli chcesz **schemat z elementami optycznymi, a nie sam skrypt z wykresami**, przejdź do [SIMULINK_MODEL.md](SIMULINK_MODEL.md). Generator [build_E01_simulink.m](build_E01_simulink.m) tworzy lokalnie edytowalny **FOG_E01_SIMULINK.slx**. Zawiera źródło LASER/ASE z przełącznikiem, sprzęgacz 2×2, **jedną cewkę CW/CCW**, modulator, fotodiodę, demodulację i oscyloskopy. Wymaga MATLAB R2023b i Simulink; test uruchomieniowy jest osobny: [test_E01_simulink.m](test_E01_simulink.m).
