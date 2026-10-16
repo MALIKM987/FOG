@@ -168,6 +168,9 @@ join(model,'Demodulacja synchroniczna/1','Predkosc - dane/1');
 % 0/1 and is weighted by the spectral coherence of each selected source.
 % The sweep button runs actual Simulink simulations across Omega values.
 add_E01_parasitics(model,false);
+% Optional nonlinear Kerr phase and multi-path Rayleigh proxy.
+% Only installs blocks: it NEVER runs a sweep or calls sim(model).
+add_E01_advanced_effects(model,false);
 
 try
     set_param(model,'ZoomFactor','FitSystem');
