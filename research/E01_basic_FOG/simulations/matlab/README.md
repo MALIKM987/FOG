@@ -159,6 +159,27 @@ Szerokości widmowe **nie są** danymi producentów. Zastosowano niezależne sia
 
 **Szczególnie ważne:** wykres spójności jest *oddzielną analizą modelowej drogi pasożytniczej*, a nie zasymulowanym rozpraszaniem Rayleigha w całym FOG. Nie należy na jego podstawie podawać wartości ARW lub bias stability.
 
+## Awaria zapisu wykresów w MATLAB R2023b
+
+Jeżeli pojawi się błąd Java `OutputHelperProcessingException` lub `NullPointerException` podczas `exportgraphics`, problem dotyczy eksportu grafiki, **nie musi** dotyczyć modelu FOG.
+
+Od aktualizacji `run_E01.m` program najpierw używa `print(...,'-dpng','-r160')`; dopiero w razie awarii próbuje `exportgraphics` i zapis `.fig`. Nieudany eksport pojedynczego obrazu nie powinien zatrzymywać dalszego obliczenia i eksportu CSV.
+
+**Istotne:** jeżeli Command Window wypisuje dawny komunikat `SOURCE SWITCH DEMO (no polarization / noise)`, MATLAB uruchamia **starszą** kopię funkcji. Po aktualizacji `main` sprawdź w MATLAB:
+
+~~~matlab
+folder = "C:\AGH\MAGISTER\Praca_Magisterska_Zyroskop\FOG\research\E01_basic_FOG\simulations\matlab";
+addpath(folder,"-begin");
+clear run_E01 E01_start E01_config
+rehash
+which run_E01 -all
+assert(contains(fileread(which("run_E01")), "print(fig,pngPath"));
+~~~
+
+Wynik `which` powinien wskazać dokładnie powyższy katalog. Jeśli `assert` zgłasza błąd, nie używasz jeszcze zaktualizowanego skryptu. W przypadku lokalnych zmian w repozytorium `git pull --ff-only` może odmówić aktualizacji; sprawdź `git status` i nie kasuj swoich zmian przez `reset --hard`.
+
+**Inny program:** `E01_start.m` uruchamia skrypt z wykresami, a [build_E01_simulink.m](build_E01_simulink.m) tworzy **graficzny model Simulink .slx**.
+
 ## 7. Etap weryfikacji
 
 Testy [test_E01.m](test_E01.m) wymagają wykonania w MATLAB-ie. Równania zaimplementowane w E01 zweryfikowano dodatkowo niezależnym obliczeniem numerycznym, ale **nie uruchomiono w tym środowisku MATLAB-a**, więc syntaktyczna i wykonawcza zgodność MATLAB R2023b pozostaje do lokalnego potwierdzenia.
