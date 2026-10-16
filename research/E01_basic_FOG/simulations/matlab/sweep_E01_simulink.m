@@ -156,18 +156,26 @@ ylabel('Równoważny błąd od odbicia [°/h]');
 title('Wpływ tej samej drogi pasożytniczej na pomiar');
 legend('show','Location','best');
 
-% Numbers are derived from DEMO spectrum and the chosen excess delay.
-source=cell(1,2);
+% Read the ACTUAL Simulink coherence constants, not E01_config
+% defaults. Users may change delay/eta via set_E01_parasitic_params().
 gammaAbs=zeros(1,2);
 for m=1:2
-    source{m}=E01_source(cfg,names{m});
-    nu0=cfg.c_m_s/(cfg.lambda0_nm*1e-9);
-    gamma=sum(source{m}.weights .* exp(1i*2*pi* ...
-        (source{m}.nu_Hz-nu0)*cfg.parasitic_delay_ps*1e-12));
-    gammaAbs(m)=abs(gamma);
+    src=[model '/' names{m} ...
+        ' - zrodlo/Spojnosc drogi pasozytniczej'];
+    gammaAbs(m)=str2double(get_param(src,'Value'));
 end
+meta=get_param(stray,'UserData');
+if isempty(meta) || ~isstruct(meta) || ...
+        ~isfield(meta,'delay_ps')
+    warning('E01:MissingStrayMetadata', ...
+        'Brak zapisanego opoznienia. Uzyj set_E01_parasitic_params().');
+    usedDelay=NaN;
+else
+    usedDelay=meta.delay_ps;
+end
+usedEta=str2double(get_param([stray '/Eta odbicia'],'Gain'));
 fprintf('Dodatkowa droga: opoznienie %.3f ps, odbicie eta=%.3g.\n', ...
-    cfg.parasitic_delay_ps,cfg.parasitic_power_fraction);
+    usedDelay,usedEta);
 fprintf('|gamma| LASER = %.6g, ASE = %.6g.\n', ...
     gammaAbs(1),gammaAbs(2));
 if gammaAbs(2)>0
