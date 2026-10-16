@@ -88,7 +88,7 @@ for k=1:numel(models)
     s=models{k}.source;
     plot(s.lambda_nm,s.S_W_per_nm,'DisplayName',s.kind,'LineWidth',1.6);
 end
-xlabel('Długość fali [nm]');ylabel('S_{\lambda} [W/nm]');
+xlabel('Długość fali [nm]');ylabel('Gęstość mocy S_{\lambda} [W/nm]');
 title('Gęstość widmowa w skali bezwzględnej');legend('show');
 save_plot(fig,outputDir,'01_spectra.png',cfg.save_outputs,cfg.show_figures);
 
@@ -100,7 +100,7 @@ hold on;grid on;
 plot(t_us,m.phase_early_rad,'LineWidth',1.2,'DisplayName','Faza modulatora w chwili t-\tau');
 plot(t_us,m.phase_diff_rad,'LineWidth',1.6,'DisplayName','Różnicowa faza modulacji');
 xlim([0,4/cfg.fm_Hz*1e6]);xlabel('Czas [µs]');ylabel('Faza [rad]');
-title('Dwie fale przechodzą przez modulator w różnych chwilach');legend('show');
+title('Fale mijają modulator w różnych chwilach');legend('show');
 save_plot(fig,outputDir,'02_modulator.png',cfg.save_outputs,cfg.show_figures);
 
 % Figure 3: SELECTED SOURCE photodiode for omega=-1,0,+1 deg/s.
@@ -137,7 +137,7 @@ for k=1:numel(models)
 end
 xlim([0,4/cfg.fm_Hz*1e6]);
 xlabel('Czas [µs]');ylabel('Prąd fotodiody przy +1 °/s [µA]');
-title('Prąd fotodiody dla +1 °/s (zmieniamy tylko źródło)');legend('show');
+title('Prąd fotodiody przy +1 °/s: wybór źródła');legend('show');
 subplot(2,1,2);hold on;grid on;
 for k=1:numel(models)
     q=models{k};
@@ -157,7 +157,7 @@ for k=1:numel(models)
         'DisplayName',q.source.kind);
 end
 xlabel('Dodatkowe opóźnienie drogi [ps]');ylabel('Moduł spójności |\gamma(\Delta t)| [-]');
-title('Widzialność zakłócenia od dodatkowej drogi (model uproszczony)');
+title('Widzialność dodatkowej drogi (model uproszczony)');
 ylim([0 1.05]);legend('show');
 save_plot(fig,outputDir,'05_coherence_surrogate.png', ...
     cfg.save_outputs,cfg.show_figures);
@@ -217,7 +217,7 @@ for k=1:numel(models)
         'LineWidth',0.9,'DisplayName',[q.source.kind ' - bez szumu']);
 end
 xlabel('Prędkość kątowa [°/s]');ylabel('Sygnał po demodulacji [µA]');
-title('Demodulacja synchroniczna z zaszumionego prądu fotodiody');
+title('Demodulacja zaszumionego prądu fotodiody');
 legend('show');
 subplot(2,1,2);hold on;grid on;
 for k=1:numel(models)
