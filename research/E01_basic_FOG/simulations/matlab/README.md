@@ -72,12 +72,24 @@ Istniejąca [show_E01_spectra.m](show_E01_spectra.m) nadal umożliwia osobne por
 
 ## Charakterystyka prądu od obrotu i odbicia pasożytnicze w Simulinku
 
-W tym **samym** `FOG_E01_SIMULINK.slx` możesz dodać tor pojedynczego odbicia i uruchomić 84 symulacje: LASER/ASE, odbicie włączone/wyłączone, prędkość kątowa −30...+30°/s.
+W tym **samym** `FOG_E01_SIMULINK.slx` możesz dodać tor pojedynczego odbicia. Samo dodanie toru **nie uruchamia serii symulacji**.
 
 ~~~matlab
 save_system('FOG_E01_SIMULINK');
 add_E01_parasitics();
+~~~
+
+**Dopiero na osobne polecenie użytkownika** uruchamiasz 84 symulacje: LASER/ASE, odbicie włączone/wyłączone, prędkość kątowa −30...+30°/s:
+
+~~~matlab
 wyniki = sweep_E01_simulink(21);
+~~~
+
+Jeśli twój schemat ma jeszcze stary przycisk `POMIAR prad od Omega - kliknij 2x`, jednorazowo usuń jego niechciane automatyczne wyzwalanie (bez kasowania schematu):
+
+~~~matlab
+save_system('FOG_E01_SIMULINK');
+disable_E01_auto_sweep();
 ~~~
 
 Dostaniesz trzy **polskie wykresy**: średni prąd fotodiody od prędkości kątowej (wszystkie cztery warianty na jednym wykresie), pierwszą harmoniczną prądu po demodulacji i równoważny błąd obrotu od odbicia. Zapis do nowego katalogu `results/EXP_E01_sweep_Simulink_.../` (CSV oraz FIG). Oddzielny test: `assert(test_E01_parasitics())`.
