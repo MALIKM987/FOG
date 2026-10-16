@@ -31,6 +31,29 @@ open_system(fullfile(repo,"research","E01_basic_FOG","simulations", ...
     "matlab","FOG_E01_SIMULINK.slx"));
 ~~~
 
+## Podgląd obu widm bez przebudowy modelu
+
+Otwórz aktualny schemat Simulink, **zapisz niezapisane zmiany** i w MATLAB wpisz:
+
+~~~matlab
+save_system('FOG_E01_SIMULINK');
+show_E01_spectra();       % Natychmiast otwiera wykresy obu źródeł
+add_E01_spectrum_view();  % Dodaje do obecnego .slx klikalny blok widm
+~~~
+
+**Nie uruchamiaj ponownie `build_E01_simulink()` tylko po to, by zobaczyć widma.** Generator celowo odmawia nadpisania schematu, który ma niezapisane zmiany. Dodanie bloku `WIDMA LASER I ASE - kliknij 2x` do otwartego, zapisanego modelu nie usuwa istniejących podsystemów i połączeń.
+
+Nowo wygenerowane modele dostają taki blok automatycznie. Dwukrotne kliknięcie otwiera polskie wykresy za pomocą oficjalnego callbacku `OpenFcn` w Simulinku.
+
+[show_E01_spectra.m](show_E01_spectra.m) rysuje **cztery ujęcia**:
+
+1. Wspólna oś długości fali: laser jako wąski pik, ASE jako szerokie widmo.
+2. Zbliżenie do okolic 1550 nm, tak aby było widać szczegóły lasera.
+3. Bezwzględna gęstość mocy `W/nm` na osi logarytmicznej.
+4. Moc skumulowana `mW` pokazująca, że oba źródła mają tę samą moc całkowitą.
+
+**To podgląd matematycznych widm z `E01_config.m` i `E01_source.m`, a nie odczyt widma z rzeczywistego urządzenia ani analizator widma optycznego dla przebiegów w Simulinku.** Nasz schemat Simulink wciąż propaguje zredukowaną obwiednię pola, nie każdą składową widmową jako niezależny sygnał.
+
 ## 2. Schemat fizyczny
 
 ~~~text
