@@ -40,13 +40,21 @@ model='FOG_E01_SIMULINK';
 modelPath=fullfile(folder,[model '.slx']);
 
 if bdIsLoaded(model)
+    if strcmp(get_param(model,'Dirty'),'on')
+        error('E01:UnsavedSimulinkModel', ...
+            ['Masz niezapisane zmiany w schemacie Simulink. ', ...
+             'Zapisz je jako osobny model albo zamknij schemat ', ...
+             'przed ponownym uruchomieniem generatora.']);
+    end
     close_system(model,0);
 end
 if exist(modelPath,'file')
-    % The generator only overwrites its own GENERATED FOG_E01_SIMULINK.slx.
-    backup=[modelPath '.bak'];
-    copyfile(modelPath,backup);
-    fprintf('Kopia poprzedniego wygenerowanego schematu: %s\n',backup);
+    % Preserve any previous customized generated model BEFORE overwrite.
+    stamp=datestr(now,'yyyymmdd_HHMMSS_FFF');
+    backup=[modelPath '.' stamp '.bak'];
+    [copied,msg]=copyfile(modelPath,backup);
+    assert(copied,'Nie udalo sie wykonac kopii .slx: %s',msg);
+    fprintf('Kopia poprzedniego schematu: %s\n',backup);
 end
 
 new_system(model);
