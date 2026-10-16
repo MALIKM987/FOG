@@ -129,9 +129,15 @@ parasiticError_uA=zeros(nPoints,2);
 bias_deg_s=zeros(nPoints,2);
 slope_uA_per_deg_s=zeros(1,2);
 for m=1:2
-    % Use the three points nearest to zero for any requested grid size.
-    [~,order]=sort(abs(omega));
-    selected=sort(order(1:min(5,nPoints)));
+    % Fit the small-signal region +/-6 deg/s. If grid is too sparse,
+    % use the closest three samples and flag the lower accuracy.
+    selected=find(abs(omega)<=6+1e-8);
+    if numel(selected)<3
+        [~,order]=sort(abs(omega));
+        selected=sort(order(1:3));
+        warning('E01:CoarseSweep', ...
+            'Rzadka siatka Omega: oszacowanie nachylenia mniej dokladne.');
+    end
     x=omega(selected);
     y=firstHarmonic_uA(selected,m,1);
     assert(numel(x)>=3, ...
