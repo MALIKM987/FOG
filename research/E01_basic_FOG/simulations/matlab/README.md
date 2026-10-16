@@ -70,6 +70,22 @@ Istniejąca [show_E01_spectra.m](show_E01_spectra.m) nadal umożliwia osobne por
 **Istotne:** aktualny model FOG nadal propaguje uproszczoną obwiednię optyczną. Analizatory wizualizują *widma zadane dla źródeł* (FWHM 0,02 nm LASER i 20 nm ASE, po 1 mW), nie widmo wyliczone z rzeczywistego sygnału optycznego po propagacji.
 
 
+## Charakterystyka prądu od obrotu i odbicia pasożytnicze w Simulinku
+
+W tym **samym** `FOG_E01_SIMULINK.slx` możesz dodać tor pojedynczego odbicia i uruchomić 84 symulacje: LASER/ASE, odbicie włączone/wyłączone, prędkość kątowa −30...+30°/s.
+
+~~~matlab
+save_system('FOG_E01_SIMULINK');
+add_E01_parasitics();
+wyniki = sweep_E01_simulink(21);
+~~~
+
+Dostaniesz trzy **polskie wykresy**: średni prąd fotodiody od prędkości kątowej (wszystkie cztery warianty na jednym wykresie), pierwszą harmoniczną prądu po demodulacji i równoważny błąd obrotu od odbicia. Zapis do nowego katalogu `results/EXP_E01_sweep_Simulink_.../` (CSV oraz FIG). Oddzielny test: `assert(test_E01_parasitics())`.
+
+Możesz zmienić nadmiarowe opóźnienie, udział mocy odbitej i fazę względną: `set_E01_parasitic_params(0.2,4e-4,0.8)`. Szczegóły, ograniczenia i równania: [SIMULINK_MODEL.md](SIMULINK_MODEL.md).
+
+**Ważne:** to model pojedynczej, hipotetycznej dodatkowej drogi optycznej, nie pełne rozproszone rozpraszanie Rayleigha. Nie wyznacza rzeczywistych parametrów metrologicznych żyroskopu.
+
 ## Graficzny model Simulink (osobna wersja .slx)
 
 Jeżeli chcesz **schemat z elementami optycznymi, a nie sam skrypt z wykresami**, przejdź do [SIMULINK_MODEL.md](SIMULINK_MODEL.md). Generator [build_E01_simulink.m](build_E01_simulink.m) tworzy lokalnie edytowalny **FOG_E01_SIMULINK.slx**. Zawiera źródło LASER/ASE z przełącznikiem, sprzęgacz 2×2, **jedną cewkę CW/CCW**, modulator, fotodiodę, demodulację i oscyloskopy. Wymaga MATLAB R2023b i Simulink; test uruchomieniowy jest osobny: [test_E01_simulink.m](test_E01_simulink.m).
