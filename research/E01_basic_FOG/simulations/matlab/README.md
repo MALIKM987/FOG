@@ -49,24 +49,26 @@ Domyślnie `cfg.noise_enabled = true`. Ustawienie `false` w [E01_config.m](E01_c
 
 Dane są demonstracyjne: FWHM LASER 0,02 nm, FWHM ASE 20 nm, laser RIN −155 dB/Hz, detektor 0,8 MHz i moc wejściowa 1 mW. **Żaden z tych parametrów źródeł nie jest pomiarem laboratoryjnym.** Model ASE jest zredukowanym modelem statystycznym w paśmie elektrycznym, a nie bezpośrednią symulacją wszystkich losowych oscylacji pola optycznego.
 
-## Podgląd widma obu źródeł
+## Dwa analizatory widma optycznego przy źródłach LASER i ASE
 
-Nie musisz generować schematu Simulink ponownie. Funkcja **[show_E01_spectra.m](show_E01_spectra.m)** wyświetla cztery wykresy widm LASER i ASE po polsku:
+Schemat Simulink ma **dwa OSA połączone bezpośrednio z wyjściami widmowymi źródeł**:
+`OSA LASER - analizator widma` oraz `OSA ASE - analizator widma`.
 
-~~~matlab
-show_E01_spectra();
-~~~
-
-Aby dodać do **już otwartego i zapisanego** schematu przycisk otwierający widma:
+Jeżeli masz już otwarty model `FOG_E01_SIMULINK.slx`, **nie trzeba go generować od nowa**. Zapisz bieżące zmiany i dodaj analizatory:
 
 ~~~matlab
 save_system('FOG_E01_SIMULINK');
-add_E01_spectrum_view();
+add_E01_optical_analyzers();
 ~~~
 
-Po tej operacji w schemacie będzie blok **WIDMA LASER I ASE - kliknij 2x**. Podwójne kliknięcie pokazuje oba widma bez uruchamiania symulacji. Nowe modele budowane przez [build_E01_simulink.m](build_E01_simulink.m) dostają ten blok automatycznie.
+Dwukrotne kliknięcie bloku pokazuje widmo optyczne źródła w **nm** i **W/nm**. Widma są opisane po polsku. Ten podgląd działa bez DSP System Toolbox, bo korzysta z zadanych przez źródło wektorów widmowych, a nie FFT z obwiedni elektrycznej.
 
-Widma są **matematycznie zadanymi profilami Gaussa** o mocach całkowitych 1 mW, FWHM LASER 0,02 nm i ASE 20 nm (domyślnie), a nie zmierzonymi widmami laboratoriów. Model Simulink operuje przybliżeniem obwiedni i **nie** generuje fizycznego widma optycznego w Scope.
+Oba nowe analizatory są automatycznie dołączane również do modeli tworzonych przez [build_E01_simulink.m](build_E01_simulink.m). Szczegółowo: [SIMULINK_MODEL.md](SIMULINK_MODEL.md).
+
+Istniejąca [show_E01_spectra.m](show_E01_spectra.m) nadal umożliwia osobne porównanie źródeł na wspólnych wykresach.
+
+**Istotne:** aktualny model FOG nadal propaguje uproszczoną obwiednię optyczną. Analizatory wizualizują *widma zadane dla źródeł* (FWHM 0,02 nm LASER i 20 nm ASE, po 1 mW), nie widmo wyliczone z rzeczywistego sygnału optycznego po propagacji.
+
 
 ## Graficzny model Simulink (osobna wersja .slx)
 
