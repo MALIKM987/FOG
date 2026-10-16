@@ -101,6 +101,21 @@ W wyniku uruchomienia otrzymasz osiem ilustracji:
 7. **`07_source_noise.png`** – rzeczywista skala dodanych modelowych fluktuacji (µA i RMS).
 8. **`08_noisy_lockin.png`** – demodulowany prąd ze skończonego zaszumionego przebiegu, porównany z odpowiedzią deterministyczną (oraz różnica w nA).
 
+### Jak interpretować każdy wykres?
+
+| Nr | Pytanie, na które odpowiada wykres | Jak czytać wynik? |
+|---|---|---|
+| **01: Widma źródeł** | Czym LASER różni się od ASE? | Wąski pik lasera oznacza moc skupioną w małym zakresie długości fali. ASE ma moc rozłożoną szerzej. Oba widma w symulacji mają **tę samą całkowitą moc**; wyższy pik nie oznacza większej mocy całkowitej. |
+| **02: Modulator** | Dlaczego jeden modulator tworzy różnicę faz? | Porównaj fazę w chwili `t`, fazę opóźnioną o `τ` i ich różnicę. Fale widzą inne nastawy modulatora, ale żadna nie porusza się przez to szybciej. |
+| **03: Fotodioda** | Co rejestrujemy elektrycznie? | To prąd fotodiody dla różnych znaków obrotu. Szybka zmiana związana jest ze sterowaniem fazy; drobne losowe wahania pochodzą z **modelowych** szumów optycznych i śrutowych. Sam przebieg prądu nie jest jeszcze prędkością w °/s. |
+| **04: Porównanie LASER/ASE** | Czy źródło zmienia odczyt FOG? | Górna część pokazuje prąd **z modelowym szumem** przy +1 °/s. Dolna część pokazuje **idealną**, pozbawioną szumów charakterystykę demodulacji. Nakładanie się krzywych dolnych jest oczekiwane w idealnym zrównoważonym FOG. |
+| **05: Spójność** | Dlaczego ASE może ograniczać zakłócenia od odbić? | Im mniejszy moduł `|γ(Δt)|` przy dodatkowym opóźnieniu, tym słabiej dana opóźniona kopia światła może interferować z sygnałem użytecznym. To **model pojedynczej drogi**, nie symulacja całego rozpraszania Rayleigha. |
+| **06: Liniowość odczytu** | W jakim zakresie przybliżenie daje poprawną prędkość? | Krzywa pokrywająca się z prostą oznacza zgodność oszacowania i wartości rzeczywistej. Odchylenie przy większych obrotach wynika z nieliniowej charakterystyki interferometru w otwartej pętli. |
+| **07: Szum źródła** | Dlaczego LASER i ASE mogą dawać różne fluktuacje? | Górny wykres pokazuje różnicę między prądem zaszumionym a prądem bez szumu. Dolny przedstawia wartość skuteczną (RMS) tej różnicy. Wielkość szumu zależy od **przyjętych parametrów RIN**, nie od zmierzonych parametrów urządzenia. |
+| **08: Zaszumiona demodulacja** | Jak szum przenosi się na oszacowanie obrotu? | Górny wykres porównuje demodulację z zaszumionych próbek i wynik deterministyczny. Dolny pokazuje odchyłkę w nA po uśrednieniu przez określoną liczbę okresów. Pojedyncza realizacja nie wystarczy do wyznaczenia dokładności żyroskopu. |
+
+**Ważne przy porównaniach:** jeżeli dwa przebiegi średnie LASER i ASE prawie się pokrywają, to nie jest błąd. FOG wykorzystuje dwie kopie światła z jednego źródła pokonujące prawie równe drogi. Zauważalne różnice mogą pojawić się w **szumie** lub w zachowaniu dodatkowych **niepożądanych dróg optycznych**, ale nie należy ich wymuszać przez zmianę geometrii między wariantami.
+
 CSV `spectrum_*.csv` przechowuje widmo i wagi, `waveform_*.csv` przebiegi czasowe wraz z **osobnymi kolumnami idealnego i obserwowanego prądu**, `sweep_*.csv` charakterystykę odczytu i `coherence_*.csv` moduł korelacji. Plik `config.json` zawiera parametry i wersję MATLAB-a.
 
 ## 5. Parametry demonstracyjne (nie są to pomiary)
