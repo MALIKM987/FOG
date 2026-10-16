@@ -13,6 +13,18 @@ if ~bdIsLoaded(model)
     build_E01_simulink();
 end
 switchPath=[model '/WYBOR ZRODLA - kliknij 2x'];
+previousSource=get_param(switchPath,'sw');
+straySwitch=[model '/Odbicie 0=wyl 1=wl'];
+hasStray=(getSimulinkBlockHandle(straySwitch)~=-1);
+if hasStray
+    previousStray=get_param(straySwitch,'Value');
+    restore=onCleanup(@()restoreModes( ...
+        switchPath,previousSource,straySwitch,previousStray));
+    % Noise test MUST isolate source RIN from parasitic coherent field.
+    set_param(straySwitch,'Value','0');
+else
+    restore=onCleanup(@()set_param(switchPath,'sw',previousSource));
+end
 assert(~isempty(find_system(model,'SearchDepth',1, ...
     'Name','Cewka SMF - CW i CCW')), ...
     'One shared coil subsystem missing.');
@@ -64,10 +76,15 @@ assert(all(isfinite(rateLaser.signals.values(:))) && ...
        all(isfinite(rateAse.signals.values(:))), ...
        'Lock-in output contains invalid samples.');
 
-% Leave the saved model selecting LASER after the test.
-set_param(switchPath,'sw','1');
-save_system(model);
+% Restore the existing schematic state, WITHOUT saving our test settings.
+clear restore
 fprintf('PASS: model Simulink kompiluje sie i symuluje LASER oraz ASE.\n');
+fprintf('Test RIN wykonano przy wylaczonym odbiciu pasozytniczym.\n');
 fprintf('Wyniki to przyblizenie obwiedni, nie pomiar.\n');
 ok=true;
+end
+
+function restoreModes(sw,oldSource,stray,oldStray)
+set_param(sw,'sw',oldSource);
+set_param(stray,'Value',oldStray);
 end
