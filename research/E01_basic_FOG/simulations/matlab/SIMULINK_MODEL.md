@@ -82,7 +82,44 @@ Przebiegi mogą też zostać zapisane w wyjściach To Workspace: **E01_prad_foto
 
 Dane modelu pochodzą z [E01_config.m](E01_config.m). W szczególności długość cewki = 1000 m, średnica = 0,160 m, λ₀ = 1550 nm, a moc źródła = 1 mW. Są to **wartości demonstracyjne**, nie parametry potwierdzone laboratoryjnie.
 
-## 4. Wyprowadzenie matematyczne
+## 4. Dlaczego prawie nie widać różnicy LASER/ASE na fotodiodzie?
+
+**Średni przebieg Sagnaca będzie niemal identyczny.** Obie przeciwbieżne fale powstają z tego samego źródła i pokonują zrównoważoną drogę. Duży sygnał po modulacji fazowej maskuje niewielkie źródłowe fluktuacje mocy, dlatego porównywanie tylko oscyloskopu `OSC - prad fotodiody` jest niewystarczające.
+
+W generatorze udostępniono dodatkowy podsystem **`Diagnostyka szumu fotodiody`**. Oblicza w każdej chwili idealny fotoprąd z bieżących faz CW i CCW:
+
+$
+i_{B,\mathrm{ideal}}(t)=\frac{RP_{\rm in}}2
+\left[1-\cos(\varphi_{\rm CCW}(t)-\varphi_{\rm CW}(t))\right],
+$
+
+a następnie resztę $\delta i_B(t)=i_{B,\mathrm{model}}(t)-i_{B,\mathrm{ideal}}(t)$, wyświetlaną w **µA**. Tę resztę obejrzysz w nowym oscyloskopie:
+
+**`OSC - fluktuacje fotodiody [uA]`**
+
+W modelu Simulink fluktuacje są **tylko przykładowym szumem intensywności źródeł (RIN)**, bez pełnego modelowania szumu śrutowego czy polaryzacji.
+
+### Automatyczne porównanie obu źródeł
+
+Po wygenerowaniu modelu `.slx` wykonaj:
+
+~~~matlab
+raport = compare_E01_simulink();
+~~~
+
+Skrypt [compare_E01_simulink.m](compare_E01_simulink.m) sam symuluje LASER i ASE przy tych samych pozostałych parametrach oraz otwiera **trzy wykresy z polskimi podpisami**:
+
+1. Prądy fotodiody (prawie pokrywające się średnie sygnały).
+2. Wyizolowane modelowe fluktuacje fotodiody dla LASER i ASE.
+3. Porównanie RMS tych fluktuacji w µA.
+
+Skrypt drukuje także wartości RMS w Command Window. Zostawia stan przełącznika źródła taki, jaki był przed porównaniem.
+
+**Rzeczywisty sens porównania:** w wybranym zestawie **demonstracyjnych** parametrów, szerokopasmowy szum dudnień ASE może być większy niż przyjęty RIN lasera. Nie jest to dowód, że laser jest lepszy od ASE jako źródło FOG: korzyści wynikające z krótkiego czasu spójności ASE dotyczą głównie części *zakłóceń koherentnych*. Te wymagają osobnego modelu dodatkowych dróg optycznych i **nie są jeszcze zasymulowane w nowym `.slx`**.
+
+**Uwaga dotycząca wersji lokalnej:** jeżeli w Twoim PowerShell pojawiło się `Your local changes ... would be overwritten by merge`, Git nie zaktualizował kodu. Najpierw wykonaj bezpieczną procedurę zachowania plików i `git pull`; nie kasuj lokalnych wyników ani ustawień. Przed wygenerowaniem nowego modelu zamknij stary schemat Simulinka.
+
+## 5. Wyprowadzenie matematyczne
 
 Macierz sprzęgacza:
 
@@ -109,7 +146,7 @@ $$
 
 Pierwsza harmoniczna prądu po demodulacji małosygnałowej jest skalowana współczynnikiem Sagnaca wybranego źródła. Więcej: [E01/1.2](../../01_02_mathematical_derivation.md).
 
-## 5. Ważne ograniczenia modelu
+## 6. Ważne ograniczenia modelu
 
 To **model optycznych zespolonych obwiedni**, a nie symulacja nośnej światła o częstotliwości około 193 THz. LASER i ASE różnią się źródłowym RIN i przybliżonym efektywnym współczynnikiem skali; pełne optyczne widmo ASE nie jest propagowane jako tysiące losowych fal.
 
@@ -117,7 +154,7 @@ RIN jest uproszczonym dyskretnym modelem fluktuacji mocy. Nie symulujemy dokład
 
 Jedna cewka jest reprezentowana przez dwie ścieżki matematyczne, ale jej parametry są wspólne. W ten sposób modelujemy wzajemność dróg i efekt Sagnaca bez tworzenia dwóch fizycznych cewek.
 
-## 6. Test po wygenerowaniu
+## 7. Test po wygenerowaniu
 
 Uruchom w MATLAB:
 
@@ -127,7 +164,7 @@ assert(test_E01_simulink());
 
 Test powinien skompilować schemat i wykonać symulacje dla obu źródeł, sprawdzając skończoność i zmianę przebiegu fotodiody. To **lokalny test implementacyjny**, nie pomiar.
 
-## 7. Porównanie ze skryptowym E01
+## 8. Porównanie ze skryptowym E01
 
 Poprzedni [run_E01.m](run_E01.m) wytwarza osiem wykresów PNG z matematycznego modelu uśredniającego widmo i z modelem szumów. Nowy **FOG_E01_SIMULINK.slx** jest natomiast **interaktywnym schematem blokowym** z dostępem do wnętrza elementów optycznych. Modele mają spójne założenia podstawowe, lecz inne szczegóły uproszczeń źródła i przetwarzania.
 
