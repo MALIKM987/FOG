@@ -122,6 +122,69 @@ ylabel('Pierwsza harmoniczna prądu I_1 [µA]');
 title('FOG: sygnał po demodulacji rozróżnia znak obrotu');
 legend('show','Location','best');
 
+% Quantify optical-path-induced error in the equivalent rotation units.
+% Difference between ON and OFF removes the shared ideal FOG response.
+% Calibrate separately for each source from the ideal I1 slope near Omega=0.
+parasiticError_uA=zeros(nPoints,2);
+bias_deg_s=zeros(nPoints,2);
+slope_uA_per_deg_s=zeros(1,2);
+for m=1:2
+    nearZero=(abs(omega)<=6);
+    x=omega(nearZero);
+    y=firstHarmonic_uA(nearZero,m,1);
+    assert(numel(x)>=3, ...
+        'Need at least three sweep samples in +/- 6 deg/s for calibration.');
+    coeff=polyfit(x,y,1);
+    slope_uA_per_deg_s(m)=coeff(1);
+    assert(abs(coeff(1))>1e-12, ...
+        'Ideal lock-in scale too small for rotation-bias conversion.');
+    parasiticError_uA(:,m) = ...
+        firstHarmonic_uA(:,m,2)-firstHarmonic_uA(:,m,1);
+    bias_deg_s(:,m)=parasiticError_uA(:,m)/coeff(1);
+end
+
+fig3=figure('Color','w','Name','FOG: blad obrotu wywolany odbiciem');
+hold on;grid on;
+plot(omega,bias_deg_s(:,1)*3600,'LineWidth',1.5, ...
+    'DisplayName','LASER - wpływ odbicia');
+plot(omega,bias_deg_s(:,2)*3600,'LineWidth',1.5, ...
+    'DisplayName','ASE - wpływ odbicia');
+xlabel('Prędkość kątowa \\Omega [°/s]');
+ylabel('Równoważny błąd od odbicia [°/h]');
+title('Wpływ tej samej drogi pasożytniczej na pomiar');
+legend('show','Location','best');
+
+% Numbers are derived from DEMO spectrum and the chosen excess delay.
+source=cell(1,2);
+gammaAbs=zeros(1,2);
+for m=1:2
+    source{m}=E01_source(cfg,names{m});
+    nu0=cfg.c_m_s/(cfg.lambda0_nm*1e-9);
+    gamma=sum(source{m}.weights .* exp(1i*2*pi* ...
+        (source{m}.nu_Hz-nu0)*cfg.parasitic_delay_ps*1e-12));
+    gammaAbs(m)=abs(gamma);
+end
+fprintf('Dodatkowa droga: opoznienie %.3f ps, odbicie eta=%.3g.\\n', ...
+    cfg.parasitic_delay_ps,cfg.parasitic_power_fraction);
+fprintf('|gamma| LASER = %.6g, ASE = %.6g.\\n', ...
+    gammaAbs(1),gammaAbs(2));
+if gammaAbs(2)>0
+    fprintf('Tlumienie KOHERENTNEJ amplitudy przez ASE/LASER: %.3g razy.\\n', ...
+        gammaAbs(1)/gammaAbs(2));
+end
+rmsError_deg_h=3600*sqrt(mean(bias_deg_s.^2,1));
+fprintf('RMS blędu rownowaznego od odbicia LASER: %.6g deg/h.\\n', ...
+    rmsError_deg_h(1));
+fprintf('RMS blędu rownowaznego od odbicia ASE: %.6g deg/h.\\n', ...
+    rmsError_deg_h(2));
+if rmsError_deg_h(2)>1e-10
+    fprintf('Iloraz bledow od odbicia LASER/ASE: %.3g razy.\\n', ...
+        rmsError_deg_h(1)/rmsError_deg_h(2));
+else
+    fprintf('ASE: błąd na poziomie rozdzielczosci numerycznej,\\n');
+    fprintf('brak wiarygodnego liczbowo stosunku bledow.\\n');
+end
+
 % Use a unique output directory rather than overwriting previous results.
 resDir=fullfile(here,'..','..','results', ...
     ['EXP_E01_sweep_Simulink_' datestr(now,'yyyymmdd_HHMMSS_FFF')]);
@@ -130,14 +193,17 @@ T=table(omega,average_uA(:,1,1),average_uA(:,1,2), ...
     average_uA(:,2,1),average_uA(:,2,2), ...
     firstHarmonic_uA(:,1,1),firstHarmonic_uA(:,1,2), ...
     firstHarmonic_uA(:,2,1),firstHarmonic_uA(:,2,2), ...
+    bias_deg_s(:,1)*3600,bias_deg_s(:,2)*3600, ...
     'VariableNames',{'omega_deg_s', ...
     'LASER_ideal_mean_uA','LASER_stray_mean_uA', ...
     'ASE_ideal_mean_uA','ASE_stray_mean_uA', ...
     'LASER_ideal_I1_uA','LASER_stray_I1_uA', ...
-    'ASE_ideal_I1_uA','ASE_stray_I1_uA'});
+    'ASE_ideal_I1_uA','ASE_stray_I1_uA', ...
+    'LASER_stray_bias_deg_h','ASE_stray_bias_deg_h'});
 writetable(T,fullfile(resDir,'prad_od_predkosci_katowej.csv'));
 savefig(fig1,fullfile(resDir,'prad_sredni_od_Omega.fig'));
 savefig(fig2,fullfile(resDir,'pierwsza_harmoniczna_od_Omega.fig'));
+savefig(fig3,fullfile(resDir,'blad_od_odbicia_od_Omega.fig'));
 fprintf('\nWyniki w formacie CSV oraz edytowalne wykresy FIG:\n%s\n',resDir);
 fprintf('Sredni prad jest zasadniczo parzysty wzgledem obrotu.\n');
 fprintf('I1 po demodulacji zmienia znak wraz z obrotem.\n');
@@ -147,7 +213,9 @@ report=struct('omega_deg_s',omega,'source_names',{names}, ...
     'mean_current_uA',average_uA, ...
     'first_harmonic_uA',firstHarmonic_uA, ...
     'results_folder',resDir,'mean_figure',fig1, ...
-    'lockin_figure',fig2,'table',T);
+    'lockin_figure',fig2,'bias_figure',fig3, ...
+    'bias_deg_s',bias_deg_s,'rms_error_deg_h',rmsError_deg_h, ...
+    'source_coherence_abs',gammaAbs,'table',T);
 end
 
 function restoreOriginal(s,rot,strayEnable,noiseBlocks,old)
