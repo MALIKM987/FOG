@@ -140,9 +140,18 @@ add_E01_parasitics();             % rozbuduj aktualny otwarty model
 
 Skrypt `add_E01_parasitics.m` tworzy własną kopię bezpieczeństwa modelu przed zmianą. Jeśli tor już istnieje, nie dodaje go ponownie. Modele generowane od zera przez `build_E01_simulink()` otrzymują ten podsystem automatycznie.
 
+**Starszy model mógł mieć przycisk `POMIAR prad od Omega - kliknij 2x`, który automatycznie uruchamiał 84 symulacje. Usunęliśmy to zachowanie.** Jeśli twój obecny `.slx` powstał przed tą poprawką, wykonaj jednorazowo:
+
+~~~matlab
+save_system('FOG_E01_SIMULINK');
+disable_E01_auto_sweep();
+~~~
+
+Funkcja wykonuje kopię bezpieczeństwa, usuwa **jedynie** callback starego przycisku i zapisuje istniejący schemat, nie uruchamiając ani jednej symulacji. Można też wywołać `add_E01_parasitics()` ponownie: jeśli tor już istnieje, skrypt usunie stare automatyczne wyzwalanie. **Nie trzeba od nowa generować modelu.**
+
 ### Pomiar prądu fotodiody od prędkości kątowej
 
-W schemacie znajduje się nowy blok **`POMIAR prad od Omega - kliknij 2x`**, którego dwukrotne kliknięcie uruchamia serię rzeczywistych symulacji blokowych. Możesz też wpisać:
+**Eksperyment nie uruchamia się automatycznie.** Nie jest uruchamiany przy otwieraniu schematu, regenerowaniu .slx, klikaniu bloków ani przy zwykłym **Run**. Seria wielu pomiarów wystartuje **wyłącznie po świadomym wpisaniu polecenia w MATLAB Command Window**:
 
 ~~~matlab
 wyniki = sweep_E01_simulink(21);
