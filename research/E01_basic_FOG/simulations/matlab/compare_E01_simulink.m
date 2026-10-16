@@ -56,7 +56,7 @@ end
 clear restoreState
 
 % The full current is dominated by phase modulation; zoom to 4 periods.
-fig=figure('Name','FOG E01: Porownanie LASER i ASE','Color','w');
+fig=figure('Name','FOG E01: Porównanie LASER i ASE','Color','w');
 tiledlayout(fig,3,1,'TileSpacing','compact');
 
 nexttile;hold on;grid on;
@@ -66,8 +66,8 @@ for k=1:2
         'LineWidth',1.0,'DisplayName',char(modes(k)));
 end
 xlim([0,4/cfg.fm_Hz*1e6]);
-ylabel('Prad fotodiody [uA]');
-title('Pelny sygnal Sagnaca: srednia prawie identyczna');
+ylabel('Prąd fotodiody [µA]');
+title('Pełny sygnał Sagnaca: średnia prawie identyczna');
 legend('show');
 
 nexttile;hold on;grid on;
@@ -77,15 +77,15 @@ for k=1:2
         'LineWidth',1.0,'DisplayName',char(modes(k)));
 end
 xlim([0,4/cfg.fm_Hz*1e6]);
-ylabel('Fluktuacje fotodiody [uA]');
-title('Szum: prad zaszumiony minus sygnal idealny');
+ylabel('Fluktuacje fotodiody [µA]');
+title('Szum: prąd zaszumiony minus sygnał idealny');
 legend('show');
 
 nexttile;grid on;
 bar(rms_uA);
 set(gca,'XTick',1:2,'XTickLabel',{'LASER','ASE'});
-ylabel('RMS szumu [uA]');
-title('Porownanie RMS fluktuacji dla tej samej cewki');
+ylabel('RMS szumu [µA]');
+title('Porównanie RMS fluktuacji dla tej samej cewki');
 
 fprintf('\nPorownanie LASER / ASE (DEMO, identyczna geometria):\n');
 fprintf(' LASER: RMS szumu fotodiody = %.6g uA\n',rms_uA(1));
