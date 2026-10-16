@@ -22,6 +22,8 @@
 
 **Implementacja E01/1.4:** [E01_start.m](simulations/matlab/E01_start.m) i [opis modelu MATLAB](simulations/matlab/README.md). Źródło wybiera się jedną linijką w skrypcie. Domyślnie włączono **uproszczony model szumu ASE, RIN lasera i szumu śrutowego fotodiody**, a dodatkową drogę pasożytniczą domyślnie wyłączono. Średnie sygnały LASER/ASE pozostają niemal identyczne, lecz fluktuacje i wyniki skończonej demodulacji mogą być różne. Tryb deterministyczny uzyskuje się po wyłączeniu `cfg.noise_enabled`. Parametry źródeł i odbiornika są demonstracyjne. Obliczenia referencyjne wykonane niezależnie od MATLAB potwierdzają idealne zależności modelu: dla +1 deg/s sygnał lock-in około 19,77 uA w obu modelach widm przy zadanej mocy wejściowej 1 mW. Nie jest to wynik laboratoryjny ani wykonanie `test_E01()`.
 
+**Rozszerzenie graficzne E01/1.4:** [generator i instrukcja Simulink](simulations/matlab/SIMULINK_MODEL.md). Przygotowano edytowalny schemat z rozdzieleniem pól CW/CCW, jedną cewką i przełączaniem LASER/ASE. Plik `.slx` powstaje po uruchomieniu generatora w MATLAB R2023b; nie przeprowadzono jeszcze walidacji wykonawczej ani pomiarowej.
+
 ## Do sprawdzenia
 
 - [x] Przyjęto **idealny** schemat portów sprzęgacza: A=źródło, B=fotodioda (port ciemny dla Δφ=0), C/D=pętla. Fizyczne połączenia należy sprawdzić po wyborze sprzęgacza.
