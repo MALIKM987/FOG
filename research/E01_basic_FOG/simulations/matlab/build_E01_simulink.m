@@ -69,9 +69,10 @@ addSource(model,'LASER - zrodlo', [70 80 245 180], ...
     cfg.input_power_W,Klaser,rinLaser,Be,dt,105);
 addSource(model,'ASE - zrodlo', [70 265 245 365], ...
     cfg.input_power_W,Kase,rinASE,Be,dt,210);
-% Interactive visualization of configured optical spectra, not measured
-% laboratory spectra. Double-click the dedicated dashboard block.
-add_E01_spectrum_view(model,false);
+% Two connected optical spectrum analyzers with wavelength and PSD
+% signal lines from the laser and ASE outputs, independent of the FOG
+% time-domain envelope. No DSP System Toolbox required.
+add_E01_optical_analyzers(model,false);
 
 put('simulink/Signal Routing/Manual Switch', ...
     [model '/WYBOR ZRODLA - kliknij 2x'],[290 185 380 260], ...
