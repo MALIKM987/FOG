@@ -70,33 +70,46 @@ Istniejąca [show_E01_spectra.m](show_E01_spectra.m) nadal umożliwia osobne por
 **Istotne:** aktualny model FOG nadal propaguje uproszczoną obwiednię optyczną. Analizatory wizualizują *widma zadane dla źródeł* (FWHM 0,02 nm LASER i 20 nm ASE, po 1 mW), nie widmo wyliczone z rzeczywistego sygnału optycznego po propagacji.
 
 
-## Charakterystyka prądu od obrotu i odbicia pasożytnicze w Simulinku
+## Jeden interaktywny wykres prądu od prędkości kątowej
 
-W tym **samym** `FOG_E01_SIMULINK.slx` możesz dodać tor pojedynczego odbicia. Samo dodanie toru **nie uruchamia serii symulacji**.
+Zgodnie z zakresem eksperymentu E01 generujemy **tylko jeden wykres**: średni prąd fotodiody `I(Ω)` w µA względem prędkości kątowej w °/s. Każde źródło LASER i ASE ma pięć niezależnych warstw: **idealny**, **odbicie**, **Rayleigh**, **Kerr** i **wszystkie efekty**. Po kliknięciu nazwy warstwy w legendzie MATLAB ją pokazuje lub ukrywa **bez ponownego liczenia**.
+
+### 1. Rozbuduj ten sam schemat Simulink (bez obliczania serii)
+
+Po aktualizacji repozytorium `main` otwórz swój `FOG_E01_SIMULINK.slx`, zapisz ewentualne zmiany i uruchom:
 
 ~~~matlab
+folder = "C:\AGH\MAGISTER\Praca_Magisterska_Zyroskop\FOG\research\E01_basic_FOG\simulations\matlab";
+addpath(folder,"-begin");
+rehash;
 save_system('FOG_E01_SIMULINK');
-add_E01_parasitics();
+add_E01_parasitics();       % pojedyncze odbicie, jesli go jeszcze nie ma
+add_E01_advanced_effects(); % Rayleigh + Kerr w TYM SAMYM .slx
 ~~~
 
-**Dopiero na osobne polecenie użytkownika** uruchamiasz 84 symulacje: LASER/ASE, odbicie włączone/wyłączone, prędkość kątowa −30...+30°/s:
+Funkcje dodają **bloki** i zapisują kopie bezpieczeństwa istniejącego schematu, nie uruchamiają pomiaru zależności prądu od Ω. Po zwykłym **Run** wykonuje się tylko jedna symulacja aktualnych ustawień. Do wyłączenia/zapalenia efektów w samym Simulinku służą `Odbicie 0=wyl 1=wl`, `Rayleigh 0=wyl 1=wl`, `Kerr 0=wyl 1=wl`.
+
+Nowe schematy generowane przez `build_E01_simulink()` zawierają te elementy automatycznie. Jeśli model ma stary przycisk `POMIAR prad od Omega - kliknij 2x`, użyj `disable_E01_auto_sweep()`: stary callback nie będzie sam uruchamiał symulacji.
+
+### 2. Wyłącznie na Twoje polecenie wygeneruj jeden wykres
 
 ~~~matlab
-wyniki = sweep_E01_simulink(21);
+wyniki = E01_current_layers(101);
 ~~~
 
-Jeśli twój schemat ma jeszcze stary przycisk `POMIAR prad od Omega - kliknij 2x`, jednorazowo usuń jego niechciane automatyczne wyzwalanie (bez kasowania schematu):
+Stara komenda `sweep_E01_simulink(21)` również wyświetla obecnie **tylko ten sam jeden interaktywny wykres**. Nie wykonuje już 84 startów silnika Simulink. Matematyczno-widmowy model I(Ω) oblicza średni prąd z równań źródła, Sagnaca i modulacji oraz dodatkowych dróg, **a nie z 84 eksportowanych próbek .slx**. Używa tej samej konfiguracji E01 i pokazuje przebiegi dla ustalonych wariantów modelu. Wariant pełny służy do badań porównawczych; nie jest walidacją ilościową sprzętu.
 
-~~~matlab
-save_system('FOG_E01_SIMULINK');
-disable_E01_auto_sweep();
-~~~
+Wyniki: jeden interaktywny `.fig` i jeden `.csv` w nowym katalogu `results/EXP_E01_I_vs_Omega_.../`. W legendzie klikaj warstwę, aby ją ukryć lub przywrócić. Przed uruchomieniem możesz zmienić `E01_config.m`.
 
-Dostaniesz trzy **polskie wykresy**: średni prąd fotodiody od prędkości kątowej (wszystkie cztery warianty na jednym wykresie), pierwszą harmoniczną prądu po demodulacji i równoważny błąd obrotu od odbicia. Zapis do nowego katalogu `results/EXP_E01_sweep_Simulink_.../` (CSV oraz FIG). Oddzielny test: `assert(test_E01_parasitics())`.
+### Fizyka, uproszczenia i widma źródeł
 
-Możesz zmienić nadmiarowe opóźnienie, udział mocy odbitej i fazę względną: `set_E01_parasitic_params(0.2,4e-4,0.8)`. Szczegóły, ograniczenia i równania: [SIMULINK_MODEL.md](SIMULINK_MODEL.md).
+- **Kerr:** efektywna różnicowa faza `gamma_nonlin * L * P * asymetria_CW_CCW`. Przy idealnej równowadze mocy wkład Kerra znika. To nie propagacja NLSE.
+- **Odbicie:** dodatkowa droga o regulowanym opóźnieniu `cfg.parasitic_delay_ps`, udziale mocy i fazie. Interferencja jest uśredniana po widmie LASER/ASE.
+- **Rayleigh:** skończony zbiór 48 hipotetycznych słabych dróg o wspólnych losowych fazach dla obu źródeł, opóźnieniach i łącznej mocy. **Nie jest** to zwalidowany model rozproszonego Rayleigha w 1000 m SMF.
+- **Źródła:** `E01_source.m` obsługuje widma `GAUSSIAN`, `LORENTZIAN` i opcjonalnie widmo pomiarowe `CSV` (kolumny: `lambda_nm,S_W_per_nm`). Przy porównaniu oba profile są normowane do jednakowej mocy źródła.
 
-**Ważne:** to model pojedynczej, hipotetycznej dodatkowej drogi optycznej, nie pełne rozproszone rozpraszanie Rayleigha. Nie wyznacza rzeczywistych parametrów metrologicznych żyroskopu.
+Na tym etapie celowo **pomijamy polaryzację i szczegółowe straty optyczne**. Wyjściowa charakterystyka średniego prądu nie zastępuje charakterystyki dokładności żyroskopu ani oceny RIN, shot noise, ARW czy bias stability. Schemat Simulink korzysta z uproszczonego ekwiwalentu zespolonego pola dla Rayleigha, a wykres widmowo uśrednia wszystkie podane efektywne ścieżki; są to zgodne koncepcyjnie, ale nie identyczne numerycznie poziomy przybliżenia.
+
 
 ## Graficzny model Simulink (osobna wersja .slx)
 
