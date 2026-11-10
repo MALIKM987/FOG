@@ -80,3 +80,15 @@ Status: **METRYKA I ABSTRAKT SPRAWDZONE** na stronie Optica; pełny model i wsp�
 - Dopisać numer strony/rysunku/wzoru pod każdą tezę.
 - Rozdzielić cytowania **teorii** od cytowań parametrów **konkretnego komponentu**.
 - Unikać kopii wykresów z artykułów; przygotować własne schematy i wyniki z właściwym odniesieniem.
+
+## Sześć pełnych tekstów przejrzanych w listopadzie 2026
+
+Materiały źródłowe i ich polskie opracowania są ujęte w [FOG_6_ARTYKULOW.md](FOG_6_ARTYKULOW.md), a wnioski konstrukcyjne w [notatkach](reading_notes/FOG_6_ARTYKULOW_ANALIZA.md). Przejrzano teksty i schematy wszystkich sześciu publikacji; **nie oznacza to jeszcze niezależnej weryfikacji każdej zależności matematycznej i danych eksperymentalnych**.
+
+Nowe rekordy uzupełniające dotychczasową bibliografię:
+- **[L12]** H. C. Lefèvre, *Fundamentals of the Interferometric Fiber-Optic Gyroscope*, *Optical Review* 4, 20–27 (1997), https://doi.org/10.1007/BF02935984. **To osobny artykuł względem [L2] z 1996 r.**
+- **[L13]** R. J. Pérez, I. Álvarez, J. M. Enguita, *Theoretical Design of a Depolarized Interferometric Fiber-Optic Gyroscope...*, *Sensors* 16, 604 (2016), https://doi.org/10.3390/s16050604. Przede wszystkim projekt symulacyjny z SLD 1310 nm.
+- **[L14]** Z. Wang i in., *Optically compensated polarization reciprocity in interferometric fiber-optic gyroscopes*, *Optics Express* 22, 4908–4919 (2014), https://doi.org/10.1364/OE.22.004908.
+- **[L15]** Z. Wang i in., *All-Depolarized Interferometric Fiber-Optic Gyroscope Based on Optical Compensation*, *IEEE Photonics Journal* 6, art. 7100208 (2014), https://doi.org/10.1109/JPHOT.2014.2299212.
+
+Pełne teksty [L1] i [L3] również przejrzano w ramach tego zestawu. W szczególności [L3] podaje szczegóły prototypu z SMF, SFS, PZT i Lyotem. Statusy w starych sekcjach pozostawiono jako historyczny zapis etapu gromadzenia źródeł.
